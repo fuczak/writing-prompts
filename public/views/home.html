@@ -1,0 +1,13 @@
+<div class="panel padding-50" ng-if="!isAuthenticated()">
+	<h1>Inspire. Be inspired.</h1>
+	<h5>Write ideas to inspire people. Write stories inspired by others.</h5>
+	<a class="btn btn-primary" href="/#/login"><i class="ion-unlocked"></i> Log in</a>
+	<a class="btn btn-success" href="/#/signup"><i class="ion-person-add"></i> Sign up</a>
+</div>
+<div class="panel" ng-repeat="story in stories">
+	<div class="panel-body">
+		<h2>{{story.prompt}}</h2>
+		<p class="text-muted"><em>- by {{story.author}}</em></p>
+		<span class="badge badge-primary">{{story.upvotes}}</span>
+	</div>
+</div>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="Prompts">
+	<head>
+		<meta charset="UTF-8">
+		<title>Writing Prompts</title>
+		<link rel="stylesheet" href="stylesheets/ionicons.min.css">
+		<link rel="stylesheet" href="stylesheets/bootstrap.css">
+		<link rel="stylesheet" href="stylesheets/hover.css">
+		<link rel="stylesheet" href="stylesheets/animate.css">
+		<link rel="stylesheet" href="stylesheets/loading-bar.css">
+		<link rel="stylesheet" href="stylesheets/style.css">
+	</head>
+	<body>
+		<nav class="navbar navbar-default navbar-static-top" ng-controller="NavCtrl">
+			<div class="container">
+				<!-- Brand and toggle get grouped for better mobile display -->
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					</button>
+					<a href="javascript:void(0)" class="navbar-brand">writing<strong>prompts</strong>_<i class="ion-edit"></i></a>
+				</div>
+				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+					<ul class="nav navbar-nav">
+						<li class="hvr-underline-from-center"><a href="#/">Home</a></li>
+						<li ng-if="isAuthenticated()" class="hvr-underline-from-center"><a href="#/profile">Profile</a></li>
+					</ul>
+					<ul class="nav navbar-nav pull-right" ng-if="!isAuthenticated()">
+						<li  class="hvr-underline-from-center"><a href="/#/login">Login</a></li>
+						<li  class="hvr-underline-from-center"><a href="/#/signup">Sign up</a></li>
+					</ul>
+					<ul class="nav navbar-nav pull-right" ng-if="isAuthenticated()">
+						<p class="navbar-text" >Signed in as {{user.displayName}} ({{user.email}})</p>
+						<li  class="hvr-underline-from-center"><a href="javascript:void(0)" ng-click="logout()">Logout</a></li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+		<div class="col-md-10 col-md-offset-1">
+			<div ng-view class="animated fadeIn"></div>
+		</div>
+		
+		<script src="vendor/jquery-2.1.3.min.js"></script>
+		<script src="vendor/bootstrap.min.js"></script>
+		<script src="vendor/angular.js"></script>
+		<script src="vendor/angular-messages.js"></script>
+		<script src="vendor/angular-resource.js"></script>
+		<script src="vendor/angular-animate.js"></script>
+		<script src="vendor/angular-route.js"></script>
+		<script src="vendor/angular-strap.js"></script>
+		<script src="vendor/angular-strap.tpl.js"></script>
+		<script src="vendor/satellizer.js"></script>
+		<script src="vendor/angular-loading-bar.js"></script>
+		<script src="app.js"></script>
+		<script src="directives/passwordStrength.js"></script>
+		<script src="directives/passwordMatch.js"></script>
+		<script src="controllers/nav.js"></script>
+		<script src="controllers/home.js"></script>
+		<script src="controllers/signup.js"></script>
+		<script src="controllers/login.js"></script>
+		<script src="controllers/profile.js"></script>
+		<script src="services/account.js"></script>
+	</body>
+</html>
