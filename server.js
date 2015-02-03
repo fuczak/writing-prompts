@@ -9,45 +9,10 @@ var jwt = require('jwt-simple');
 var moment = require('moment');
 var mongoose = require('mongoose');
 var request = require('request');
+var User = require('./models/User');
+var Prompt = require('./models/Prompt');
 // config file
 var config = require('./config');
-
-var userSchema = new mongoose.Schema({
-    email: {
-        type: String,
-        unique: true,
-        lowercase: true
-    },
-    password: {
-        type: String,
-        select: false
-    },
-    displayName: {
-        type: String,
-        unique: true
-    }
-});
-
-userSchema.pre('save', function(next) {
-    var user = this;
-    if (!user.isModified('password')) {
-        return next();
-    }
-    bcrypt.genSalt(10, function(err, salt) {
-        bcrypt.hash(user.password, salt, function(err, hash) {
-            user.password = hash;
-            next();
-        });
-    });
-});
-
-userSchema.methods.comparePassword = function(password, done) {
-    bcrypt.compare(password, this.password, function(err, isMatch) {
-        done(err, isMatch);
-    });
-};
-
-var User = mongoose.model('User', userSchema);
 
 mongoose.connect(config.MONGO_URI);
 mongoose.connection.on('error', function() {
