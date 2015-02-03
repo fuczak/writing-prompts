@@ -5,11 +5,11 @@
     <form method="post" ng-submit="updateProfile()">
       <div class="form-group">
         <label class="control-label"><i class="ion-person"></i> Display Name</label>
-        <input type="text" class="form-control" ng-model="user.displayName" />
+        <input type="text" class="form-control" ng-model="profile.displayName" placeholder="{{user.displayName}}"/>
       </div>
       <div class="form-group">
         <label class="control-label"><i class="ion-at"></i> Email Address</label>
-        <input type="email" class="form-control" ng-model="user.email" />
+        <input type="email" class="form-control" ng-model="profile.email" placeholder="{{user.email}}"/>
       </div>
       <button class="btn btn-lg btn-success">Update Information</button>
     </form>
