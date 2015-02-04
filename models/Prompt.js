@@ -11,8 +11,15 @@ var promptSchema = new mongoose.Schema({
         default: 'Not specified'
     },
     user: {
-        type: String,
-        required: true
+        _id: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User',
+            required: true
+        },
+        displayName: {
+            type: String,
+            required: true
+        }
     },
     votes: {
         type: Number,

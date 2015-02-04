@@ -180,7 +180,10 @@ app.post('/auth/signup', function(req, res) {
 app.post('/api/prompt', function(req, res) {
     var prompt = new Prompt({
         prompt: req.body.prompt,
-        user: req.body.user
+        user: {
+            _id: req.body.user._id,
+            displayName: req.body.user.displayName
+        }
     });
     prompt.save(function() {
         res.send(prompt);

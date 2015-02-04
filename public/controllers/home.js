@@ -7,7 +7,10 @@ angular.module('Prompts')
             $scope.submitPrompt = function() {
                 Prompt.submitPrompt({
                     prompt: $scope.model.prompt,
-                    user: $rootScope.user.displayName
+                    user: {
+                        _id: $rootScope.user._id,
+                        displayName: $rootScope.user.displayName
+                    }
                 }).then(function() {
                     console.log($rootScope.user.displayName);
                     $alert({
