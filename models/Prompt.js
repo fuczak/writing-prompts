@@ -5,18 +5,18 @@ var promptSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     },
-    idea: {
+    prompt: {
         type: String,
         required: true,
         default: 'Not specified'
     },
     user: {
-    	type: mongoose.Schema.Types.ObjectId,
-    	ref: 'User'
+        type: String,
+        required: true
     },
     votes: {
-    	type: Number,
-    	default: 0
+        type: Number,
+        default: 0
     }
 });
 
@@ -26,7 +26,7 @@ promptSchema.methods.upvote = function(cb) {
 };
 
 promptSchema.methods.downvote = function(cb) {
-    this.votes -+ 1;
+    this.votes -= 1;
     this.save(cb);
 };
 

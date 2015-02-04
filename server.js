@@ -178,14 +178,37 @@ app.post('/auth/signup', function(req, res) {
  */
 
 app.post('/api/prompt', function(req, res) {
-    var newPrompt = new Prompt({
-        idea: req.body.idea,
-        user: req.body.user._id
+    var prompt = new Prompt({
+        prompt: req.body.prompt,
+        user: req.body.user
     });
-    newPrompt.save(function() {
-        res.send(newPrompt);
+    prompt.save(function() {
+        res.send(prompt);
     });
 });
+
+/*
+ |--------------------------------------------------------------------------
+ | Get all Prompts
+ |--------------------------------------------------------------------------
+ */
+
+ app.get('/api/prompts', function(req, res) {
+    Prompt.find(function(err, prompts) {
+        if (err) { res.status(409).send(res.body) }
+        res.send(prompts);
+    })
+ });
+
+/*
+ |--------------------------------------------------------------------------
+ | Get a specific Prompt
+ |--------------------------------------------------------------------------
+ */
+
+ app.get('/api/prompts/:prompt', function(req, res) {
+    res
+ });
 
 /*
  |--------------------------------------------------------------------------

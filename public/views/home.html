@@ -7,19 +7,19 @@
 <div class="panel" ng-if="isAuthenticated()">
 	<div class="panel-body">
 		<h2 class="text-center">Add a prompt</h2>
-		<form method="post" ng-submit="submitPrompt(prompt)" name="promptForm">
+		<form method="post" ng-submit="submitPrompt()" name="promptForm">
 			<div class="form-group has-feedback">
-				<input class="form-control input-lg" type="text" name="prompt" ng-model="prompt" placeholder="Imagine if..." required autofocus>
+				<input class="form-control input-lg" type="text" name="prompt" ng-model="model.prompt" placeholder="Imagine if..." required autofocus>
 				<span class="ion-edit form-control-feedback"></span>
 			</div>
 			<button type="submit" ng-disabled="promptForm.$invalid" class="btn btn-lg btn-block btn-success">Add prompt</button>
-		</form>
+		</form>		
 	</div>
 </div>
-<div class="panel" ng-repeat="story in stories">
+<div class="panel" ng-repeat="prompt in model.prompts">
 	<div class="panel-body">
-		<h2>{{story.prompt}}</h2>
-		<p class="text-muted"><em>- by {{story.author}}</em></p>
-		<span class="badge badge-primary">{{story.upvotes}}</span>
+		<h2>{{prompt.prompt}}</h2>
+		<p class="text-muted"><em>- by {{prompt.user}}</em></p>
+		<span class="badge badge-primary">{{prompt.votes}}</span>
 	</div>
 </div>

@@ -4,35 +4,42 @@ angular.module('Prompts')
             $scope.isAuthenticated = function() {
                 return $auth.isAuthenticated();
             };
-            $scope.printText = function() {
-                console.log($scope.justTest)
-            };
-            $scope.submitPrompt = function(data) {
-                $scope.prompt = data;
+            $scope.submitPrompt = function() {
                 Prompt.submitPrompt({
-                    idea: $scope.prompt,
-                    user: $rootScope.user
+                    prompt: $scope.model.prompt,
+                    user: $rootScope.user.displayName
                 }).then(function() {
+                    console.log($rootScope.user.displayName);
                     $alert({
                         content: 'Prompt has been added',
                         animation: 'fadeZoomFadeDown',
                         type: 'material',
                         duration: 3
                     });
+                }).catch(function(response) {
+                    if (typeof response.data.message === 'object') {
+                        angular.forEach(response.data.message, function(message) {
+                            $alert({
+                                content: message[0],
+                                animation: 'fadeZoomFadeDown',
+                                type: 'material',
+                                duration: 3
+                            });
+                        });
+                    } else {
+                        $alert({
+                            content: response.data.message,
+                            animation: 'fadeZoomFadeDown',
+                            type: 'material',
+                            duration: 3
+                        });
+                    }
                 });
+                $scope.model.prompt = '';
             };
-            $scope.stories = [{
-                prompt: 'Prompt 1',
-                author: 'blank',
-                upvotes: 0
-            }, {
-                prompt: 'Prompt 2',
-                author: 'klanb',
-                upvotes: 1
-            }, {
-                prompt: 'Prompt 3',
-                author: 'balbunk',
-                upvotes: 2
-            }, ];
+            $scope.model = {};
+            Prompt.getAllPrompts().then(function(data) {
+                $scope.model.prompts = (data.data);
+            });
         }
     ]);
