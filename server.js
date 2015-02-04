@@ -210,7 +210,7 @@ app.post('/api/prompt', function(req, res) {
  */
 
  app.get('/api/prompts/:prompt', function(req, res) {
-    res
+    console.log('dupa')
  });
 
 /*
@@ -219,9 +219,10 @@ app.post('/api/prompt', function(req, res) {
  |--------------------------------------------------------------------------
  */
 
-app.get('*', function(req, res) {
-    res.redirect('/#' + req.originalUrl);
-});
+// app.get('*', function(req, res) {
+//     console.log('You sure about that, mate?');
+//     res.redirect('/#' + req.originalUrl);
+// });
 
 app.use(function(err, req, res, next) {
     console.error(err.stack);

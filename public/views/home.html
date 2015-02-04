@@ -21,5 +21,6 @@
 		<h2>{{prompt.prompt}}</h2>
 		<p class="text-muted"><em>created by - {{prompt.user.displayName}} on {{prompt.created | date : 'longDate'}}</em></p>
 		<span class="badge badge-primary">{{prompt.votes}}</span>
+		<a href="#/prompts/{{prompt._id}}">Write a story.</a>
 	</div>
 </div>

@@ -18,6 +18,10 @@ angular.module('Prompts', ['ngRoute', 'satellizer', 'ngResource', 'ngMessages', 
                     templateUrl: 'views/profile.html',
                     controller: 'ProfileCtrl'
                 })
+                .when('/prompts/:id', {
+                    templateUrl: 'views/prompt.html',
+                    controller: 'PromptCtrl'
+                })
                 .otherwise({
                     redirectTo: '/'
                 });
