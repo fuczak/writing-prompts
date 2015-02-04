@@ -171,6 +171,28 @@ app.post('/auth/signup', function(req, res) {
     });
 });
 
+/*
+ |--------------------------------------------------------------------------
+ | Create a new Prompt
+ |--------------------------------------------------------------------------
+ */
+
+app.post('/api/prompt', function(req, res) {
+    var newPrompt = new Prompt({
+        idea: req.body.idea,
+        user: req.body.user._id
+    });
+    newPrompt.save(function() {
+        res.send(newPrompt);
+    });
+});
+
+/*
+ |--------------------------------------------------------------------------
+ | Other routes
+ |--------------------------------------------------------------------------
+ */
+
 app.get('*', function(req, res) {
     res.redirect('/#' + req.originalUrl);
 });

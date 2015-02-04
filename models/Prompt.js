@@ -5,12 +5,13 @@ var promptSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     },
-    prompt: {
+    idea: {
         type: String,
-        required: true
+        required: true,
+        default: 'Not specified'
     },
     user: {
-    	type: mongooseSchema.ObjectId,
+    	type: mongoose.Schema.Types.ObjectId,
     	ref: 'User'
     },
     votes: {
@@ -29,4 +30,4 @@ promptSchema.methods.downvote = function(cb) {
     this.save(cb);
 };
 
-mongoose.model('Prompt', promptSchema);
+module.exports = mongoose.model('Prompt', promptSchema);

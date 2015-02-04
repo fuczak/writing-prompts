@@ -4,6 +4,18 @@
 	<a class="btn btn-primary" href="/#/login"><i class="ion-unlocked"></i> Log in</a>
 	<a class="btn btn-success" href="/#/signup"><i class="ion-person-add"></i> Sign up</a>
 </div>
+<div class="panel" ng-if="isAuthenticated()">
+	<div class="panel-body">
+		<h2 class="text-center">Add a prompt</h2>
+		<form method="post" ng-submit="submitPrompt(prompt)" name="promptForm">
+			<div class="form-group has-feedback">
+				<input class="form-control input-lg" type="text" name="prompt" ng-model="prompt" placeholder="Imagine if..." required autofocus>
+				<span class="ion-edit form-control-feedback"></span>
+			</div>
+			<button type="submit" ng-disabled="promptForm.$invalid" class="btn btn-lg btn-block btn-success">Add prompt</button>
+		</form>
+	</div>
+</div>
 <div class="panel" ng-repeat="story in stories">
 	<div class="panel-body">
 		<h2>{{story.prompt}}</h2>
