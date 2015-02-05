@@ -10,6 +10,9 @@ angular.module('Prompts')
                 },
                 getPrompt: function(id) {
                 	return $http.get('/api/prompts/' + id);
+                },
+                submitStory: function(storyData) {                    
+                    return $http.post('/api/prompts/' + storyData.id + '/stories', storyData)
                 }
             }
         }

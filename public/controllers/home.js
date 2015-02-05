@@ -16,7 +16,7 @@ angular.module('Prompts')
                     $alert({
                         content: 'Prompt has been added',
                         animation: 'fadeZoomFadeDown',
-                        type: 'material',
+                        type: 'info',
                         duration: 3
                     });
                 }).catch(function(response) {
@@ -25,7 +25,7 @@ angular.module('Prompts')
                             $alert({
                                 content: message[0],
                                 animation: 'fadeZoomFadeDown',
-                                type: 'material',
+                                type: 'danger',
                                 duration: 3
                             });
                         });
@@ -33,7 +33,7 @@ angular.module('Prompts')
                         $alert({
                             content: response.data.message,
                             animation: 'fadeZoomFadeDown',
-                            type: 'material',
+                            type: 'danger',
                             duration: 3
                         });
                     }

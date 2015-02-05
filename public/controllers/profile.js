@@ -13,7 +13,7 @@ angular.module('Prompts')
                         $alert({
                             content: error.message,
                             animation: 'fadeZoomFadeDown',
-                            type: 'material',
+                            type: 'danger',
                             duration: 3
                         });
                     });
@@ -32,14 +32,14 @@ angular.module('Prompts')
                     $alert({
                         content: 'Profile has been updated',
                         animation: 'fadeZoomFadeDown',
-                        type: 'material',
+                        type: 'success',
                         duration: 3
                     });
                 }).catch(function(response) {
                     $alert({
                         content: response.data.message,
                         animation: 'fadeZoomFadeDown',
-                        type: 'material',
+                        type: 'danger',
                         duration: 3
                     });
                 });

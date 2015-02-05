@@ -197,12 +197,14 @@ app.post('/api/prompt', function(req, res) {
  |--------------------------------------------------------------------------
  */
 
- app.get('/api/prompts', function(req, res) {
+app.get('/api/prompts', function(req, res) {
     Prompt.find(function(err, prompts) {
-        if (err) { res.status(409).send(res.body) }
+        if (err) {
+            res.status(409).send(res.body)
+        }
         res.send(prompts);
     })
- });
+});
 
 /*
  |--------------------------------------------------------------------------
@@ -210,12 +212,46 @@ app.post('/api/prompt', function(req, res) {
  |--------------------------------------------------------------------------
  */
 
- app.get('/api/prompts/:id', function(req, res) {
+app.get('/api/prompts/:id', function(req, res) {
     Prompt.findById(req.params.id, function(err, prompt) {
-        if (err) { res.status(409).send(res.body) }
+        if (err) {
+            res.status(409).send(res.body)
+        }
         res.send(prompt);
-    });    
- });
+    });
+});
+
+/*
+ |--------------------------------------------------------------------------
+ | Post a story
+ |--------------------------------------------------------------------------
+ */
+
+app.post('/api/prompts/:id/stories', function(req, res) {
+    var story = new Story({
+        story: req.body.story,
+        user: {
+            _id: req.body.user._id,
+            displayName: req.body.user.displayName
+        },
+        prompt: req.params.id
+    });
+    console.log(story);
+    story.save(function() {
+        res.send(story)
+    })
+    // Prompt.findById(req.body.id, function(err, prompt) {
+    //     if (err) {
+    //         res.status(400).send(res.body)
+    //     }
+    //     prompt.stories[prompt.stories.length] = story;
+    //     story.save(function() {
+    //         prompt.save(function() {
+    //             res.send(story);
+    //         });
+    //     });
+    // });
+});
 
 /*
  |--------------------------------------------------------------------------

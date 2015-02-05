@@ -10,7 +10,7 @@ angular.module('Prompts')
                         $alert({
                             content: 'You have successfully logged in',
                             animation: 'fadeZoomFadeDown',
-                            type: 'material',
+                            type: 'success',
                             duration: 3
                         });
                     })
@@ -18,7 +18,7 @@ angular.module('Prompts')
                         $alert({
                             content: response.data.message,
                             animation: 'fadeZoomFadeDown',
-                            type: 'material',
+                            type: 'danger',
                             duration: 3
                         });
                     })

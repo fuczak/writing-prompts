@@ -23,6 +23,11 @@ var storySchema = new mongoose.Schema({
 	votes: {
 		type: Number,
 		default: 0
+	},
+	prompt: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'Prompt',
+		required: true
 	}
 })
 
