@@ -11,6 +11,7 @@ var mongoose = require('mongoose');
 var request = require('request');
 var User = require('./models/User');
 var Prompt = require('./models/Prompt');
+var Story = require('./models/Story');
 // config file
 var config = require('./config');
 
@@ -209,8 +210,11 @@ app.post('/api/prompt', function(req, res) {
  |--------------------------------------------------------------------------
  */
 
- app.get('/api/prompts/:prompt', function(req, res) {
-    console.log('dupa')
+ app.get('/api/prompts/:id', function(req, res) {
+    Prompt.findById(req.params.id, function(err, prompt) {
+        if (err) { res.status(409).send(res.body) }
+        res.send(prompt);
+    });    
  });
 
 /*

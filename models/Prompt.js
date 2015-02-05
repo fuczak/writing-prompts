@@ -7,8 +7,7 @@ var promptSchema = new mongoose.Schema({
     },
     prompt: {
         type: String,
-        required: true,
-        default: 'Not specified'
+        required: true
     },
     user: {
         _id: {
@@ -24,7 +23,11 @@ var promptSchema = new mongoose.Schema({
     votes: {
         type: Number,
         default: 0
-    }
+    },
+    stories: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Story'
+    }]
 });
 
 promptSchema.methods.upvote = function(cb) {

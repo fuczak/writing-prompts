@@ -20,7 +20,12 @@ angular.module('Prompts', ['ngRoute', 'satellizer', 'ngResource', 'ngMessages', 
                 })
                 .when('/prompts/:id', {
                     templateUrl: 'views/prompt.html',
-                    controller: 'PromptCtrl'
+                    controller: 'PromptCtrl',
+                    resolve: {
+                        resObject: ['$route', 'Prompt', function($route, Prompt) {
+                            return Prompt.getPrompt($route.current.params.id)
+                        }]
+                    }
                 })
                 .otherwise({
                     redirectTo: '/'
