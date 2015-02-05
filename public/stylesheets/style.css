@@ -185,3 +185,6 @@ body {
 .fade.ng-leave-active {
     opacity: 0;
 }
+.navbar-nav>li.active {
+  background-color: #e7e7e7;
+}

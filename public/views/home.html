@@ -6,26 +6,30 @@
 </div>
 <div class="panel" ng-if="isAuthenticated()">
 	<div class="panel-body">
-		<h2 class="text-center">Add a prompt</h2>
-		<form method="post" ng-submit="submitPrompt()" name="promptForm">
-			<div class="form-group has-feedback">
-				<input class="form-control input-lg" type="text" name="prompt" ng-model="model.prompt" placeholder="Imagine if..." required autofocus>
-				<span class="ion-edit form-control-feedback"></span>
-			</div>
-			<button type="submit" ng-disabled="promptForm.$invalid" class="btn btn-lg btn-block btn-success">Add prompt</button>
-		</form>
+		<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+		Ready to inspire?
+		</button>
+		<div class="collapse" id="collapseExample">
+			<form method="post" ng-submit="submitPrompt()" name="promptForm">
+				<div class="form-group has-feedback">
+					<input class="form-control input-lg" type="text" name="prompt" ng-model="model.prompt" placeholder="Imagine if..." required autofocus>
+					<span class="ion-edit form-control-feedback"></span>
+				</div>
+				<button type="submit" ng-disabled="promptForm.$invalid" class="btn btn-lg btn-block btn-success">Add a prompt</button>
+			</form>
+		</div>
 	</div>
 </div>
 <div class="panel" ng-repeat="prompt in model.prompts">
 	<div class="panel-body">
 		<div class="media">
-			<div class="media-left media-middle">			
-				<button type="button" class="ion-arrow-up-a btn btn-success" data-toggle="tooltip" data-placement="top" title="I like this prompt!"></button>		
-				<button ype="button" class="ion-arrow-down-a btn btn-danger" data-toggle="tooltip" data-placement="top" title="That's not very inspiring"></button>	
+			<div class="media-left media-middle">
+				<button type="button" class="ion-arrow-up-a btn btn-success" data-toggle="tooltip" data-placement="top" title="I like this prompt!"></button>
+				<button ype="button" class="ion-arrow-down-a btn btn-danger" data-toggle="tooltip" data-placement="top" title="That's not very inspiring"></button>
 			</div>
 			<div class="media-body">
 				<h4>{{prompt.prompt}} - <small><span class="badge">{{prompt.votes}}</span> points</small></h4>
-				<p class="text-muted">written by {{prompt.user.displayName}} on {{prompt.created | date : 'longDate' }}</p>				
+				<p class="text-muted">written by {{prompt.user.displayName}} on {{prompt.created | date : 'longDate' }}</p>
 			</div>
 		</div>
 	</div>

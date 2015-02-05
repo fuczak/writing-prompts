@@ -25,16 +25,16 @@
 				</div>
 				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 					<ul class="nav navbar-nav">
-						<li class="hvr-underline-from-center"><a href="#/">Home</a></li>
-						<li ng-if="isAuthenticated()" class="hvr-underline-from-center"><a href="#/profile">Profile</a></li>
+						<li ng-class="{ active: isActive('/')}" class="hvr-sweep-to-top"><a href="#/">Home</a></li>
+						<li ng-class="{ active: isActive('/profile')}"  ng-if="isAuthenticated()" class="hvr-sweep-to-top"><a href="#/profile">Profile</a></li>
 					</ul>
 					<ul class="nav navbar-nav pull-right" ng-if="!isAuthenticated()">
-						<li  class="hvr-underline-from-center"><a href="/#/login">Login</a></li>
-						<li  class="hvr-underline-from-center"><a href="/#/signup">Sign up</a></li>
+						<li  class="hvr-sweep-to-top"><a href="/#/login">Login</a></li>
+						<li  class="hvr-sweep-to-top"><a href="/#/signup">Sign up</a></li>
 					</ul>
 					<ul class="nav navbar-nav pull-right" ng-if="isAuthenticated()">
 						<p ng-if="user.displayName" class="navbar-text" >Signed in as {{user.displayName}} ({{user.email}})</p>
-						<li  class="hvr-underline-from-center"><a href="javascript:void(0)" ng-click="logout()">Logout</a></li>
+						<li  class="hvr-sweep-to-top"><a href="javascript:void(0)" ng-click="logout()">Logout</a></li>
 					</ul>
 				</div>
 			</div>
