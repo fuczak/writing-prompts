@@ -25,16 +25,18 @@
 </div>
 <div class="panel animated fadeInDown" ng-repeat="story in prompt.stories | orderBy: '-created'" bs-collapse>
 	<div class="panel-body">
-		<h4><span class="badge">{{story.votes}}</span> by {{story.user.displayName}} on {{story.created | date: 'longDate'}}</h4>
+		<h4 ng-class="{ ownStory: user._id == story.user._id }" class="badge"><span class="badge">{{story.votes}}</span> by {{story.user.displayName}} on {{story.created | date: 'longDate'}}</h4>
 		<span>
-		<button class="btn btn-info" bs-collapse-toggle style="cursor: pointer"><i class="ion-eye"></i> show/hide story</button>
+		<button class="btn btn-info" bs-collapse-toggle style="cursor: pointer"><i class="ion-eye-disabled"></i></button>
 		</span>
 		<span>
-		<button class="btn btn-success" bs-collapse-toggle style="cursor: pointer"><i class="ion-arrow-up-a"></i> I enjoyed that story</button>
+		<button ng-if="!(user._id == story.user._id)" class="btn btn-success" style="cursor: pointer"><i class="ion-arrow-up-a"></i></button>
 		</span>
 		<span>
-		<button class="btn btn-danger" bs-collapse-toggle style="cursor: pointer"><i class="ion-arrow-down-a"></i> I didn't like that story</button>
+		<button ng-if="!(user._id == story.user._id)" class="btn btn-danger" style="cursor: pointer"><i class="ion-arrow-down-a"></i></button>
 		</span>
+		<button ng-if="user._id == story.user._id" class="btn btn-warning"><i class="ion-trash-b"></i></button>
+		<button ng-if="user._id == story.user._id" class="btn btn-primary"><i class="ion-edit"></i></button>
 		<div class="signup-or-separator">
 			<h3 class="text">A title</h3>
 			<hr>
