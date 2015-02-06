@@ -217,6 +217,11 @@ app.get('/api/prompts/:id', function(req, res) {
         if (err) {
             res.status(409).send(res.body)
         }
+        
+    }).populate('stories').exec(function(err, prompt) {
+        if (err) {
+            res.status(409).send(res.body)
+        }
         res.send(prompt);
     });
 });
@@ -237,20 +242,23 @@ app.post('/api/prompts/:id/stories', function(req, res) {
         prompt: req.params.id
     });
     console.log(story);
-    story.save(function() {
-        res.send(story)
-    })
-    // Prompt.findById(req.body.id, function(err, prompt) {
-    //     if (err) {
-    //         res.status(400).send(res.body)
-    //     }
-    //     prompt.stories[prompt.stories.length] = story;
-    //     story.save(function() {
-    //         prompt.save(function() {
-    //             res.send(story);
-    //         });
-    //     });
-    // });
+    story.save(function(err, story) {
+        if (err) {
+            res.status(409).send(res.body)
+        }
+        Prompt.findById(req.params.id, function(err, prompt) {
+            if (err) {
+                res.status(409).send(res.body)
+            }
+            prompt.stories.push(story);
+            prompt.save(function(err, prompt) {
+                if (err) {
+                    res.status(409).send(res.body)
+                }
+                res.send(prompt.stories);
+            });
+        });
+    });
 });
 
 /*

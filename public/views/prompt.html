@@ -2,7 +2,7 @@
 	<div class="panel-body">
 		<h2> {{prompt.prompt}} </h2>
 		<p class="text-muted"><em>created by - {{prompt.user.displayName}} on {{prompt.created | date : 'longDate'}}</em></p>
-		<span class="badge badge-primary">{{prompt.votes}}</span>
+		<span class="badge">{{prompt.votes}}</span>
 	</div>
 </div>
 <div class="panel">
@@ -17,16 +17,28 @@
 					<input class="form-control input-lg" type="text" name="prompt" ng-model="model.story" placeholder="Lorem ipsum..." required autofocus>
 					<span class="ion-edit"></span>
 				</div>
-				<button type="submit" ng-disabled="storyForm.$invalid" class="btn btn-lg btn-block btn-info">Add a prompt</button>
+				<button type="submit" ng-disabled="storyForm.$invalid" class="btn btn-lg btn-block btn-info">Add a story</button>
 			</form>
 		</div>
 	</div>
 </div>
-<div class="panel" ng-repeat="story in prompt.stories" bs-collapse>
+<div class="panel" ng-repeat="story in prompt.stories | orderBy: '-votes'" bs-collapse>
 	<div class="panel-body">
-		<a bs-collapse-toggle>
-			<h3> {{story.votes}} </h3><small>by {{story.user.displayName}} on {{story.created | date: 'longDate'}}</small>
-		</a>
+		<h4><span class="badge">{{story.votes}}</span> by {{story.user.displayName}} on {{story.created | date: 'longDate'}}</h4>
+		<span>
+		<button class="btn btn-info" bs-collapse-toggle style="cursor: pointer"><i class="ion-eye"></i> show/hide story</button>
+		</span>
+		<span>
+		<button class="btn btn-success" bs-collapse-toggle style="cursor: pointer"><i class="ion-arrow-up-a"></i> I enjoyed that story</button>
+		</span>
+		<span>
+		<button class="btn btn-danger" bs-collapse-toggle style="cursor: pointer"><i class="ion-arrow-down-a"></i> I didn't like that story</button>
+		</span>
+
+		<div class="signup-or-separator">
+			<h3 class="text">A title</h3>
+			<hr>
+		</div>
 	</div>
 	<div class="panel-collapse" bs-collapse-target>
 		<div class="panel-body">

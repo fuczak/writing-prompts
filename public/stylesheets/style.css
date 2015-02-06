@@ -99,6 +99,9 @@ body {
 button.close {
   padding-left: 20px;
 }
+bs-collapse-toggle {
+  cursor: pointer;
+}
 
 /*********************
 * Animations
