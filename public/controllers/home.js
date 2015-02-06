@@ -11,14 +11,14 @@ angular.module('Prompts')
                         _id: $rootScope.user._id,
                         displayName: $rootScope.user.displayName
                     }
-                }).then(function() {
-                    console.log($rootScope.user.displayName);
+                }).then(function(res) {                    
                     $alert({
                         content: 'Prompt has been added',
                         animation: 'fadeZoomFadeDown',
                         type: 'info',
                         duration: 3
                     });
+                    $scope.model.prompts.push(res.data);
                 }).catch(function(response) {
                     if (typeof response.data.message === 'object') {
                         angular.forEach(response.data.message, function(message) {
@@ -40,9 +40,21 @@ angular.module('Prompts')
                 });
                 $scope.model.prompt = '';
             };
-            $scope.model = {};
-            Prompt.getAllPrompts().then(function(data) {
-                $scope.model.prompts = (data.data);
+            $scope.upvotePrompt = function(id, index) {
+                console.log('Upvoted prompt', id, index);
+                $scope.model.prompts[index].votes += 1;
+                $scope.model.voted[index] = true;
+            };
+            $scope.downvotePrompt = function(id, index) {
+                console.log('Downvoted prompt', id, index);
+                $scope.model.prompts[index].votes -= 1;
+                $scope.model.voted[index] = true;                
+            };
+            $scope.model = {
+                voted: []
+            };
+            Prompt.getAllPrompts().then(function(res) {
+                $scope.model.prompts = (res.data);
             });
         }
     ]);

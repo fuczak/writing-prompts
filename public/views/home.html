@@ -6,26 +6,27 @@
 </div>
 <div class="panel" ng-if="isAuthenticated()">
 	<div class="panel-body">
-		<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-		Ready to inspire?
-		</button>
+		<h2>Have an interesting idea?
+		<button class="btn btn-primary btn-lg" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+		Prompt it!
+		</button> </h2>
 		<div class="collapse" id="collapseExample">
-			<form method="post" ng-submit="submitPrompt()" name="promptForm">
+			<form method="post" ng-submit="submitPrompt()" name="promptForm" class="padding-20">
 				<div class="form-group has-feedback">
 					<input class="form-control input-lg" type="text" name="prompt" ng-model="model.prompt" placeholder="Imagine if..." required autofocus>
-					<span class="ion-edit form-control-feedback"></span>
+					<span class="ion-lightbulb form-control-feedback"></span>
 				</div>
-				<button type="submit" ng-disabled="promptForm.$invalid" class="btn btn-lg btn-block btn-success">Add a prompt</button>
+				<button type="submit" ng-disabled="promptForm.$invalid" class="btn btn-lg btn-success">Add a prompt</button>
 			</form>
 		</div>
 	</div>
 </div>
-<div class="panel" ng-repeat="prompt in model.prompts">
+<div class="panel animated fadeInDown" ng-repeat="prompt in model.prompts track by $index| orderBy: '-created'">
 	<div class="panel-body">
 		<div class="media">
 			<div class="media-left media-middle">
-				<button type="button" class="ion-arrow-up-a btn btn-success" title="I like this prompt!"></button>
-				<button ype="button" class="ion-arrow-down-a btn btn-danger" title="That's not very inspiring"></button>
+				<button ng-disabled="model.voted[$index]" ng-click="upvotePrompt(prompt._id, $index)" type="button" class="ion-arrow-up-a btn btn-success" title="I like this prompt!"></button>
+				<button ng-disabled="model.voted[$index]" ng-click="downvotePrompt(prompt._id, $index)" type="button" class="ion-arrow-down-a btn btn-danger" title="That's not very inspiring"></button>
 			</div>
 			<div class="media-body">
 				<h3>{{prompt.prompt}} - <small><span class="badge">{{prompt.votes}}</span> points</small></h3>

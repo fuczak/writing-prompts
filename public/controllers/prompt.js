@@ -10,13 +10,14 @@ angular.module('Prompts')
                         displayName: $rootScope.user.displayName
                     },
                     id: $routeParams.id
-                }).then(function() {
+                }).then(function(res) {
                     $alert({
                         content: 'Story has been added',
                         animation: 'fadeZoomFadeDown',
                         type: 'info',
                         duration: 3
                     });
+                    $scope.prompt.stories.push(res.data)
                 }).catch(function(response) {
                     if (typeof response.data.message === 'object') {
                         angular.forEach(response.data.message, function(message) {

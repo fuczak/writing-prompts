@@ -14,7 +14,15 @@ var userSchema = new mongoose.Schema({
     displayName: {
         type: String,
         unique: true
-    }
+    },
+    prompts: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Prompts'
+    }],
+    stories: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Stories'
+    }]
 });
 
 userSchema.pre('save', function(next) {

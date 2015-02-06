@@ -12,5 +12,13 @@
       </div>
       <button class="btn btn-lg btn-success">Update Information</button>
     </form>
+    <p>My Prompts</p>
+    <div ng-repeat="prompt in user.prompts">
+      <a href="#/prompts/{{prompt}}">{{prompt}}</a>
+    </div>
+    <p>My Stories</p>
+    <div ng-repeat="story in user.stories">
+      <a href="#/prompts/{{story}}">{{story}}</a>
+    </div>
   </div>
 </div>

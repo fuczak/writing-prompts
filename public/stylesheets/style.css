@@ -1,11 +1,15 @@
 .padding-50 {
 	padding: 50px;
 }
+.padding-20 {
+  padding: 20px;
+}
 body {
 	background-color: #CFD8DC;
 }
 .animated {
-	-webkit-animation-duration: 0.3s;
+	-webkit-animation-duration: 0.5s;
+  animation-duration: 0.5s;
 }
 .panel {
   border-color: #cfd9D7;

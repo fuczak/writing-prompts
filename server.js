@@ -187,7 +187,12 @@ app.post('/api/prompt', function(req, res) {
         }
     });
     prompt.save(function() {
-        res.send(prompt);
+        User.findById(prompt.user, function(err, user) {
+            user.prompts.push(prompt);
+            user.save(function() {
+               res.send(prompt); 
+           });            
+        });
     });
 });
 
@@ -255,7 +260,7 @@ app.post('/api/prompts/:id/stories', function(req, res) {
                 if (err) {
                     res.status(409).send(res.body)
                 }
-                res.send(prompt.stories);
+                res.send(story);
             });
         });
     });
