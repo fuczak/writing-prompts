@@ -6,9 +6,16 @@
 }
 body {
 	background-color: #CFD8DC;
+  font-size: 16px;
+  font-weight: 100;
 }
 textarea {
   resize: vertical;
+}
+.markdown {
+  padding: 0 50px;
+  text-align: justify;
+}
 }
 .animated {
 	-webkit-animation-duration: 0.5s;
@@ -31,6 +38,8 @@ textarea {
 
 .form-control {
   border-radius: 0;
+  font-size: 16px;
+  font-weight: 100;
 }
 
 .center-form {
@@ -202,4 +211,8 @@ bs-collapse-toggle {
 }
 .navbar-nav>li.active {
   background-color: #e7e7e7;
+}
+.navbar-nav>li>a {
+  padding-top: 16px;
+  padding-bottom: 17px;
 }

@@ -1,4 +1,4 @@
-angular.module('Prompts', ['ngRoute', 'satellizer', 'ngResource', 'ngMessages', 'mgcrea.ngStrap', 'ngAnimate', 'angular-loading-bar', 'btford.markdown'])
+angular.module('Prompts', ['ngRoute', 'satellizer', 'ngResource', 'ngMessages', 'mgcrea.ngStrap', 'ngAnimate', 'angular-loading-bar', 'ngSanitize', 'btford.markdown'])
     .config(['$routeProvider',
         function($routeProvider) {
             $routeProvider
