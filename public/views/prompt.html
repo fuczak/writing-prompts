@@ -7,44 +7,52 @@
 </div>
 <div class="panel">
 	<div class="panel-body">
-		<h2>Like the idea? 
+		<h2>Like the idea?
 		<button class="btn btn-primary btn-lg" type="button" data-toggle="collapse" data-target="#collapseStory" aria-expanded="false" aria-controls="collapseStory">
 		Write a story!
 		</button>
 		</h2>
 		<div class="collapse" id="collapseStory">
-			<form method="post" ng-submit="submitStory()" name="storyForm" class="padding-20">
-				<div class="form-group">
-					<input class="form-control input-lg" type="text" name="prompt" ng-model="model.story" placeholder="Lorem ipsum..." required autofocus>
-					<span class="ion-edit"></span>
+			<form method="post" name="storyForm" class="padding-20">
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<p><i class="ion-information-circled"></i><small> Protip: You can use <a href="http://daringfireball.net/projects/markdown/syntax">markdown syntax.</a></small></p>
+							<textarea name="story" class="form-control" cols="30" rows="10" ng-model="model.story" placeholder="Type your history here." required></textarea>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<p><i class="ion-search"></i><small> Live preview: </small></p>
+						<div btf-markdown="model.story"></div>
+					</div>
 				</div>
-				<button type="submit" ng-disabled="storyForm.$invalid" class="btn btn-lg btn-info">Add a story</button>
+				<button ng-click="submitStory()" ng-disabled="storyForm.$invalid" class="btn btn-lg btn-info">Add a story</button>
 			</form>
 		</div>
 	</div>
 </div>
 <div class="panel animated fadeInDown" ng-repeat="story in prompt.stories | orderBy: '-created'" bs-collapse>
 	<div class="panel-body">
-		<h4 ng-class="{ ownStory: user._id == story.user._id }" class="badge"><span class="badge">{{story.votes}}</span> by {{story.user.displayName}} on {{story.created | date: 'longDate'}}</h4>
-		<span>
-		<button class="btn btn-info" bs-collapse-toggle style="cursor: pointer"><i class="ion-eye-disabled"></i></button>
-		</span>
-		<span>
-		<button ng-if="!(user._id == story.user._id)" class="btn btn-success" style="cursor: pointer"><i class="ion-arrow-up-a"></i></button>
-		</span>
-		<span>
-		<button ng-if="!(user._id == story.user._id)" class="btn btn-danger" style="cursor: pointer"><i class="ion-arrow-down-a"></i></button>
-		</span>
-		<button ng-if="user._id == story.user._id" class="btn btn-warning"><i class="ion-trash-b"></i></button>
-		<button ng-if="user._id == story.user._id" class="btn btn-primary"><i class="ion-edit"></i></button>
+<h4 ng-class="{ ownStory: user._id == story.user._id }" class="badge"><span class="badge">{{story.votes}}</span> by {{story.user.displayName}} on {{story.created | date: 'longDate'}}</h4>
+<span>
+<button class="btn btn-info" bs-collapse-toggle style="cursor: pointer"><i class="ion-eye-disabled"></i></button>
+</span>
+<span>
+<button ng-if="!(user._id == story.user._id)" class="btn btn-success" style="cursor: pointer"><i class="ion-arrow-up-a"></i></button>
+</span>
+<span>
+<button ng-if="!(user._id == story.user._id)" class="btn btn-danger" style="cursor: pointer"><i class="ion-arrow-down-a"></i></button>
+</span>
+<button ng-if="user._id == story.user._id" class="btn btn-warning"><i class="ion-trash-b"></i></button>
+<button ng-if="user._id == story.user._id" class="btn btn-primary"><i class="ion-edit"></i></button>
 		<div class="signup-or-separator">
-			<h3 class="text">A title</h3>
-			<hr>
+<h3 class="text">A title</h3>
+<hr>
 		</div>
 	</div>
 	<div class="panel-collapse" bs-collapse-target>
 		<div class="panel-body">
-			{{ story.story }}
+			<div btf-markdown="story.story"></div>
 		</div>
 	</div>
 </div>

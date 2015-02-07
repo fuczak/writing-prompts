@@ -1,7 +1,7 @@
 angular.module('Prompts')
     .controller('PromptCtrl', ['$scope', 'Prompt', 'resObject', '$routeParams', '$rootScope', '$alert',
         function($scope, Prompt, resObject, $routeParams, $rootScope, $alert) {
-            $scope.prompt = resObject.data;
+            $scope.prompt = resObject.data;            
             $scope.submitStory = function() {
                 Prompt.submitStory({
                     story: $scope.model.story,

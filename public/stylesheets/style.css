@@ -7,6 +7,9 @@
 body {
 	background-color: #CFD8DC;
 }
+textarea {
+  resize: vertical;
+}
 .animated {
 	-webkit-animation-duration: 0.5s;
   animation-duration: 0.5s;

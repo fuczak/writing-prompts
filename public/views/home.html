@@ -11,12 +11,12 @@
 		Prompt it!
 		</button> </h2>
 		<div class="collapse" id="collapseExample">
-			<form method="post" ng-submit="submitPrompt()" name="promptForm" class="padding-20">
+			<form method="post" ng-submit="submitPrompt()" name="storyForm" class="padding-20">
 				<div class="form-group has-feedback">
-					<input class="form-control input-lg" type="text" name="prompt" ng-model="model.prompt" placeholder="Imagine if..." required autofocus>
+					<input class="form-control input-lg" type="text" name="prompt" ng-model="model.prompt" placeholder="Imagine if..." autofocus>
 					<span class="ion-lightbulb form-control-feedback"></span>
 				</div>
-				<button type="submit" ng-disabled="promptForm.$invalid" class="btn btn-lg btn-success">Add a prompt</button>
+				<button type="submit" ng-disabled="storyFormInvalid" class="btn btn-lg btn-success">Add a prompt</button>
 			</form>
 		</div>
 	</div>
