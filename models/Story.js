@@ -28,17 +28,25 @@ var storySchema = new mongoose.Schema({
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'Prompt',
 		required: true
-	}
+	},
+	fans: [{
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'Fans'
+	}],
+	enemies: [{
+		type: mongoose.Schema.Types.ObjectId,
+		red: 'Enemies'
+	}]
 })
 
-storySchema.methods.upvote = function(cb) {
-	this.votes += 1;
-	this.save(cb);
-};
+// storySchema.methods.upvote = function(cb) {
+// 	this.votes += 1;
+// 	this.save(cb);
+// };
 
-storySchema.methods.downvote = function(cb) {
-	this.votes -= 1;
-	this.save(cb);
-};
+// storySchema.methods.downvote = function(cb) {
+// 	this.votes -= 1;
+// 	this.save(cb);
+// };
 
 module.exports = mongoose.model('Story', storySchema);

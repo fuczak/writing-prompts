@@ -20,24 +20,28 @@ var promptSchema = new mongoose.Schema({
             required: true
         }
     },
-    votes: {
-        type: Number,
-        default: 0
-    },
     stories: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Story'
-    }]
+    }],
+    fans: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Fans'
+    }],
+    enemies: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Enemies'
+    }]    
 });
 
-promptSchema.methods.upvote = function(cb) {
-    this.votes += 1;
-    this.save(cb);
-};
+// promptSchema.methods.upvote = function(cb) {
+//     this.votes += 1;
+//     this.save(cb);
+// };
 
-promptSchema.methods.downvote = function(cb) {
-    this.votes -= 1;
-    this.save(cb);
-};
+// promptSchema.methods.downvote = function(cb) {
+//     this.votes -= 1;
+//     this.save(cb);
+// };
 
 module.exports = mongoose.model('Prompt', promptSchema);
