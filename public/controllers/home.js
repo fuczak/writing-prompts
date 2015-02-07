@@ -1,6 +1,6 @@
 angular.module('Prompts')
-    .controller('HomeCtrl', ['$scope', '$auth', 'Prompt', '$alert', '$rootScope',
-        function($scope, $auth, Prompt, $alert, $rootScope) {
+    .controller('HomeCtrl', ['$scope', '$auth', 'Prompt', '$alert', '$rootScope', '$location',
+        function($scope, $auth, Prompt, $alert, $rootScope, $location) {
             $scope.isAuthenticated = function() {
                 return $auth.isAuthenticated();
             };
@@ -18,7 +18,7 @@ angular.module('Prompts')
                         type: 'info',
                         duration: 3
                     });
-                    $scope.model.prompts.push(res.data);
+                    $location.path('/prompts/' + res.data._id);
                 }).catch(function(response) {
                     if (typeof response.data.message === 'object') {
                         angular.forEach(response.data.message, function(message) {
@@ -38,7 +38,6 @@ angular.module('Prompts')
                         });
                     }
                 });
-                $scope.model.prompt = '';
             };
             $scope.upvotePrompt = function(id, index) {
                 console.log('Upvoted prompt', id, index);
