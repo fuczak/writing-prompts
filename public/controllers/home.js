@@ -1,6 +1,8 @@
 angular.module('Prompts')
-    .controller('HomeCtrl', ['$scope', '$auth', 'Prompt', '$alert', '$rootScope', '$location',
-        function($scope, $auth, Prompt, $alert, $rootScope, $location) {
+    .controller('HomeCtrl', ['$scope', '$auth', 'Prompt', '$alert', '$rootScope', '$location', 'resPrompts',
+        function($scope, $auth, Prompt, $alert, $rootScope, $location, resPrompts) {
+            $scope.model = [];
+            $scope.model.prompts = resPrompts.data;
             $scope.isAuthenticated = function() {
                 return $auth.isAuthenticated();
             };
@@ -11,7 +13,7 @@ angular.module('Prompts')
                         _id: $rootScope.user._id,
                         displayName: $rootScope.user.displayName
                     }
-                }).then(function(res) {                    
+                }).then(function(res) {
                     $alert({
                         content: 'Prompt has been added',
                         animation: 'fadeZoomFadeDown',
@@ -39,21 +41,27 @@ angular.module('Prompts')
                     }
                 });
             };
+            
             $scope.upvotePrompt = function(id, index) {
                 Prompt.upvotePrompt(id, $rootScope.user).then(function(res) {
-                    $scope.model.prompts[index].fans.length = res.data.fans;
+                    $scope.model.prompts[index].fans = res.data.fans;
+                    $scope.model.prompts[index].enemies = res.data.enemies;                    
                 });
             };
             $scope.downvotePrompt = function(id, index) {
                 Prompt.downvotePrompt(id, $rootScope.user).then(function(res) {
-                    $scope.model.prompts[index].enemies.length = res.data.enemies;
+                    $scope.model.prompts[index].fans = res.data.fans;
+                    $scope.model.prompts[index].enemies = res.data.enemies;
                 });
-            };            
-            $scope.model = {
-                voted: []
             };
-            Prompt.getAllPrompts().then(function(res) {
-                $scope.model.prompts = (res.data);
-            });
+            $scope.isFan = function(prompt) {
+                return prompt.fans.indexOf($rootScope.user._id) == -1 ? false : true  
+            };
+            $scope.isEnemy = function(prompt) {               
+                return prompt.enemies.indexOf($rootScope.user._id) == -1 ? false : true
+            };
+            // Prompt.getAllPrompts().then(function(res) {
+            //     $scope.model.prompts = (res.data);
+            // });
         }
     ]);

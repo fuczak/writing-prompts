@@ -31,7 +31,7 @@
 		</div>
 	</div>
 </div>
-<div class="panel animated fadeInDown" ng-repeat="story in prompt.stories | orderBy: '-created'" bs-collapse>
+<div class="panel animated fadeInUp" ng-repeat="story in prompt.stories | orderBy: '-created'" bs-collapse>
 	<div class="panel-body">
 		<h4 ng-class="{ ownStory: user._id == story.user._id }" class="badge"><span class="badge">{{story.votes}}</span> by {{story.user.displayName}} on {{story.created | date: 'longDate'}}</h4>
 		<span>

@@ -12,10 +12,12 @@ body {
 textarea {
   resize: vertical;
 }
+#prompt-content {
+  margin: 0px;
+}
 .markdown {
   padding: 0 50px;
   text-align: justify;
-}
 }
 .animated {
 	-webkit-animation-duration: 0.5s;

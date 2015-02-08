@@ -277,9 +277,24 @@ app.post('/api/prompts/:id/upvote', function(req, res) {
         if (err) {
             res.status(409).send(res, body);
         }
-        prompt.fans.addToSet(req.body._id);
-        prompt.save(function() {            
-            res.send({fans: prompt.fans.length, enemies: prompt.enemies.length});
+        var fanIndex = prompt.fans.indexOf(req.body._id);
+        var isFan = fanIndex == -1 ? false : true;
+        var enemyIndex = prompt.enemies.indexOf(req.body._id);
+        var isEnemy = enemyIndex == -1 ? false : true;
+        console.log(fanIndex, enemyIndex);
+        if (isFan) {
+            prompt.fans.splice(fanIndex, 1);
+        } else {
+            if (isEnemy) {
+                prompt.enemies.splice(enemyIndex, 1);
+            }
+            prompt.fans.addToSet(req.body._id);
+        }
+        prompt.save(function() {
+            res.send({
+                fans: prompt.fans,
+                enemies: prompt.enemies
+            });
         });
     });
 });
@@ -295,9 +310,24 @@ app.post('/api/prompts/:id/downvote', function(req, res) {
         if (err) {
             res.status(409).send(res, body);
         }
-        prompt.enemies.addToSet(req.body._id);
+        var fanIndex = prompt.fans.indexOf(req.body._id);
+        var isFan = fanIndex == -1 ? false : true;
+        var enemyIndex = prompt.enemies.indexOf(req.body._id);
+        var isEnemy = enemyIndex == -1 ? false : true;
+        console.log(fanIndex, enemyIndex);
+        if (isEnemy) {
+            prompt.enemies.splice(enemyIndex, 1);
+        } else {
+            if (isFan) {
+                prompt.fans.splice(fanIndex, 1);
+            }
+            prompt.enemies.addToSet(req.body._id);
+        }
         prompt.save(function() {
-            res.send({fans: prompt.fans.length, enemies: prompt.enemies.length});
+            res.send({
+                fans: prompt.fans,
+                enemies: prompt.enemies
+            });
         });
     });
 });

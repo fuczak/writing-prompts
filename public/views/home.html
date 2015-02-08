@@ -21,15 +21,25 @@
 		</div>
 	</div>
 </div>
-<div class="panel animated fadeInDown" ng-repeat="prompt in model.prompts track by $index| orderBy: '{{prompt.fans.length - prompt.enemies.length}}'">
+<div class="panel">
+	<div class="panel-body">
+		<label>Sort prompts by:</label>
+		<div class="btn-group" ng-model="button.radio" bs-radio-group>
+			<label class="btn btn-default"><input class="btn btn-default" value="0" type="radio"> Hot</label>
+			<label class="btn btn-default"><input class="btn btn-default" value="1" type="radio"> New</label>
+			<label class="btn btn-default"><input class="btn btn-default" value="2" type="radio"> Best</label>			
+		</div>
+	</div>
+</div>
+<div class="panel animated fadeInUp" ng-repeat="prompt in model.prompts track by $index| orderBy: '{{prompt.fans.length - prompt.enemies.length}}'">
 	<div class="panel-body">
 		<div class="media">
-			<div class="media-left media-middle">
-				<button ng-disabled="model.voted[$index]" ng-click="upvotePrompt(prompt._id, $index)" type="button" class="ion-arrow-up-a btn btn-success" title="I like this prompt!"></button>
-				<button ng-disabled="model.voted[$index]" ng-click="downvotePrompt(prompt._id, $index)" type="button" class="ion-arrow-down-a btn btn-danger" title="That's not very inspiring"></button>
+			<div ng-if="isAuthenticated()" class="media-left media-middle">
+				<button ng-class="{ 'btn-success' : isFan(prompt) }" ng-click="upvotePrompt(prompt._id, $index)" type="button" class="ion-arrow-up-a btn btn-default" title="I like this prompt!"></button>
+				<button ng-class="{ 'btn-danger' : isEnemy(prompt) }" ng-click="downvotePrompt(prompt._id, $index)" type="button" class="ion-arrow-down-a btn btn-default" title="That's not very inspiring"></button>
 			</div>
 			<div class="media-body">
-				<h3>{{prompt.prompt}} - <small><span class="badge">{{prompt.fans.length - prompt.enemies.length}}</span> points</small></h3>
+				<h3 id="prompt-content">{{prompt.prompt}} - <small><span class="badge">{{prompt.fans.length - prompt.enemies.length}}</span> points</small></h3>
 				<p class="text-muted">written by {{prompt.user.displayName}} on {{prompt.created | date : 'longDate' }}</p>
 				<a href="#/prompts/{{prompt._id}}">Read stories inspired by this prompt ({{prompt.stories.length}})</a>
 			</div>

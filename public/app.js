@@ -4,7 +4,12 @@ angular.module('Prompts', ['ngRoute', 'satellizer', 'ngResource', 'ngMessages', 
             $routeProvider
                 .when('/', {
                     templateUrl: 'views/home.html',
-                    controller: 'HomeCtrl'
+                    controller: 'HomeCtrl',
+                    resolve: {
+                        resPrompts: ['Prompt', function(Prompt) {
+                            return Prompt.getAllPrompts();
+                        }]
+                    }
                 })
                 .when('/login', {
                     templateUrl: 'views/login.html',
@@ -23,7 +28,7 @@ angular.module('Prompts', ['ngRoute', 'satellizer', 'ngResource', 'ngMessages', 
                     controller: 'PromptCtrl',
                     resolve: {
                         resObject: ['$route', 'Prompt', function($route, Prompt) {
-                            return Prompt.getPrompt($route.current.params.id)
+                            return Prompt.getPrompt($route.current.params.id);
                         }]
                     }
                 })
