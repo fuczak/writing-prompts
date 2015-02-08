@@ -12,3 +12,4 @@ Simple CRUD Web App made using MEAN stack.
 * Add reddit-like point algorithms
 * Disable username change
 * Add password reset/forgot
+* Commenting stories functionality

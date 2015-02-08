@@ -40,15 +40,15 @@ angular.module('Prompts')
                 });
             };
             $scope.upvotePrompt = function(id, index) {
-                console.log('Upvoted prompt', id, index);
-                $scope.model.prompts[index].votes += 1;
-                $scope.model.voted[index] = true;
+                Prompt.upvotePrompt(id, $rootScope.user).then(function(res) {
+                    $scope.model.prompts[index].fans.length = res.data.fans;
+                });
             };
             $scope.downvotePrompt = function(id, index) {
-                console.log('Downvoted prompt', id, index);
-                $scope.model.prompts[index].votes -= 1;
-                $scope.model.voted[index] = true;                
-            };
+                Prompt.downvotePrompt(id, $rootScope.user).then(function(res) {
+                    $scope.model.prompts[index].enemies.length = res.data.enemies;
+                });
+            };            
             $scope.model = {
                 voted: []
             };

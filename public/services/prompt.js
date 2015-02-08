@@ -13,6 +13,12 @@ angular.module('Prompts')
                 },
                 submitStory: function(storyData) {                    
                     return $http.post('/api/prompts/' + storyData.id + '/stories', storyData)
+                },
+                upvotePrompt: function(id, user) {
+                    return $http.post('/api/prompts/' + id + '/upvote', user);
+                },
+                downvotePrompt: function(id, user) {
+                    return $http.post('/api/prompts/' + id + '/downvote', user);
                 }
             }
         }

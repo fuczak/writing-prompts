@@ -26,11 +26,13 @@ var promptSchema = new mongoose.Schema({
     }],
     fans: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Fans'
+        ref: 'Fans',
+        unique: true
     }],
     enemies: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Enemies'
+        ref: 'Enemies',
+        unique: true
     }]    
 });
 

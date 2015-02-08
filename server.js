@@ -190,8 +190,8 @@ app.post('/api/prompt', function(req, res) {
         User.findById(prompt.user, function(err, user) {
             user.prompts.push(prompt);
             user.save(function() {
-               res.send(prompt); 
-           });            
+                res.send(prompt);
+            });
         });
     });
 });
@@ -222,7 +222,7 @@ app.get('/api/prompts/:id', function(req, res) {
         if (err) {
             res.status(409).send(res.body)
         }
-        
+
     }).populate('stories').exec(function(err, prompt) {
         if (err) {
             res.status(409).send(res.body)
@@ -262,6 +262,42 @@ app.post('/api/prompts/:id/stories', function(req, res) {
                 }
                 res.send(story);
             });
+        });
+    });
+});
+
+/*
+ |--------------------------------------------------------------------------
+ | Upvoting prompt
+ |--------------------------------------------------------------------------
+ */
+
+app.post('/api/prompts/:id/upvote', function(req, res) {
+    Prompt.findById(req.params.id, function(err, prompt) {
+        if (err) {
+            res.status(409).send(res, body);
+        }
+        prompt.fans.addToSet(req.body._id);
+        prompt.save(function() {            
+            res.send({fans: prompt.fans.length, enemies: prompt.enemies.length});
+        });
+    });
+});
+
+/*
+ |--------------------------------------------------------------------------
+ | Downvoting prompt
+ |--------------------------------------------------------------------------
+ */
+
+app.post('/api/prompts/:id/downvote', function(req, res) {
+    Prompt.findById(req.params.id, function(err, prompt) {
+        if (err) {
+            res.status(409).send(res, body);
+        }
+        prompt.enemies.addToSet(req.body._id);
+        prompt.save(function() {
+            res.send({fans: prompt.fans.length, enemies: prompt.enemies.length});
         });
     });
 });
