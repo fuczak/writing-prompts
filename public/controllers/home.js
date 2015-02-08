@@ -1,8 +1,8 @@
 angular.module('Prompts')
-    .controller('HomeCtrl', ['$scope', '$auth', 'Prompt', '$alert', '$rootScope', '$location', 'resPrompts',
-        function($scope, $auth, Prompt, $alert, $rootScope, $location, resPrompts) {
+    .controller('HomeCtrl', ['$scope', '$auth', 'Prompt', '$alert', '$rootScope', '$location', /*'resPrompts',*/
+        function($scope, $auth, Prompt, $alert, $rootScope, $location/*, resPrompts*/) {
             $scope.model = [];
-            $scope.model.prompts = resPrompts.data;
+            // $scope.model.prompts = resPrompts.data;
             $scope.isAuthenticated = function() {
                 return $auth.isAuthenticated();
             };
@@ -12,7 +12,8 @@ angular.module('Prompts')
                     user: {
                         _id: $rootScope.user._id,
                         displayName: $rootScope.user.displayName
-                    }
+                    },
+                    fans: $rootScope.user._id
                 }).then(function(res) {
                     $alert({
                         content: 'Prompt has been added',
@@ -60,8 +61,8 @@ angular.module('Prompts')
             $scope.isEnemy = function(prompt) {               
                 return prompt.enemies.indexOf($rootScope.user._id) == -1 ? false : true
             };
-            // Prompt.getAllPrompts().then(function(res) {
-            //     $scope.model.prompts = (res.data);
-            // });
+            Prompt.getAllPrompts().then(function(res) {
+                $scope.model.prompts = (res.data);
+            });
         }
     ]);

@@ -281,7 +281,6 @@ app.post('/api/prompts/:id/upvote', function(req, res) {
         var isFan = fanIndex == -1 ? false : true;
         var enemyIndex = prompt.enemies.indexOf(req.body._id);
         var isEnemy = enemyIndex == -1 ? false : true;
-        console.log(fanIndex, enemyIndex);
         if (isFan) {
             prompt.fans.splice(fanIndex, 1);
         } else {
@@ -314,7 +313,6 @@ app.post('/api/prompts/:id/downvote', function(req, res) {
         var isFan = fanIndex == -1 ? false : true;
         var enemyIndex = prompt.enemies.indexOf(req.body._id);
         var isEnemy = enemyIndex == -1 ? false : true;
-        console.log(fanIndex, enemyIndex);
         if (isEnemy) {
             prompt.enemies.splice(enemyIndex, 1);
         } else {

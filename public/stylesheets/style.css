@@ -12,6 +12,9 @@ body {
 textarea {
   resize: vertical;
 }
+.panel {
+  margin: 15px 0;
+}
 #prompt-content {
   margin: 0px;
 }

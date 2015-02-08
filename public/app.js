@@ -4,12 +4,12 @@ angular.module('Prompts', ['ngRoute', 'satellizer', 'ngResource', 'ngMessages', 
             $routeProvider
                 .when('/', {
                     templateUrl: 'views/home.html',
-                    controller: 'HomeCtrl',
-                    resolve: {
-                        resPrompts: ['Prompt', function(Prompt) {
-                            return Prompt.getAllPrompts();
-                        }]
-                    }
+                    controller: 'HomeCtrl'
+                    // resolve: {
+                    //     resPrompts: ['Prompt', function(Prompt) {
+                    //         return Prompt.getAllPrompts();
+                    //     }]
+                    // }
                 })
                 .when('/login', {
                     templateUrl: 'views/login.html',
