@@ -39,9 +39,9 @@
 		</div>
 	</div>
 </div>
-<div class="panel animated fadeInUp" ng-repeat="story in prompt.stories track by $index | orderBy: 'created'" bs-collapse>
+<div class="panel animated fadeInUp" ng-repeat="story in prompt.stories track by $index | orderBy: 'fans.length - fans.enemies'" bs-collapse>
 	<div class="panel-body">
-		<h4 ng-class="{ ownStory: user._id == story.user._id }" class="badge"><span class="badge">{{story.fans.length}}, {{story.enemies.length}}</span> by {{story.user.displayName}} on {{story.created | date: 'longDate'}}</h4>
+		<h4 ng-class="{ ownStory: user._id == story.user._id }"><span class="badge">{{story.fans.length - story.enemies.length}} points</span> Author: {{story.user.displayName}} on {{story.created | date: 'longDate'}}</h4>
 		<span>
 		<button class="btn btn-info" bs-collapse-toggle style="cursor: pointer"><i class="ion-eye-disabled"></i></button>
 		</span>

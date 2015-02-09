@@ -32,6 +32,10 @@ angular.module('Prompts', ['ngRoute', 'satellizer', 'ngResource', 'ngMessages', 
                         }]
                     }
                 })
+                .when('/test', {
+                    templateUrl: 'views/test.html', 
+                    controller: 'TestCtrl'
+                })
                 .otherwise({
                     redirectTo: '/'
                 });
