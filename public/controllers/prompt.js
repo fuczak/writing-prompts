@@ -23,22 +23,24 @@ angular.module('Prompts')
                     $scope.prompt.enemies = res.data.enemies;
                 });
             };
-            $scope.isStoryFan = function(index) {
-                return $scope.prompt.stories[index].fans.indexOf($rootScope.user._id) == -1 ? false : true;
+            $scope.isStoryFan = function(story) {
+                return story.fans.indexOf($rootScope.user._id) == -1 ? false : true;
             };
-            $scope.isStoryEnemy = function(index) {
-                return $scope.prompt.stories[index].enemies.indexOf($rootScope.user._id) == -1 ? false : true;
+            $scope.isStoryEnemy = function(story) {
+                return story.enemies.indexOf($rootScope.user._id) == -1 ? false : true;
             };
-            $scope.upvoteStory = function(id, index) {
-                Prompt.upvoteStory(id, $rootScope.user).then(function(res) {
-                    $scope.prompt.stories[index].fans = res.data.fans;
-                    $scope.prompt.stories[index].enemies = res.data.enemies;
+            $scope.upvoteStory = function(story) {
+                Prompt.upvoteStory(story._id, $rootScope.user).then(function(res) {                    
+                    story.fans = res.data.fans;
+                    story.enemies = res.data.enemies;
+                    story.score = res.data.score;
                 });
             };  
-            $scope.downvoteStory = function(id, index) {
-                Prompt.downvoteStory(id, $rootScope.user).then(function(res) {
-                    $scope.prompt.stories[index].fans = res.data.fans;
-                    $scope.prompt.stories[index].enemies = res.data.enemies;
+            $scope.downvoteStory = function(story) {
+                Prompt.downvoteStory(story._id, $rootScope.user).then(function(res) {
+                    story.fans = res.data.fans;
+                    story.enemies = res.data.enemies;
+                    story.score = res.data.score;
                 });
             };         
             $scope.submitStory = function() {

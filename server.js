@@ -385,9 +385,10 @@ app.post('/api/stories/:id/upvote', function(req, res) {
             if (isEnemy) {
                 story.enemies.splice(enemyIndex, 1);
             }
-            story.fans.addToSet(req.body._id);
-            story.score = wilsonScore(story.fans.length, story.enemies.length, story.created);
+            story.fans.addToSet(req.body._id);            
         }
+        story.score = wilsonScore(story.fans.length, story.enemies.length, story.created);
+        console.log('Upvoting story' + story._id + ' with score: ' + story.score)
         story.save(function() {
             res.send({
                 fans: story.fans,
@@ -420,8 +421,10 @@ app.post('/api/stories/:id/downvote', function(req, res) {
                 story.fans.splice(fanIndex, 1);
             }
             story.enemies.addToSet(req.body._id);
-            story.score = wilsonScore(story.fans.length, story.enemies.length, story.created);
+            
         }
+        story.score = wilsonScore(story.fans.length, story.enemies.length, story.created);
+        console.log('Upvoting story' + story._id + ' with score: ' + story.score)
         story.save(function() {
             res.send({
                 fans: story.fans,

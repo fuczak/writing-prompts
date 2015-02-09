@@ -1,3 +1,4 @@
-<div class="panel" ng-repeat="friend in friends track by $index | orderBy: 'getPoints(index)'">
+<div class="panel" ng-repeat="friend in friends | orderBy: 'name'">
+	<pre>{{friend | json}}</pre>
 	<p>{{friend.name}}, {{getPoints($index)}}</p>
 </div>
