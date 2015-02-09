@@ -9,6 +9,10 @@ var jwt = require('jwt-simple');
 var moment = require('moment');
 var mongoose = require('mongoose');
 var request = require('request');
+var decay = require('decay');
+var hotScore = decay.redditHot();
+var wilsonScore = decay.wilsonScore();
+var async = require('async');
 var User = require('./models/User');
 var Prompt = require('./models/Prompt');
 var Story = require('./models/Story');
@@ -37,6 +41,36 @@ if (app.get('env') === 'production') {
     });
 }
 app.use(express.static(path.join(__dirname, 'public')));
+
+setInterval(function() {
+    Prompt.find(function(err, prompts) {
+        if (err) return console.log(err)
+        async.waterfall([
+            function(callback) {
+                var candidates = [];
+                for(i=0; i<prompts.length; i++) {
+                    candidates.push(prompts[i]);
+                };
+                callback(null, candidates);
+            },
+            function(candidates, callback) {
+                candidates.forEach(function(c) {
+                    c.score = hotScore(c.fans.length, c.enemies.length, c.created)
+                    Prompt.findById(c._id, function(err, prompt) {
+                        if (err) return console.log(err);
+                        prompt.score = c.score;
+                        prompt.save(function() {
+                            console.log('Prompt ' + prompt._id + ' saved with score: ' + c.score);
+                        });
+                    });
+                });
+                callback(null, 'done')
+            },
+        ], function(err, results) {
+            console.log(results)
+        })
+    });
+}, 1000 * 60 * 5);
 
 /*
  |--------------------------------------------------------------------------
@@ -352,11 +386,13 @@ app.post('/api/stories/:id/upvote', function(req, res) {
                 story.enemies.splice(enemyIndex, 1);
             }
             story.fans.addToSet(req.body._id);
+            story.score = wilsonScore(story.fans.length, story.enemies.length, story.created);
         }
         story.save(function() {
             res.send({
                 fans: story.fans,
-                enemies: story.enemies
+                enemies: story.enemies,
+                score: story.score
             });
         });
     });
@@ -384,11 +420,13 @@ app.post('/api/stories/:id/downvote', function(req, res) {
                 story.fans.splice(fanIndex, 1);
             }
             story.enemies.addToSet(req.body._id);
+            story.score = wilsonScore(story.fans.length, story.enemies.length, story.created);
         }
         story.save(function() {
             res.send({
                 fans: story.fans,
-                enemies: story.enemies
+                enemies: story.enemies,
+                score: story.score
             });
         });
     });

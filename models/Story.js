@@ -36,7 +36,11 @@ var storySchema = new mongoose.Schema({
 	enemies: [{
 		type: mongoose.Schema.Types.ObjectId,
 		red: 'Enemies'
-	}]
+	}],
+	score: {
+		type: Number,
+		default: 0
+	}
 })
 
 // storySchema.methods.upvote = function(cb) {

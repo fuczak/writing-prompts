@@ -33,7 +33,11 @@ var promptSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Enemies',
         unique: true
-    }]    
+    }],
+    score: {
+        type: Number,
+        default: 0
+    }   
 });
 
 // promptSchema.methods.upvote = function(cb) {

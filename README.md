@@ -9,7 +9,7 @@ Simple CRUD Web App made using MEAN stack.
 * Update profile view to show user prompts and stories
 * Make markdown optional/display cheatsheet/incorporate GFM
 * Add sorting methods for prompts and stories
-* Add reddit-like point algorithms
+* ~~Add reddit-like point algorithms~~ (Prompt scores decay with time, Stories don't)
 * Disable username change
 * Add password reset/forgot
 * Commenting stories functionality
