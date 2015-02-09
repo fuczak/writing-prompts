@@ -1,6 +1,6 @@
 <div class="panel panel-default">
   <div class="panel-body">
-    <h2><i class="ion-clipboard"></i> Edit My Profile</h2>
+    <h2><i class="ion-gear-b"></i> Edit My Profile</h2>
     <form method="post" ng-submit="updateProfile()">
       <div class="form-group">
         <label class="control-label"><i class="ion-person"></i> Display Name</label>
@@ -11,14 +11,17 @@
         <input type="email" class="form-control" ng-model="profile.email" placeholder="{{user.email}}"/>
       </div>
       <button class="btn btn-lg btn-success">Update Information</button>
-    </form>
-    <p>My Prompts</p>
-    <div ng-repeat="prompt in user.prompts">
-      <a href="#/prompts/{{prompt}}">{{prompt}}</a>
+    </form>  
+  </div>
+</div>
+<div class="panel panel-default">
+  <div class="panel-body">
+    <h2><i class="ion-android-favorite"></i> Created by you:</h2>
+    <div class="col-md-6"> <h3>Prompts: </h3> 
+      <ul>
+        <li ng-repeat="prompt in user.prompts"><a href="#/prompts/{{prompt}}">{{prompt}}</a></li>
+      </ul>
     </div>
-    <p>My Stories</p>
-    <div ng-repeat="story in user.stories">
-      <a href="#/prompts/{{story}}">{{story}}</a>
-    </div>
+    <div class="col-md-6"> <h3>Stories: </h3> </div>
   </div>
 </div>

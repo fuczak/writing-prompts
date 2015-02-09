@@ -295,7 +295,15 @@ app.post('/api/prompts/:id/stories', function(req, res) {
                 if (err) {
                     res.status(409).send(res.body)
                 }
-                res.send(story);
+                User.findById(story.user, function(err, user) {
+                    if (err) {
+                        res.status(409).send(res.body)
+                    }
+                    user.stories.push(story);
+                    user.save(function() {
+                        res.send(story);
+                    });
+                });
             });
         });
     });
