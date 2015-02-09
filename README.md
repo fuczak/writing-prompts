@@ -13,3 +13,5 @@ Simple CRUD Web App made using MEAN stack.
 * Disable username change
 * Add password reset/forgot
 * Commenting stories functionality
+* ...
+* Add sweet animations

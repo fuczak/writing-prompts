@@ -13,14 +13,14 @@
 		</div>
 	</div>
 </div>
-<div class="panel">
+<div class="panel" bs-collapse ng-model="model.activePanel">
 	<div class="panel-body">
 		<h2>Like the idea?
-		<button class="btn btn-primary btn-lg" type="button" data-toggle="collapse" data-target="#collapseStory" aria-expanded="false" aria-controls="collapseStory">
+		<button class="btn btn-primary btn-lg" type="button" bs-collapse-toggle>
 		Write a story!
 		</button>
 		</h2>
-		<div class="collapse" id="collapseStory">
+		<div class="panel-collapse" bs-collapse-target>
 			<form method="post" name="storyForm" class="padding-20">
 				<div class="row">
 					<div class="col-md-6">

@@ -1,8 +1,16 @@
 angular.module('Prompts')
-    .controller('HomeCtrl', ['$scope', '$auth', 'Prompt', '$alert', '$rootScope', '$location', /*'resPrompts',*/
-        function($scope, $auth, Prompt, $alert, $rootScope, $location/*, resPrompts*/) {
-            $scope.model = [];
-            // $scope.model.prompts = resPrompts.data;
+    .controller('HomeCtrl', ['$scope', '$auth', 'Prompt', '$alert', '$rootScope', '$location', 'resPrompts',
+        function($scope, $auth, Prompt, $alert, $rootScope, $location, resPrompts) {
+            $scope.model = {
+                user: $rootScope.user,
+                activePanel: -1,
+                button: {
+                    radio: 0
+                },
+                selectedRange: 'last day',
+                range: ['last day', 'last week', 'last month', 'last year', 'all time'],
+                prompts: resPrompts.data
+            };
             $scope.isAuthenticated = function() {
                 return $auth.isAuthenticated();
             };
@@ -42,11 +50,11 @@ angular.module('Prompts')
                     }
                 });
             };
-            
+
             $scope.upvotePrompt = function(id, index) {
                 Prompt.upvotePrompt(id, $rootScope.user).then(function(res) {
                     $scope.model.prompts[index].fans = res.data.fans;
-                    $scope.model.prompts[index].enemies = res.data.enemies;                    
+                    $scope.model.prompts[index].enemies = res.data.enemies;
                 });
             };
             $scope.downvotePrompt = function(id, index) {
@@ -56,13 +64,13 @@ angular.module('Prompts')
                 });
             };
             $scope.isFan = function(prompt) {
-                return prompt.fans.indexOf($rootScope.user._id) == -1 ? false : true  
+                return prompt.fans.indexOf($rootScope.user._id) == -1 ? false : true
             };
-            $scope.isEnemy = function(prompt) {               
+            $scope.isEnemy = function(prompt) {
                 return prompt.enemies.indexOf($rootScope.user._id) == -1 ? false : true
             };
-            Prompt.getAllPrompts().then(function(res) {
-                $scope.model.prompts = (res.data);
-            });
+            // Prompt.getAllPrompts().then(function(res) {
+            //     $scope.model.prompts = (res.data);
+            // });
         }
     ]);

@@ -5,15 +5,15 @@
 	<a class="btn btn-success" href="/#/signup"><i class="ion-person-add"></i> Sign up</a>
 </div>
 <div class="panel" ng-if="isAuthenticated()">
-	<div class="panel-body">
+	<div class="panel-body" bs-collapse ng-model="model.activePanel">
 		<h2>Have an interesting idea?
-		<button class="btn btn-primary btn-lg" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+		<button class="btn btn-primary btn-lg" type="button" bs-collapse-toggle>
 		Prompt it!
 		</button> </h2>
-		<div class="collapse" id="collapseExample">
+		<div class="panel-collapse" bs-collapse-target>
 			<form method="post" ng-submit="submitPrompt()" name="storyForm" class="padding-20">
 				<div class="form-group has-feedback">
-					<input class="form-control input-lg" type="text" name="prompt" ng-model="model.prompt" placeholder="Imagine if..." autofocus>
+					<input class="form-control input-lg" type="text" name="prompt" ng-model="model.prompt" placeholder="Imagine if..." required autofocus>
 					<span class="ion-lightbulb form-control-feedback"></span>
 				</div>
 				<button type="submit" ng-disabled="storyFormInvalid" class="btn btn-lg btn-success">Add a prompt</button>
@@ -23,24 +23,32 @@
 </div>
 <div class="panel">
 	<div class="panel-body">
-		<label>Sort prompts by:</label>
-		<div class="btn-group" ng-model="button.radio" bs-radio-group>
-			<label class="btn btn-default"><input class="btn btn-default" value="0" type="radio"> Hot</label>
-			<label class="btn btn-default"><input class="btn btn-default" value="1" type="radio"> New</label>
-			<label class="btn btn-default"><input class="btn btn-default" value="2" type="radio"> Best</label>			
+		<label>Show me</label>
+		<div class="btn-group" ng-model="model.button.radio" bs-radio-group>
+			<label class="btn btn-default"><input class="btn btn-default" value="0" type="radio"> Hottest</label>
+			<label class="btn btn-default"><input class="btn btn-default" value="1" type="radio"> Newest</label>
+			<label class="btn btn-default"><input class="btn btn-default" value="2" type="radio"> Best</label>
 		</div>
+		<label> prompts </label>
+		<span ng-if="model.button.radio == 2">
+			<label>from</label>
+			    <button type="button" class="btn btn-default" ng-model="model.selectedRange" data-html="1" ng-options="range for range in model.range" bs-select>
+			      Action <span class="caret"></span>
+			    </button>
+		</span>
+	<!-- <pre>{{model | json}}</pre> -->
 	</div>
 </div>
 <div class="panel animated fadeInUp" ng-repeat="prompt in model.prompts track by $index | orderBy: prompt.fans.length - prompt.enemies.length">
 	<div class="panel-body">
 		<div class="media">
 			<div ng-if="isAuthenticated()" class="media-left media-middle">
-				<button ng-class="{ 'btn-success' : isFan(prompt) }" ng-click="upvotePrompt(prompt._id, $index)" type="button" class="ion-arrow-up-a btn btn-default" title="I like this prompt!"></button>
-				<button ng-class="{ 'btn-danger' : isEnemy(prompt) }" ng-click="downvotePrompt(prompt._id, $index)" type="button" class="ion-arrow-down-a btn btn-default" title="That's not very inspiring"></button>
+<button ng-class="{ 'btn-success' : isFan(prompt) }" ng-click="upvotePrompt(prompt._id, $index)" type="button" class="ion-arrow-up-a btn btn-default" title="I like this prompt!"></button>
+<button ng-class="{ 'btn-danger' : isEnemy(prompt) }" ng-click="downvotePrompt(prompt._id, $index)" type="button" class="ion-arrow-down-a btn btn-default" title="That's not very inspiring"></button>
 			</div>
 			<div class="media-body">
-				<h3 id="prompt-content">{{prompt.prompt}} - <small><span class="badge">{{ prompt.fans.length - prompt.enemies.length }}</span> points</small></h3>
-				<p class="text-muted">written by {{prompt.user.displayName}} on {{prompt.created | date : 'longDate' }}</p>
+<h3 id="prompt-content">{{prompt.prompt}} - <small><span class="badge">{{ prompt.fans.length - prompt.enemies.length }}</span> points</small></h3>
+<p class="text-muted">written by {{prompt.user.displayName}} on {{prompt.created | date : 'longDate' }}</p>
 				<a href="#/prompts/{{prompt._id}}">Read stories inspired by this prompt ({{prompt.stories.length}})</a>
 			</div>
 		</div>

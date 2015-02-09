@@ -120,9 +120,6 @@ textarea {
 button.close {
   padding-left: 20px;
 }
-bs-collapse-toggle {
-  cursor: pointer;
-}
 .ownStory {
   background-color: #28B62C;
 }

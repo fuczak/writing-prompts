@@ -59,6 +59,7 @@ angular.module('Prompts')
                     }
                 });
                 $scope.model.story = '';
+                $scope.model.activePanel = -1;
             };
         }
     ]);
