@@ -121,7 +121,11 @@ button.close {
   padding-left: 20px;
 }
 .ownStory {
-  background-color: #28B62C;
+  background-color: #edf8fc;
+  border-color: #dcf1fa;
+}
+.iAmAuthor {
+  color: #28B62C;
 }
 
 /*********************

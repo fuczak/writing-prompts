@@ -278,7 +278,8 @@ app.post('/api/prompts/:id/stories', function(req, res) {
             _id: req.body.user._id,
             displayName: req.body.user.displayName
         },
-        prompt: req.params.id
+        prompt: req.params.id,
+        fans: req.body.user._id
     });
     console.log(story);
     story.save(function(err, story) {

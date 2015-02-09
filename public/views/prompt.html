@@ -39,9 +39,19 @@
 		</div>
 	</div>
 </div>
-<div class="panel animated fadeInUp" ng-repeat="story in prompt.stories | orderBy: '-score'" bs-collapse>
+<div class="panel">
 	<div class="panel-body">
-		<h4 ng-class="{ ownStory: user._id == story.user._id }"><span class="badge">{{story.fans.length - story.enemies.length}} points</span> Author: {{story.user.displayName}} on {{story.created | date: 'longDate'}}</h4>
+		<label>Sort stories: </label>
+		<div class="btn-group" ng-model="orderby" bs-radio-group>
+			<label class="btn btn-default"><input class="btn btn-default" value="-score" type="radio"> Best</label>
+			<label class="btn btn-default"><input class="btn btn-default" value="created" type="radio"> Newest</label>
+			<label class="btn btn-default"><input class="btn btn-default" value="-created" type="radio"> Oldest</label>
+		</div>
+	</div>
+</div>
+<div ng-class="{ ownStory: user._id == story.user._id }" class="panel animated fadeInUp" ng-repeat="story in prompt.stories | orderBy:orderby" bs-collapse>
+	<div class="panel-body">
+		<h4><span class="badge">{{story.fans.length - story.enemies.length}} points</span> Author: <span ng-class="{ 'iAmAuthor' : user._id == story.user._id }">{{story.user.displayName}}</span> on {{story.created | date: 'longDate'}}</h4>
 		<span>
 		<button class="btn btn-info" bs-collapse-toggle style="cursor: pointer"><i class="ion-eye-disabled"></i></button>
 		</span>
