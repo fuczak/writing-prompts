@@ -31,24 +31,24 @@
 		</div>
 		<label> prompts </label>
 		<span ng-if="model.button.radio == 2">
-			<label>from</label>
-			    <button type="button" class="btn btn-default" ng-model="model.selectedRange" data-html="1" ng-options="range for range in model.range" bs-select>
-			      Action <span class="caret"></span>
-			    </button>
+		<label>from</label>
+		<button type="button" class="btn btn-default" ng-model="model.selectedRange" data-html="1" ng-options="range for range in model.range" bs-select>
+		Action <span class="caret"></span>
+		</button>
 		</span>
-	<!-- <pre>{{model | json}}</pre> -->
+		<!-- <pre>{{model | json}}</pre> -->
 	</div>
 </div>
-<div class="panel animated fadeInUp" ng-repeat="prompt in model.prompts track by $index | orderBy: prompt.fans.length - prompt.enemies.length">
+<div class="panel animated fadeInUp" ng-repeat="prompt in model.prompts track by $index | orderBy: 'prompt.created'">
 	<div class="panel-body">
 		<div class="media">
 			<div ng-if="isAuthenticated()" class="media-left media-middle">
-<button ng-class="{ 'btn-success' : isFan(prompt) }" ng-click="upvotePrompt(prompt._id, $index)" type="button" class="ion-arrow-up-a btn btn-default" title="I like this prompt!"></button>
-<button ng-class="{ 'btn-danger' : isEnemy(prompt) }" ng-click="downvotePrompt(prompt._id, $index)" type="button" class="ion-arrow-down-a btn btn-default" title="That's not very inspiring"></button>
+				<button ng-class="{ 'btn-success' : isFan(prompt) }" ng-click="upvotePrompt(prompt._id, $index)" type="button" class="ion-arrow-up-a btn btn-default" title="I like this prompt!"></button>
+				<button ng-class="{ 'btn-danger' : isEnemy(prompt) }" ng-click="downvotePrompt(prompt._id, $index)" type="button" class="ion-arrow-down-a btn btn-default" title="That's not very inspiring"></button>
 			</div>
 			<div class="media-body">
-<h3 id="prompt-content">{{prompt.prompt}} - <small><span class="badge">{{ prompt.fans.length - prompt.enemies.length }}</span> points</small></h3>
-<p class="text-muted">written by {{prompt.user.displayName}} on {{prompt.created | date : 'longDate' }}</p>
+				<h3 id="prompt-content">{{prompt.prompt}} - <small><span class="badge">{{ prompt.fans.length - prompt.enemies.length }}</span> points</small></h3>
+				<p class="text-muted">written by {{prompt.user.displayName}} on {{prompt.created | date : 'longDate' }}</p>
 				<a href="#/prompts/{{prompt._id}}">Read stories inspired by this prompt ({{prompt.stories.length}})</a>
 			</div>
 		</div>

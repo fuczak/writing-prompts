@@ -22,7 +22,25 @@ angular.module('Prompts')
                     $scope.prompt.fans = res.data.fans;
                     $scope.prompt.enemies = res.data.enemies;
                 });
-            };                 
+            };
+            $scope.isStoryFan = function(index) {
+                return $scope.prompt.stories[index].fans.indexOf($rootScope.user._id) == -1 ? false : true;
+            };
+            $scope.isStoryEnemy = function(index) {
+                return $scope.prompt.stories[index].enemies.indexOf($rootScope.user._id) == -1 ? false : true;
+            };
+            $scope.upvoteStory = function(id, index) {
+                Prompt.upvoteStory(id, $rootScope.user).then(function(res) {
+                    $scope.prompt.stories[index].fans = res.data.fans;
+                    $scope.prompt.stories[index].enemies = res.data.enemies;
+                });
+            };  
+            $scope.downvoteStory = function(id, index) {
+                Prompt.downvoteStory(id, $rootScope.user).then(function(res) {
+                    $scope.prompt.stories[index].fans = res.data.fans;
+                    $scope.prompt.stories[index].enemies = res.data.enemies;
+                });
+            };         
             $scope.submitStory = function() {
                 Prompt.submitStory({
                     story: $scope.model.story,

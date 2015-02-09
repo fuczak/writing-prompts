@@ -39,17 +39,17 @@
 		</div>
 	</div>
 </div>
-<div class="panel animated fadeInUp" ng-repeat="story in prompt.stories | orderBy: '-created'" bs-collapse>
+<div class="panel animated fadeInUp" ng-repeat="story in prompt.stories track by $index | orderBy: 'created'" bs-collapse>
 	<div class="panel-body">
-		<h4 ng-class="{ ownStory: user._id == story.user._id }" class="badge"><span class="badge">{{story.votes}}</span> by {{story.user.displayName}} on {{story.created | date: 'longDate'}}</h4>
+		<h4 ng-class="{ ownStory: user._id == story.user._id }" class="badge"><span class="badge">{{story.fans.length}}, {{story.enemies.length}}</span> by {{story.user.displayName}} on {{story.created | date: 'longDate'}}</h4>
 		<span>
 		<button class="btn btn-info" bs-collapse-toggle style="cursor: pointer"><i class="ion-eye-disabled"></i></button>
 		</span>
 		<span>
-		<button ng-if="!(user._id == story.user._id)" class="btn btn-success" style="cursor: pointer"><i class="ion-arrow-up-a"></i></button>
+		<button ng-if="!(user._id == story.user._id)" ng-class="{ 'btn-success' : isStoryFan($index) }" class="btn btn-default" style="cursor: pointer" ng-click="upvoteStory(story._id, $index)"><i class="ion-arrow-up-a"></i></button>
 		</span>
 		<span>
-		<button ng-if="!(user._id == story.user._id)" class="btn btn-danger" style="cursor: pointer"><i class="ion-arrow-down-a"></i></button>
+		<button ng-if="!(user._id == story.user._id)" ng-class="{ 'btn-danger' : isStoryEnemy($index) }" class="btn btn-default" style="cursor: pointer" ng-click="downvoteStory(story._id, $index)"><i class="ion-arrow-down-a"></i></button>
 		</span>
 		<button ng-if="user._id == story.user._id" class="btn btn-warning"><i class="ion-trash-b"></i></button>
 		<button ng-if="user._id == story.user._id" class="btn btn-primary"><i class="ion-edit"></i></button>

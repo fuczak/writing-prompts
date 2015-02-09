@@ -19,6 +19,12 @@ angular.module('Prompts')
                 },
                 downvotePrompt: function(id, user) {
                     return $http.post('/api/prompts/' + id + '/downvote', user);
+                },
+                upvoteStory: function(id, user) {
+                    return $http.post('/api/stories/' + id + '/upvote', user);
+                },
+                downvoteStory: function(id, user) {
+                    return $http.post('/api/stories/' + id + '/downvote', user);
                 }
             }
         }

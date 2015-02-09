@@ -332,6 +332,70 @@ app.post('/api/prompts/:id/downvote', function(req, res) {
 
 /*
  |--------------------------------------------------------------------------
+ | Upvoting story
+ |--------------------------------------------------------------------------
+ */
+
+app.post('/api/stories/:id/upvote', function(req, res) {
+    Story.findById(req.params.id, function(err, story) {
+        if (err) {
+            res.status(409).send(res, body);
+        }
+        var fanIndex = story.fans.indexOf(req.body._id);
+        var isFan = fanIndex == -1 ? false : true;
+        var enemyIndex = story.enemies.indexOf(req.body._id);
+        var isEnemy = enemyIndex == -1 ? false : true;
+        if (isFan) {
+            story.fans.splice(fanIndex, 1);
+        } else {
+            if (isEnemy) {
+                story.enemies.splice(enemyIndex, 1);
+            }
+            story.fans.addToSet(req.body._id);
+        }
+        story.save(function() {
+            res.send({
+                fans: story.fans,
+                enemies: story.enemies
+            });
+        });
+    });
+});
+
+/*
+ |--------------------------------------------------------------------------
+ | Downvoting story
+ |--------------------------------------------------------------------------
+ */
+
+app.post('/api/stories/:id/downvote', function(req, res) {
+    Story.findById(req.params.id, function(err, story) {
+        if (err) {
+            res.status(409).send(res, body);
+        }
+        var fanIndex = story.fans.indexOf(req.body._id);
+        var isFan = fanIndex == -1 ? false : true;
+        var enemyIndex = story.enemies.indexOf(req.body._id);
+        var isEnemy = enemyIndex == -1 ? false : true;
+        if (isEnemy) {
+            story.enemies.splice(enemyIndex, 1);
+        } else {
+            if (isFan) {
+                story.fans.splice(fanIndex, 1);
+            }
+            story.enemies.addToSet(req.body._id);
+        }
+        story.save(function() {
+            res.send({
+                fans: story.fans,
+                enemies: story.enemies
+            });
+        });
+    });
+});
+
+/*
+ |--------------------------------------------------------------------------
  | Other routes
  |--------------------------------------------------------------------------
  */

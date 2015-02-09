@@ -4,7 +4,7 @@ Simple CRUD Web App made using MEAN stack.
 
 ##To-do
 
-* Upvoting/Donwvoting ~~prompts~~ and stories
+* ~~Upvoting/Donwvoting prompts and stories~~ 
 * Editing and deleting prompts/stories
 * Update profile view to show user prompts and stories
 * Make markdown optional/display cheatsheet/incorporate GFM
