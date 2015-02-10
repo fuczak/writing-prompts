@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var URLSlugs = require('mongoose-url-slugs');
 
 var promptSchema = new mongoose.Schema({
     created: {
@@ -37,17 +38,13 @@ var promptSchema = new mongoose.Schema({
     score: {
         type: Number,
         default: 0
-    }   
+    },
+    slug: {
+        type: String,
+        unique: true
+    }
 });
 
-// promptSchema.methods.upvote = function(cb) {
-//     this.votes += 1;
-//     this.save(cb);
-// };
-
-// promptSchema.methods.downvote = function(cb) {
-//     this.votes -= 1;
-//     this.save(cb);
-// };
+promptSchema.plugin(URLSlugs('prompt', {maxLength: 45}));
 
 module.exports = mongoose.model('Prompt', promptSchema);
