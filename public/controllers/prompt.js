@@ -1,27 +1,41 @@
 angular.module('Prompts')
-    .controller('PromptCtrl', ['$scope', 'Prompt', 'resObject', '$routeParams', '$rootScope', '$alert', '$auth', 
+    .controller('PromptCtrl', ['$scope', 'Prompt', 'resObject', '$routeParams', '$rootScope', '$alert', '$auth',
         function($scope, Prompt, resObject, $routeParams, $rootScope, $alert, $auth) {
             $scope.orderby = "-score";
             $scope.isAuthenticated = function() {
                 return $auth.isAuthenticated();
             };
-            $scope.prompt = resObject.data;  
+            $scope.prompt = resObject.data;
             $scope.isFan = function() {
-                return $scope.prompt.fans.indexOf($rootScope.user._id) == -1 ? false : true  
+                return $scope.prompt.fans.indexOf($rootScope.user._id) == -1 ? false : true
             };
-            $scope.isEnemy = function() {               
+            $scope.isEnemy = function() {
                 return $scope.prompt.enemies.indexOf($rootScope.user._id) == -1 ? false : true
             };
             $scope.upvotePrompt = function() {
                 Prompt.upvotePrompt($scope.prompt._id, $rootScope.user).then(function(res) {
                     $scope.prompt.fans = res.data.fans;
-                    $scope.prompt.enemies = res.data.enemies;                    
+                    $scope.prompt.enemies = res.data.enemies;
+                }).catch(function() {
+                    $alert({
+                        content: 'Please log in to vote on prompts',
+                        animation: 'fadeZoomFadeDown',
+                        type: 'info',
+                        duration: 3
+                    });
                 });
             };
             $scope.downvotePrompt = function() {
                 Prompt.downvotePrompt($scope.prompt._id, $rootScope.user).then(function(res) {
                     $scope.prompt.fans = res.data.fans;
                     $scope.prompt.enemies = res.data.enemies;
+                }).catch(function() {
+                    $alert({
+                        content: 'Please log in to vote on prompts',
+                        animation: 'fadeZoomFadeDown',
+                        type: 'info',
+                        duration: 3
+                    });
                 });
             };
             $scope.isStoryFan = function(story) {
@@ -31,19 +45,33 @@ angular.module('Prompts')
                 return story.enemies.indexOf($rootScope.user._id) == -1 ? false : true;
             };
             $scope.upvoteStory = function(story) {
-                Prompt.upvoteStory(story._id, $rootScope.user).then(function(res) {                    
+                Prompt.upvoteStory(story._id, $rootScope.user).then(function(res) {
                     story.fans = res.data.fans;
                     story.enemies = res.data.enemies;
                     story.score = res.data.score;
+                }).catch(function() {
+                    $alert({
+                        content: 'Please log in to vote on stories',
+                        animation: 'fadeZoomFadeDown',
+                        type: 'info',
+                        duration: 3
+                    });
                 });
-            };  
+            };
             $scope.downvoteStory = function(story) {
                 Prompt.downvoteStory(story._id, $rootScope.user).then(function(res) {
                     story.fans = res.data.fans;
                     story.enemies = res.data.enemies;
                     story.score = res.data.score;
+                }).catch(function() {
+                    $alert({
+                        content: 'Please log in to vote on stories',
+                        animation: 'fadeZoomFadeDown',
+                        type: 'info',
+                        duration: 3
+                    });
                 });
-            };         
+            };
             $scope.submitStory = function() {
                 Prompt.submitStory({
                     story: $scope.model.story,

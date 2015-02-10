@@ -41,7 +41,7 @@
 <div class="panel animated fadeInUp" ng-repeat="prompt in model.prompts track by $index | orderBy: 'prompt.created'">
 	<div class="panel-body">
 		<div class="media">
-			<div ng-if="isAuthenticated()" class="media-left media-middle">
+			<div class="media-left media-middle">
 				<button ng-class="{ 'btn-success' : isFan(prompt) }" ng-click="upvotePrompt(prompt._id, $index)" type="button" class="ion-arrow-up-a btn btn-default" title="I like this prompt!"></button>
 				<button ng-class="{ 'btn-danger' : isEnemy(prompt) }" ng-click="downvotePrompt(prompt._id, $index)" type="button" class="ion-arrow-down-a btn btn-default" title="That's not very inspiring"></button>
 			</div>

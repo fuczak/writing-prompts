@@ -212,7 +212,7 @@ app.post('/auth/signup', function(req, res) {
  |--------------------------------------------------------------------------
  */
 
-app.post('/api/prompt', function(req, res) {
+app.post('/api/prompt', ensureAuthenticated, function(req, res) {
     var prompt = new Prompt({
         prompt: req.body.prompt,
         user: {
@@ -271,7 +271,7 @@ app.get('/api/prompts/:id', function(req, res) {
  |--------------------------------------------------------------------------
  */
 
-app.post('/api/prompts/:id/stories', function(req, res) {
+app.post('/api/prompts/:id/stories', ensureAuthenticated, function(req, res) {
     var story = new Story({
         story: req.body.story,
         user: {
@@ -315,7 +315,7 @@ app.post('/api/prompts/:id/stories', function(req, res) {
  |--------------------------------------------------------------------------
  */
 
-app.post('/api/prompts/:id/upvote', function(req, res) {
+app.post('/api/prompts/:id/upvote', ensureAuthenticated, function(req, res) {
     Prompt.findById(req.params.id, function(err, prompt) {
         if (err) {
             res.status(409).send(res, body);
@@ -347,7 +347,7 @@ app.post('/api/prompts/:id/upvote', function(req, res) {
  |--------------------------------------------------------------------------
  */
 
-app.post('/api/prompts/:id/downvote', function(req, res) {
+app.post('/api/prompts/:id/downvote', ensureAuthenticated, function(req, res) {
     Prompt.findById(req.params.id, function(err, prompt) {
         if (err) {
             res.status(409).send(res, body);
@@ -379,7 +379,7 @@ app.post('/api/prompts/:id/downvote', function(req, res) {
  |--------------------------------------------------------------------------
  */
 
-app.post('/api/stories/:id/upvote', function(req, res) {
+app.post('/api/stories/:id/upvote', ensureAuthenticated, function(req, res) {
     Story.findById(req.params.id, function(err, story) {
         if (err) {
             res.status(409).send(res, body);
@@ -414,7 +414,7 @@ app.post('/api/stories/:id/upvote', function(req, res) {
  |--------------------------------------------------------------------------
  */
 
-app.post('/api/stories/:id/downvote', function(req, res) {
+app.post('/api/stories/:id/downvote', ensureAuthenticated, function(req, res) {
     Story.findById(req.params.id, function(err, story) {
         if (err) {
             res.status(409).send(res, body);

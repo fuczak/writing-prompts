@@ -55,12 +55,26 @@ angular.module('Prompts')
                 Prompt.upvotePrompt(id, $rootScope.user).then(function(res) {
                     $scope.model.prompts[index].fans = res.data.fans;
                     $scope.model.prompts[index].enemies = res.data.enemies;
+                }).catch(function() {
+                    $alert({
+                        content: 'Please log in to vote on prompts',
+                        animation: 'fadeZoomFadeDown',
+                        type: 'info',
+                        duration: 3
+                    });
                 });
             };
             $scope.downvotePrompt = function(id, index) {
                 Prompt.downvotePrompt(id, $rootScope.user).then(function(res) {
                     $scope.model.prompts[index].fans = res.data.fans;
                     $scope.model.prompts[index].enemies = res.data.enemies;
+                }).catch(function() {
+                    $alert({
+                        content: 'Please log in to vote on prompts',
+                        animation: 'fadeZoomFadeDown',
+                        type: 'info',
+                        duration: 3
+                    });
                 });
             };
             $scope.isFan = function(prompt) {
