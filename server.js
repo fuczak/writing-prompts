@@ -243,7 +243,7 @@ app.post('/api/prompt', ensureAuthenticated, function(req, res) {
  */
 
 app.get('/api/prompts', function(req, res) {
-    Prompt.find().sort('-score').limit(20).exec(function(err, prompts) {
+    Prompt.find().sort('-score').limit(2).exec(function(err, prompts) {
         if (err) {
             res.status(409).send(res.body)
         }

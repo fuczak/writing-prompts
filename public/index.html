@@ -35,7 +35,7 @@
 						<li  class="hvr-sweep-to-top"><a href="/#/signup">Sign up</a></li>
 					</ul>
 					<ul class="nav navbar-nav pull-right" ng-if="isAuthenticated()">
-						<p ng-if="user.displayName" class="navbar-text" >Signed in as {{user.displayName}} ({{user.email}})</p>
+						<p ng-if="user.displayName" class="navbar-text" >Hello, <a href="#/profile">{{user.displayName}}</a>!</p>
 						<li  class="hvr-sweep-to-top"><a href="javascript:void(0)" ng-click="logout()">Logout</a></li>
 					</ul>
 				</div>
@@ -57,6 +57,7 @@
 		<script src="vendor/satellizer.js"></script>
 		<script src="vendor/angular-loading-bar.js"></script>
 		<script src="vendor/angular-sanitize.js"></script>
+		<script src="vendor/ng-infinite-scroll.min.js"></script>
 		<script src="vendor/showdown.js"></script>
 		<script src="vendor/markdown.js"></script>
 		<script src="app.js"></script>

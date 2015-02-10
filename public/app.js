@@ -1,4 +1,4 @@
-angular.module('Prompts', ['ngRoute', 'satellizer', 'ngResource', 'ngMessages', 'mgcrea.ngStrap', 'ngAnimate', 'angular-loading-bar', 'ngSanitize', 'btford.markdown'])
+angular.module('Prompts', ['ngRoute', 'satellizer', 'ngResource', 'ngMessages', 'mgcrea.ngStrap', 'ngAnimate', 'angular-loading-bar', 'ngSanitize', 'btford.markdown', 'infinite-scroll'])
     .config(['$routeProvider',
         function($routeProvider) {
             $routeProvider
@@ -6,9 +6,11 @@ angular.module('Prompts', ['ngRoute', 'satellizer', 'ngResource', 'ngMessages', 
                     templateUrl: 'views/home.html',
                     controller: 'HomeCtrl',
                     resolve: {
-                        resPrompts: ['Prompt', function(Prompt) {
-                            return Prompt.getAllPrompts();
-                        }]
+                        resPrompts: ['Prompt',
+                            function(Prompt) {
+                                return Prompt.getAllPrompts();
+                            }
+                        ]
                     }
                 })
                 .when('/login', {
@@ -27,13 +29,15 @@ angular.module('Prompts', ['ngRoute', 'satellizer', 'ngResource', 'ngMessages', 
                     templateUrl: 'views/prompt.html',
                     controller: 'PromptCtrl',
                     resolve: {
-                        resObject: ['$route', 'Prompt', function($route, Prompt) {
-                            return Prompt.getPrompt($route.current.params.id);
-                        }]
+                        resObject: ['$route', 'Prompt',
+                            function($route, Prompt) {
+                                return Prompt.getPrompt($route.current.params.id);
+                            }
+                        ]
                     }
                 })
                 .when('/test', {
-                    templateUrl: 'views/test.html', 
+                    templateUrl: 'views/test.html',
                     controller: 'TestCtrl'
                 })
                 .otherwise({
