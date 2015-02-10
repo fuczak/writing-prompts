@@ -116,6 +116,11 @@ function createToken(user) {
  */
 app.get('/api/me', ensureAuthenticated, function(req, res) {
     User.findById(req.user, function(err, user) {
+        if (err) {
+            return res.status(409).send({
+                message: 'Server took too long to respond, please refresh'
+            })
+        }
         res.send(user);
     });
 });

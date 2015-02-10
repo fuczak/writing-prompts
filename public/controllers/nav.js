@@ -8,6 +8,7 @@ angular.module('Prompts')
                 $auth.logout();
             };
             $scope.getProfile = function() {
+                $rootScope.user = false;
                 Account.getProfile()
                     .success(function(data) {
                         $rootScope.user = data;
