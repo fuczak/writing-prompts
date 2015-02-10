@@ -10,7 +10,7 @@ angular.module('Prompts')
                 selectedRange: 'last day',
                 range: ['last day', 'last week', 'last month', 'last year', 'all time'],
                 prompts: resPrompts.data
-            };
+            };            
             $scope.isAuthenticated = function() {
                 return $auth.isAuthenticated();
             };
@@ -78,10 +78,14 @@ angular.module('Prompts')
                 });
             };
             $scope.isFan = function(prompt) {
-                return prompt.fans.indexOf($rootScope.user._id) == -1 ? false : true
+                if ($scope.isAuthenticated()) {
+                    return prompt.fans.indexOf($rootScope.user._id) == -1 ? false : true
+                }
             };
             $scope.isEnemy = function(prompt) {
-                return prompt.enemies.indexOf($rootScope.user._id) == -1 ? false : true
+                if ($scope.isAuthenticated()) {
+                    return prompt.enemies.indexOf($rootScope.user._id) == -1 ? false : true
+                }
             };
             // Prompt.getAllPrompts().then(function(res) {
             //     $scope.model.prompts = (res.data);

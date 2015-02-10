@@ -8,6 +8,9 @@ angular.module('Prompts')
                 getAllPrompts: function() {
                 	return $http.get('/api/prompts');
                 },
+                getNewestPrompts: function() {
+                    return $http.get('/api/prompts/newest');
+                },
                 getPrompt: function(id) {
                 	return $http.get('/api/prompts/' + id);
                 },

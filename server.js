@@ -46,9 +46,10 @@ setInterval(function() {
     Prompt.find(function(err, prompts) {
         if (err) return console.log(err)
         async.waterfall([
+
             function(callback) {
                 var candidates = [];
-                for(i=0; i<prompts.length; i++) {
+                for (i = 0; i < prompts.length; i++) {
                     candidates.push(prompts[i]);
                 };
                 callback(null, candidates);
@@ -232,17 +233,32 @@ app.post('/api/prompt', ensureAuthenticated, function(req, res) {
 
 /*
  |--------------------------------------------------------------------------
- | Get all Prompts
+ | Get all Prompts (Hottest)
  |--------------------------------------------------------------------------
  */
 
 app.get('/api/prompts', function(req, res) {
-    Prompt.find(function(err, prompts) {
+    Prompt.find().sort('-score').limit(20).exec(function(err, prompts) {
         if (err) {
             res.status(409).send(res.body)
         }
         res.send(prompts);
-    })
+    });
+});
+
+/*
+ |--------------------------------------------------------------------------
+ | Get all Prompts (Newest)
+ |--------------------------------------------------------------------------
+ */
+
+app.get('/api/prompts/newest', function(req, res) {
+    Prompt.find().sort('-created').limit(20).exec(function(err, prompts) {
+        if (err) {
+            res.status(409).send(res.body)
+        }
+        res.send(prompts);
+    });
 });
 
 /*
@@ -394,7 +410,7 @@ app.post('/api/stories/:id/upvote', ensureAuthenticated, function(req, res) {
             if (isEnemy) {
                 story.enemies.splice(enemyIndex, 1);
             }
-            story.fans.addToSet(req.body._id);            
+            story.fans.addToSet(req.body._id);
         }
         story.score = wilsonScore(story.fans.length, story.enemies.length, story.created);
         console.log('Upvoting story' + story._id + ' with score: ' + story.score)
@@ -430,7 +446,7 @@ app.post('/api/stories/:id/downvote', ensureAuthenticated, function(req, res) {
                 story.fans.splice(fanIndex, 1);
             }
             story.enemies.addToSet(req.body._id);
-            
+
         }
         story.score = wilsonScore(story.fans.length, story.enemies.length, story.created);
         console.log('Upvoting story' + story._id + ' with score: ' + story.score)

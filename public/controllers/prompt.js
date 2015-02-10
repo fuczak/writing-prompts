@@ -7,10 +7,14 @@ angular.module('Prompts')
             };
             $scope.prompt = resObject.data;
             $scope.isFan = function() {
-                return $scope.prompt.fans.indexOf($rootScope.user._id) == -1 ? false : true
+                if ($scope.isAuthenticated()) {
+                    return $scope.prompt.fans.indexOf($rootScope.user._id) == -1 ? false : true
+                }
             };
             $scope.isEnemy = function() {
-                return $scope.prompt.enemies.indexOf($rootScope.user._id) == -1 ? false : true
+                if ($scope.isAuthenticated()) {
+                    return $scope.prompt.enemies.indexOf($rootScope.user._id) == -1 ? false : true
+                }
             };
             $scope.upvotePrompt = function() {
                 Prompt.upvotePrompt($scope.prompt._id, $rootScope.user).then(function(res) {
@@ -39,10 +43,14 @@ angular.module('Prompts')
                 });
             };
             $scope.isStoryFan = function(story) {
-                return story.fans.indexOf($rootScope.user._id) == -1 ? false : true;
+                if ($scope.isAuthenticated()) {
+                    return story.fans.indexOf($rootScope.user._id) == -1 ? false : true;
+                }
             };
             $scope.isStoryEnemy = function(story) {
-                return story.enemies.indexOf($rootScope.user._id) == -1 ? false : true;
+                if ($scope.isAuthenticated()) {
+                    return story.enemies.indexOf($rootScope.user._id) == -1 ? false : true;
+                }
             };
             $scope.upvoteStory = function(story) {
                 Prompt.upvoteStory(story._id, $rootScope.user).then(function(res) {
