@@ -12,7 +12,7 @@ angular.module('Prompts')
                             $alert({
                                 content: message[0],
                                 animation: 'fadeZoomFadeDown',
-                                type: 'material',
+                                type: 'danger',
                                 duration: 3
                             });
                         });
@@ -20,11 +20,17 @@ angular.module('Prompts')
                         $alert({
                             content: response.data.message,
                             animation: 'fadeZoomFadeDown',
-                            type: 'material',
+                            type: 'danger',
                             duration: 3
                         });
                     }
                 }).then(function() {
+                    $alert({
+                        content: 'Thanks for signing up!',
+                        animation: 'fadeZoomFadeDown',
+                        type: 'success',
+                        duration: 3
+                    })
                     Account.getProfile()
                         .success(function(data) {
                             $rootScope.user = data;

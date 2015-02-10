@@ -224,7 +224,8 @@ app.post('/api/prompt', ensureAuthenticated, function(req, res) {
         user: {
             _id: req.body.user._id,
             displayName: req.body.user.displayName
-        }
+        },
+        fans: req.body.user._id
     });
     prompt.save(function() {
         User.findById(prompt.user, function(err, user) {
