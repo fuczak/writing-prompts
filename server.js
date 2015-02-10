@@ -43,7 +43,7 @@ if (app.get('env') === 'production') {
 app.use(express.static(path.join(__dirname, 'public')));
 
 setInterval(function() {
-    Prompt.find(function(err, prompts) {
+    Prompt.find().sort('-lastUpdated').limit(50).exec(function(err, prompts) {
         if (err) return console.log(err)
         async.waterfall([
 
@@ -353,6 +353,7 @@ app.post('/api/prompts/:id/upvote', ensureAuthenticated, function(req, res) {
         var isFan = fanIndex == -1 ? false : true;
         var enemyIndex = prompt.enemies.indexOf(req.body._id);
         var isEnemy = enemyIndex == -1 ? false : true;
+        prompt.lastUpdated = Date.now();
         if (isFan) {
             prompt.fans.splice(fanIndex, 1);
         } else {
@@ -385,6 +386,7 @@ app.post('/api/prompts/:id/downvote', ensureAuthenticated, function(req, res) {
         var isFan = fanIndex == -1 ? false : true;
         var enemyIndex = prompt.enemies.indexOf(req.body._id);
         var isEnemy = enemyIndex == -1 ? false : true;
+        prompt.lastUpdated = Date.now();
         if (isEnemy) {
             prompt.enemies.splice(enemyIndex, 1);
         } else {
@@ -417,6 +419,7 @@ app.post('/api/stories/:id/upvote', ensureAuthenticated, function(req, res) {
         var isFan = fanIndex == -1 ? false : true;
         var enemyIndex = story.enemies.indexOf(req.body._id);
         var isEnemy = enemyIndex == -1 ? false : true;
+        story.lastUpdated = Date.now();
         if (isFan) {
             story.fans.splice(fanIndex, 1);
         } else {
@@ -452,6 +455,7 @@ app.post('/api/stories/:id/downvote', ensureAuthenticated, function(req, res) {
         var isFan = fanIndex == -1 ? false : true;
         var enemyIndex = story.enemies.indexOf(req.body._id);
         var isEnemy = enemyIndex == -1 ? false : true;
+        story.lastUpdated = Date.now();
         if (isEnemy) {
             story.enemies.splice(enemyIndex, 1);
         } else {

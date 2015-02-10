@@ -6,6 +6,10 @@ var promptSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     },
+    lastUpdated: {
+        type: Date,
+        default: Date.now
+    },
     prompt: {
         type: String,
         required: true

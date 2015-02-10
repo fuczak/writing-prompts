@@ -5,6 +5,10 @@ var storySchema = new mongoose.Schema({
 		type: Date,
 		default: Date.now
 	},
+	lastUpdated: {
+        type: Date,
+        default: Date.now
+    },
 	story: {
 		type: String,
 		required: true
