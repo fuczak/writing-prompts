@@ -17,11 +17,11 @@ var userSchema = new mongoose.Schema({
     },
     prompts: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Prompts'
+        ref: 'Prompt'
     }],
     stories: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Stories'
+        ref: 'Story'
     }],
     likes: [{
         type: mongoose.Schema.Types.ObjectId,

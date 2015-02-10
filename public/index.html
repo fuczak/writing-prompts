@@ -5,6 +5,7 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>Writing Prompts</title>
+		<base href="/">
 		<link rel="stylesheet" href="stylesheets/ionicons.min.css">
 		<link rel="stylesheet" href="stylesheets/bootstrap.css">
 		<link rel="stylesheet" href="stylesheets/hover.css">
@@ -27,15 +28,15 @@
 				</div>
 				<div class="collapse navbar-collapse" bs-collapse-target>
 					<ul class="nav navbar-nav">
-						<li ng-class="{ active: isActive('/')}" class="hvr-sweep-to-top"><a href="#/">Home</a></li>
-						<li ng-class="{ active: isActive('/profile')}"  ng-if="isAuthenticated()" class="hvr-sweep-to-top"><a href="#/profile">Profile</a></li>
+						<li ng-class="{ active: isActive('/')}" class="hvr-sweep-to-top"><a href="/">Home</a></li>
+						<li ng-class="{ active: isActive('/profile')}"  ng-if="isAuthenticated()" class="hvr-sweep-to-top"><a href="/profile">Profile</a></li>
 					</ul>
 					<ul class="nav navbar-nav pull-right" ng-if="!isAuthenticated()">
-						<li  class="hvr-sweep-to-top"><a href="/#/login">Login</a></li>
-						<li  class="hvr-sweep-to-top"><a href="/#/signup">Sign up</a></li>
+						<li  class="hvr-sweep-to-top"><a href="/login">Login</a></li>
+						<li  class="hvr-sweep-to-top"><a href="/signup">Sign up</a></li>
 					</ul>
 					<ul class="nav navbar-nav pull-right" ng-if="isAuthenticated()">
-						<p ng-if="user.displayName" class="navbar-text" >Hello, <a href="#/profile">{{user.displayName}}</a>!</p>
+						<p ng-if="user.displayName" class="navbar-text" >Hello, <a href="/profile">{{user.displayName}}</a>!</p>
 						<li  class="hvr-sweep-to-top"><a href="javascript:void(0)" ng-click="logout()">Logout</a></li>
 					</ul>
 				</div>

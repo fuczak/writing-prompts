@@ -4,15 +4,14 @@ Simple CRUD Web App made using MEAN stack.
 
 ##To-do
 
-* ~~Upvoting/Donwvoting prompts and stories~~ 
+* Add ```lastUpdated``` prop to prompt and story mongoDB models
+* When voting on prompt/story update the ```lastUpdated``` field
+* Limit ```hotScore``` evaluation to only ```x``` number of ```lastUpdated``` prompts
 * Editing and deleting prompts/stories
-* Update profile view to show user prompts and stories
+* Update profile view to show user's upvoted and downvoted stories/prompts
+* Voting on prompt/story should add it's id to user's likes/dislike array
 * Make markdown optional/display cheatsheet/incorporate GFM
-* Add sorting methods for prompts and ~~stories~~
-* ~~Add reddit-like point algorithms~~ (tweak dacay update interval and ````halfLife``` parameter)
-* Limit prompts score updating to only update last voted on prompts (add ```lastUpdated``` prop to Prompt mongoDB model)
-* Disable username change
-* Add password reset/forgot
-* Commenting stories functionality
-* ...
-* Add sweet animations
+* Add sorting and pagination methods for prompts
+* Rework profile update page - add password reset, remove username reset
+* Add forgot password page when login in
+* Add 'author' view displaying other user's profile containing displayName, prompts and stories

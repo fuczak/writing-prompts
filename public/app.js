@@ -1,6 +1,6 @@
 angular.module('Prompts', ['ngRoute', 'satellizer', 'ngResource', 'ngMessages', 'mgcrea.ngStrap', 'ngAnimate', 'angular-loading-bar', 'ngSanitize', 'btford.markdown', 'infinite-scroll'])
-    .config(['$routeProvider',
-        function($routeProvider) {
+    .config(['$routeProvider', '$locationProvider',
+        function($routeProvider, $locationProvider) {
             $routeProvider
                 .when('/', {
                     templateUrl: 'views/home.html',
@@ -25,13 +25,13 @@ angular.module('Prompts', ['ngRoute', 'satellizer', 'ngResource', 'ngMessages', 
                     templateUrl: 'views/profile.html',
                     controller: 'ProfileCtrl'
                 })
-                .when('/prompts/:id', {
+                .when('/prompts/:slug', {
                     templateUrl: 'views/prompt.html',
                     controller: 'PromptCtrl',
                     resolve: {
                         resObject: ['$route', 'Prompt',
                             function($route, Prompt) {
-                                return Prompt.getPrompt($route.current.params.id);
+                                return Prompt.getPrompt($route.current.params.slug);
                             }
                         ]
                     }
@@ -43,5 +43,6 @@ angular.module('Prompts', ['ngRoute', 'satellizer', 'ngResource', 'ngMessages', 
                 .otherwise({
                     redirectTo: '/'
                 });
+            $locationProvider.html5Mode(true);
         }
     ]);

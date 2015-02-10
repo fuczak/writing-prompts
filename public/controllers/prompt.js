@@ -6,6 +6,7 @@ angular.module('Prompts')
                 return $auth.isAuthenticated();
             };
             $scope.prompt = resObject.data;
+            $scope.model = [{story: ''}];
             $scope.isFan = function() {
                 if ($scope.isAuthenticated()) {
                     return $scope.prompt.fans.indexOf($rootScope.user._id) == -1 ? false : true
@@ -87,7 +88,10 @@ angular.module('Prompts')
                         _id: $rootScope.user._id,
                         displayName: $rootScope.user.displayName
                     },
-                    id: $routeParams.id
+                    prompt: {
+                        id: $scope.prompt._id,
+                        slug: $scope.prompt.slug
+                    }
                 }).then(function(res) {
                     $alert({
                         content: 'Story has been added',

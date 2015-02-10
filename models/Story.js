@@ -21,9 +21,15 @@ var storySchema = new mongoose.Schema({
 		}
 	},
 	prompt: {
-		type: mongoose.Schema.Types.ObjectId,
-		ref: 'Prompt',
-		required: true
+		_id: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'Prompt',
+			required: true
+		},
+		slug: {
+			type: String,
+			required: true
+		}
 	},
 	fans: [{
 		type: mongoose.Schema.Types.ObjectId,
@@ -38,15 +44,5 @@ var storySchema = new mongoose.Schema({
 		default: 0
 	}
 })
-
-// storySchema.methods.upvote = function(cb) {
-// 	this.votes += 1;
-// 	this.save(cb);
-// };
-
-// storySchema.methods.downvote = function(cb) {
-// 	this.votes -= 1;
-// 	this.save(cb);
-// };
 
 module.exports = mongoose.model('Story', storySchema);

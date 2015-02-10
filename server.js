@@ -10,7 +10,7 @@ var moment = require('moment');
 var mongoose = require('mongoose');
 var request = require('request');
 var decay = require('decay');
-var hotScore = decay.redditHot();
+var hotScore = decay.redditHot(135000);
 var wilsonScore = decay.wilsonScore();
 var async = require('async');
 var User = require('./models/User');
@@ -71,7 +71,7 @@ setInterval(function() {
             console.log(results)
         })
     });
-}, 1000 * 60 * 5);
+}, 1000 * 60 * 10);
 
 /*
  |--------------------------------------------------------------------------
@@ -111,9 +111,10 @@ function createToken(user) {
 
 /*
  |--------------------------------------------------------------------------
- | GET /api/me
+ | GET /api/me (basic)
  |--------------------------------------------------------------------------
  */
+
 app.get('/api/me', ensureAuthenticated, function(req, res) {
     User.findById(req.user, function(err, user) {
         if (err) {
@@ -121,6 +122,7 @@ app.get('/api/me', ensureAuthenticated, function(req, res) {
                 message: 'Server took too long to respond, please refresh'
             })
         }
+    }).populate('prompts stories', '-_id -score -enemies -__v -fans -user -stories').exec(function(err, user) {
         res.send(user);
     });
 });
@@ -244,7 +246,7 @@ app.post('/api/prompt', ensureAuthenticated, function(req, res) {
  */
 
 app.get('/api/prompts', function(req, res) {
-    Prompt.find().sort('-score').limit(2).exec(function(err, prompts) {
+    Prompt.find().sort('-score').limit(20).exec(function(err, prompts) {
         if (err) {
             res.status(409).send(res.body)
         }
@@ -273,8 +275,10 @@ app.get('/api/prompts/newest', function(req, res) {
  |--------------------------------------------------------------------------
  */
 
-app.get('/api/prompts/:id', function(req, res) {
-    Prompt.findById(req.params.id, function(err, prompt) {
+app.get('/api/prompts/:slug', function(req, res) {
+    Prompt.findOne({
+        slug: req.params.slug
+    }, function(err, prompt) {
         if (err) {
             res.status(409).send(res.body)
         }
@@ -293,33 +297,36 @@ app.get('/api/prompts/:id', function(req, res) {
  |--------------------------------------------------------------------------
  */
 
-app.post('/api/prompts/:id/stories', ensureAuthenticated, function(req, res) {
+app.post('/api/prompts/:slug/stories', ensureAuthenticated, function(req, res) {
+    console.log(req.body)
     var story = new Story({
         story: req.body.story,
         user: {
             _id: req.body.user._id,
             displayName: req.body.user.displayName
         },
-        prompt: req.params.id,
+        prompt: {
+            _id: req.body.prompt.id,
+            slug: req.body.prompt.slug
+        },
         fans: req.body.user._id
     });
-    console.log(story);
     story.save(function(err, story) {
         if (err) {
-            res.status(409).send(res.body)
+            res.status(409).send({message: 'story save error'})
         }
-        Prompt.findById(req.params.id, function(err, prompt) {
+        Prompt.findById(req.body.prompt.id, function(err, prompt) {
             if (err) {
-                res.status(409).send(res.body)
+                res.status(409).send({message: 'prompt findbyid error'})
             }
             prompt.stories.push(story);
             prompt.save(function(err, prompt) {
                 if (err) {
-                    res.status(409).send(res.body)
+                    res.status(409).send({message: 'prompt save error'})
                 }
-                User.findById(story.user, function(err, user) {
+                User.findById(story.user._id, function(err, user) {
                     if (err) {
-                        res.status(409).send(res.body)
+                        res.status(409).send({message: 'user findbyid save error'})
                     }
                     user.stories.push(story);
                     user.save(function() {
@@ -472,10 +479,9 @@ app.post('/api/stories/:id/downvote', ensureAuthenticated, function(req, res) {
  |--------------------------------------------------------------------------
  */
 
-// app.get('*', function(req, res) {
-//     console.log('You sure about that, mate?');
-//     res.redirect('/#' + req.originalUrl);
-// });
+app.all('/*', function(req, res) {
+    res.sendFile(path.join(__dirname, 'public/index.html'))
+});
 
 app.use(function(err, req, res, next) {
     console.error(err.stack);

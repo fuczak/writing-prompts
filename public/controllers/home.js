@@ -28,7 +28,7 @@ angular.module('Prompts')
                         type: 'info',
                         duration: 3
                     });
-                    $location.path('/prompts/' + res.data._id);
+                    $location.path('/prompts/' + res.data.slug);
                 }).catch(function(response) {
                     if (typeof response.data.message === 'object') {
                         angular.forEach(response.data.message, function(message) {

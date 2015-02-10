@@ -11,11 +11,11 @@ angular.module('Prompts')
                 getNewestPrompts: function() {
                     return $http.get('/api/prompts/newest');
                 },
-                getPrompt: function(id) {
-                	return $http.get('/api/prompts/' + id);
+                getPrompt: function(slug) {
+                	return $http.get('/api/prompts/' + slug);
                 },
-                submitStory: function(storyData) {                    
-                    return $http.post('/api/prompts/' + storyData.id + '/stories', storyData)
+                submitStory: function(storyData) {                  
+                    return $http.post('/api/prompts/' + storyData.slug + '/stories', storyData)
                 },
                 upvotePrompt: function(id, user) {
                     return $http.post('/api/prompts/' + id + '/upvote', user);
