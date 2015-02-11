@@ -18,11 +18,11 @@
 		<link rel="stylesheet" href="stylesheets/style.css">
 	</head>
 	<body>
-		<nav class="navbar navbar-default navbar-static-top" ng-controller="NavCtrl">
-			<div class="container-fluid">
+		<nav class="navbar navbar-default navbar-static-top" ng-controller="NavCtrl" role="navigation">
+			<div class="container-fluid" bs-collapse start-collapsed="true">
 				<!-- Brand and toggle get grouped for better mobile display -->
 				<div class="navbar-header">
-					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
+					<button type="button" class="navbar-toggle collapsed" bs-collapse-toggle>
 					<span class="sr-only">Toggle navigation</span>
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
@@ -30,18 +30,18 @@
 					</button>
 					<a href="javascript:void(0)" class="navbar-brand">writing<strong>prompts</strong>_<i class="ion-edit"></i></a>
 				</div>
-				<div class="collapse navbar-collapse" id="navbar-collapse">
+				<div class="navbar-collapse" bs-collapse-target>
 					<ul class="nav navbar-nav">
-						<li ng-class="{ active: isActive('/')}" class="hvr-sweep-to-top"><a href="/">Home</a></li>
-						<li ng-class="{ active: isActive('/profile')}"  ng-if="isAuthenticated()" class="hvr-sweep-to-top"><a href="/profile">Profile</a></li>
+						<li ng-class="{ active: isActive('/')}" class="hvr-sweep-to-top"><a href="/" bs-collapse-toggle>Home</a></li>
+						<li ng-class="{ active: isActive('/profile')}"  ng-if="isAuthenticated()" class="hvr-sweep-to-top"><a href="/profile" bs-collapse-toggle>Profile</a></li>
 					</ul>
 					<ul class="nav navbar-nav pull-right" ng-if="!isAuthenticated()">
-						<li  class="hvr-sweep-to-top"><a href="/login">Login</a></li>
-						<li  class="hvr-sweep-to-top"><a href="/signup">Sign up</a></li>
+						<li  class="hvr-sweep-to-top"><a href="/login" bs-collapse-toggle>Login</a></li>
+						<li  class="hvr-sweep-to-top"><a href="/signup" bs-collapse-toggle>Sign up</a></li>
 					</ul>
 					<ul class="nav navbar-nav pull-right" ng-if="isAuthenticated()">
-						<p ng-if="user.displayName" class="navbar-text" >Hello, <a href="/profile">{{user.displayName}}</a>!</p>
-						<li  class="hvr-sweep-to-top"><a href="javascript:void(0)" ng-click="logout()">Logout</a></li>
+						<p ng-if="user.displayName" class="navbar-text" >Hello, <a href="/profile" bs-collapse-toggle>{{user.displayName}}</a>!</p>
+						<li  class="hvr-sweep-to-top"><a href="javascript:void(0)" ng-click="logout()" bs-collapse-toggle>Logout</a></li>
 					</ul>
 				</div>
 			</div>
