@@ -1,6 +1,6 @@
 angular.module('Prompts')
-    .controller('PromptCtrl', ['$scope', 'Prompt', 'resObject', '$routeParams', '$rootScope', '$alert', '$auth',
-        function($scope, Prompt, resObject, $routeParams, $rootScope, $alert, $auth) {
+    .controller('PromptCtrl', ['$scope', 'Prompt', 'resObject', '$rootScope', '$alert', '$auth',
+        function($scope, Prompt, resObject, $rootScope, $alert, $auth) {
             $scope.orderby = "-score";
             $scope.isAuthenticated = function() {
                 return $auth.isAuthenticated();
