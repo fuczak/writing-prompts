@@ -49,7 +49,7 @@
 	</div>
 </div>
 <div ng-class="{ ownStory: user._id == story.user._id }" class="panel animated fadeInUp" ng-repeat="story in prompt.stories | orderBy:orderby" bs-collapse>
-	<div class="panel-body">
+	<div class="panel-body" id="{{story._id}}">
 		<h4><span class="badge">{{story.fans.length - story.enemies.length}} points</span> Author: <span ng-class="{ 'iAmAuthor' : user._id == story.user._id }">{{story.user.displayName}}</span> on {{story.created | date: 'longDate'}}</h4>
 		<span>
 		<button class="btn btn-info" bs-collapse-toggle style="cursor: pointer"><i class="ion-eye-disabled"></i></button>

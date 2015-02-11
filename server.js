@@ -122,7 +122,7 @@ app.get('/api/me', ensureAuthenticated, function(req, res) {
                 message: 'Server took too long to respond, please refresh'
             })
         }
-    }).populate('prompts stories', '-_id -score -enemies -__v -fans -user -stories').exec(function(err, user) {
+    }).populate('prompts stories', '-score -enemies -__v -fans -user -stories').exec(function(err, user) {
         res.send(user);
     });
 });
@@ -231,10 +231,16 @@ app.post('/api/prompt', ensureAuthenticated, function(req, res) {
     });
     prompt.save(function() {
         User.findById(prompt.user, function(err, user) {
-            user.prompts.push(prompt);
-            user.save(function() {
-                res.send(prompt);
-            });
+            if (err) {
+                res.status(404).send({
+                    message: 'The server had trouble identifying you. Please re-log.'
+                })
+            } else {
+                user.prompts.push(prompt);
+                user.save(function() {
+                    res.send(prompt);
+                });
+            }
         });
     });
 });
@@ -298,7 +304,6 @@ app.get('/api/prompts/:slug', function(req, res) {
  */
 
 app.post('/api/prompts/:slug/stories', ensureAuthenticated, function(req, res) {
-    console.log(req.body)
     var story = new Story({
         story: req.body.story,
         user: {
@@ -313,28 +318,37 @@ app.post('/api/prompts/:slug/stories', ensureAuthenticated, function(req, res) {
     });
     story.save(function(err, story) {
         if (err) {
-            res.status(409).send({message: 'story save error'})
-        }
-        Prompt.findById(req.body.prompt.id, function(err, prompt) {
-            if (err) {
-                res.status(409).send({message: 'prompt findbyid error'})
-            }
-            prompt.stories.push(story);
-            prompt.save(function(err, prompt) {
+            res.status(409).send({
+                message: 'Server had trouble saving your story. Please re-log to fix it.'
+            })
+        } else {
+            Prompt.findById(req.body.prompt.id, function(err, prompt) {
                 if (err) {
-                    res.status(409).send({message: 'prompt save error'})
+                    res.status(409).send({
+                        message: 'prompt findbyid error'
+                    })
                 }
-                User.findById(story.user._id, function(err, user) {
+                prompt.stories.push(story);
+                prompt.save(function(err, prompt) {
                     if (err) {
-                        res.status(409).send({message: 'user findbyid save error'})
+                        res.status(409).send({
+                            message: 'prompt save error'
+                        })
                     }
-                    user.stories.push(story);
-                    user.save(function() {
-                        res.send(story);
+                    User.findById(story.user._id, function(err, user) {
+                        if (err) {
+                            res.status(409).send({
+                                message: 'user findbyid save error'
+                            })
+                        }
+                        user.stories.push(story);
+                        user.save(function() {
+                            res.send(story);
+                        });
                     });
                 });
             });
-        });
+        }
     });
 });
 

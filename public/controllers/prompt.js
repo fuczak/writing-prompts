@@ -6,7 +6,9 @@ angular.module('Prompts')
                 return $auth.isAuthenticated();
             };
             $scope.prompt = resObject.data;
-            $scope.model = [{story: ''}];
+            $scope.model = [{
+                story: ''
+            }];
             $scope.isFan = function() {
                 if ($scope.isAuthenticated()) {
                     return $scope.prompt.fans.indexOf($rootScope.user._id) == -1 ? false : true
@@ -99,7 +101,9 @@ angular.module('Prompts')
                         type: 'info',
                         duration: 3
                     });
-                    $scope.prompt.stories.push(res.data)
+                    $scope.prompt.stories.push(res.data);
+                    $scope.model.story = '';
+                    $scope.model.activePanel = -1;
                 }).catch(function(response) {
                     if (typeof response.data.message === 'object') {
                         angular.forEach(response.data.message, function(message) {
@@ -119,8 +123,6 @@ angular.module('Prompts')
                         });
                     }
                 });
-                $scope.model.story = '';
-                $scope.model.activePanel = -1;
             };
         }
     ]);
