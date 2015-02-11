@@ -2,7 +2,7 @@ angular.module('Prompts')
     .controller('HomeCtrl', ['$scope', '$auth', 'Prompt', '$alert', '$rootScope', '$location', 'resPrompts',
         function($scope, $auth, Prompt, $alert, $rootScope, $location, resPrompts) {
             $scope.model = {
-                activePanel: -1,
+                isCollapsed: true,
                 button: {
                     radio: 0
                 },
