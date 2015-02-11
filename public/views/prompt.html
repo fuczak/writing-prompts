@@ -46,6 +46,7 @@
 			<label class="btn btn-default"><input class="btn btn-default" value="-created" type="radio"> Newest</label>
 			<label class="btn btn-default"><input class="btn btn-default" value="created" type="radio"> Oldest</label>
 		</div>
+		<pre>{{orderby || 'null'}}</pre>
 	</div>
 </div>
 <div ng-class="{ ownStory: user._id == story.user._id }" class="panel animated fadeInUp" ng-repeat="story in prompt.stories | orderBy:orderby" bs-collapse>
@@ -65,7 +66,7 @@
 	</div>
 	<div class="panel-collapse" bs-collapse-target>
 		<div class="panel-body">
-			<div class="markdown" btf-markdown="story.story"></div>
+			<div class="markdown well" btf-markdown="story.story"></div>
 		</div>
 	</div>
 </div>
