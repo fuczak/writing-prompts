@@ -25,6 +25,10 @@ angular.module('Prompts')
     })
     .controller('TestCtrl', ['$scope', 'Reddit',
         function($scope, Reddit) {
-        	$scope.reddit = new Reddit();
+            $scope.reddit = new Reddit();
+            $scope.popover = {
+                "title": "Title",
+                "content": "Hello Popover<br />This is a multiline message!"
+            };
         }
     ]);

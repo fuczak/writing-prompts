@@ -1,6 +1,11 @@
 angular.module('Prompts')
-    .controller('PromptCtrl', ['$scope', 'Prompt', 'resObject', '$rootScope', '$alert', '$auth', '$location', '$anchorScroll', 
+    .controller('PromptCtrl', ['$scope', 'Prompt', 'resObject', '$rootScope', '$alert', '$auth', '$location', '$anchorScroll',
         function($scope, Prompt, resObject, $rootScope, $alert, $auth, $location, $anchorScroll) {
+            $scope.popover = {
+                "title": "Title",
+                "content": "Hello Popover<br />This is a multiline message!",
+                "saved": true
+            };
             $scope.orderby = "-score";
             $scope.isAuthenticated = function() {
                 return $auth.isAuthenticated();
