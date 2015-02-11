@@ -1,6 +1,6 @@
 angular.module('Prompts')
-    .controller('PromptCtrl', ['$scope', 'Prompt', 'resObject', '$rootScope', '$alert', '$auth',
-        function($scope, Prompt, resObject, $rootScope, $alert, $auth) {
+    .controller('PromptCtrl', ['$scope', 'Prompt', 'resObject', '$rootScope', '$alert', '$auth', '$location', '$anchorScroll', 
+        function($scope, Prompt, resObject, $rootScope, $alert, $auth, $location, $anchorScroll) {
             $scope.orderby = "-score";
             $scope.isAuthenticated = function() {
                 return $auth.isAuthenticated();
@@ -101,6 +101,8 @@ angular.module('Prompts')
                         type: 'info',
                         duration: 3
                     });
+                    $location.hash(res.data._id);
+                    $anchorScroll();
                     $scope.prompt.stories.push(res.data);
                     $scope.model.story = '';
                     $scope.model.activePanel = -1;
