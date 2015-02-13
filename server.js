@@ -247,6 +247,48 @@ app.post('/api/prompt', ensureAuthenticated, function(req, res) {
 
 /*
  |--------------------------------------------------------------------------
+ | Delete a new Prompt (actually unlink it from creator)
+ |--------------------------------------------------------------------------
+ */
+
+app.delete('/api/prompts/:slug/remove', ensureAuthenticated, function(req, res) {
+    Prompt.findOne({
+        slug: req.params.slug
+    }, function(err, prompt) {
+        if (err) {
+            res.status(409).send(err)
+        }
+        User.findById(req.user, function(err, user) {
+            if (err) {
+                res.status(409).send(err)
+            }
+            if (prompt.user._id == req.user) {
+                user.prompts.pull(prompt);
+                prompt.user.displayName = 'deleted';
+                prompt.user._id = undefined;
+                user.save(function() {
+                    prompt.save(function() {
+                        res.send({
+                            prompt: {
+                                user: {
+                                    displayName: 'deleted'
+                                },
+                                _id: prompt._id
+                            }
+                        });
+                    });
+                });
+            } else {
+                res.status(403).send({
+                    message: 'Only an author can delete a prompt.'
+                });
+            }
+        });
+    });
+});
+
+/*
+ |--------------------------------------------------------------------------
  | Get all Prompts (Hottest)
  |--------------------------------------------------------------------------
  */

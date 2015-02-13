@@ -9,7 +9,7 @@ angular.module('Prompts')
                 selectedRange: 'last day',
                 range: ['last day', 'last week', 'last month', 'last year', 'all time'],
                 prompts: resPrompts.data
-            };            
+            };
             $scope.isAuthenticated = function() {
                 return $auth.isAuthenticated();
             };
@@ -72,6 +72,27 @@ angular.module('Prompts')
                         content: 'Please log in to vote on prompts',
                         animation: 'fadeZoomFadeDown',
                         type: 'info',
+                        duration: 3
+                    });
+                });
+            };
+            $scope.removePrompt = function(prompt, index) {
+                Prompt.removePrompt(prompt).then(function(res) {
+                    $alert({
+                        content: 'You are no longer the author of this prompt',
+                        animation: 'fadeZoomFadeDown',
+                        type: 'success',
+                        duration: 3
+                    });
+                    $scope.model.prompts[index].user = {
+                        displayName: res.data.prompt.user.displayName,
+                        _id: undefined
+                    };
+                }).catch(function(err) {
+                    $alert({
+                        content: err.data.message,
+                        animation: 'fadeZoomFadeDown',
+                        type: 'danger',
                         duration: 3
                     });
                 });

@@ -17,8 +17,7 @@ var promptSchema = new mongoose.Schema({
     user: {
         _id: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'User',
-            required: true
+            ref: 'User'
         },
         displayName: {
             type: String,

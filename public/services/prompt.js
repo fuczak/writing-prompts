@@ -5,6 +5,9 @@ angular.module('Prompts')
                 submitPrompt: function(promptData) {
                 	return $http.post('/api/prompt', promptData);
                 },
+                removePrompt: function(prompt) {
+                    return $http.delete('/api/prompts/' + prompt.slug + '/remove');
+                },
                 getAllPrompts: function() {
                 	return $http.get('/api/prompts');
                 },
