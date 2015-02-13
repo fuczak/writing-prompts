@@ -15,3 +15,4 @@ Simple CRUD Web App made using MEAN stack.
 * Rework profile update page - add password reset, remove username reset
 * Add forgot password page when login in
 * Add 'author' view displaying other user's profile containing displayName, prompts and stories
+* Add user leaderboards
