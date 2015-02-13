@@ -361,25 +361,34 @@ app.post('/api/prompts/:slug/stories', ensureAuthenticated, function(req, res) {
 app.post('/api/prompts/:id/upvote', ensureAuthenticated, function(req, res) {
     Prompt.findById(req.params.id, function(err, prompt) {
         if (err) {
-            res.status(409).send(res, body);
+            res.status(409).send(err);
         }
-        var fanIndex = prompt.fans.indexOf(req.body._id);
-        var isFan = fanIndex == -1 ? false : true;
-        var enemyIndex = prompt.enemies.indexOf(req.body._id);
-        var isEnemy = enemyIndex == -1 ? false : true;
-        prompt.lastUpdated = Date.now();
-        if (isFan) {
-            prompt.fans.splice(fanIndex, 1);
-        } else {
-            if (isEnemy) {
-                prompt.enemies.splice(enemyIndex, 1);
+        User.findById(req.body._id, function(err, user) {
+            if (err) {
+                res.status(400).send(err)
             }
-            prompt.fans.addToSet(req.body._id);
-        }
-        prompt.save(function() {
-            res.send({
-                fans: prompt.fans,
-                enemies: prompt.enemies
+            var fanIndex = prompt.fans.indexOf(user._id);
+            var isFan = fanIndex == -1 ? false : true;
+            var enemyIndex = prompt.enemies.indexOf(user._id);
+            var isEnemy = enemyIndex == -1 ? false : true;
+            prompt.lastUpdated = Date.now();
+            if (isFan) {
+                prompt.fans.splice(fanIndex, 1);
+                user.likes.pull(prompt._id)
+            } else {
+                if (isEnemy) {
+                    prompt.enemies.splice(enemyIndex, 1);
+                }
+                prompt.fans.addToSet(user._id);
+                user.likes.addToSet(prompt._id)
+            }
+            user.save(function() {
+                prompt.save(function() {
+                    res.send({
+                        fans: prompt.fans,
+                        enemies: prompt.enemies
+                    });
+                });
             });
         });
     });
@@ -394,25 +403,33 @@ app.post('/api/prompts/:id/upvote', ensureAuthenticated, function(req, res) {
 app.post('/api/prompts/:id/downvote', ensureAuthenticated, function(req, res) {
     Prompt.findById(req.params.id, function(err, prompt) {
         if (err) {
-            res.status(409).send(res, body);
+            res.status(409).send(err);
         }
-        var fanIndex = prompt.fans.indexOf(req.body._id);
-        var isFan = fanIndex == -1 ? false : true;
-        var enemyIndex = prompt.enemies.indexOf(req.body._id);
-        var isEnemy = enemyIndex == -1 ? false : true;
-        prompt.lastUpdated = Date.now();
-        if (isEnemy) {
-            prompt.enemies.splice(enemyIndex, 1);
-        } else {
-            if (isFan) {
-                prompt.fans.splice(fanIndex, 1);
+        User.findById(req.body._id, function(err, user) {
+            if (err) {
+                res.status(409).send(err)
             }
-            prompt.enemies.addToSet(req.body._id);
-        }
-        prompt.save(function() {
-            res.send({
-                fans: prompt.fans,
-                enemies: prompt.enemies
+            var fanIndex = prompt.fans.indexOf(user._id);
+            var isFan = fanIndex == -1 ? false : true;
+            var enemyIndex = prompt.enemies.indexOf(user._id);
+            var isEnemy = enemyIndex == -1 ? false : true;
+            prompt.lastUpdated = Date.now();
+            if (isEnemy) {
+                prompt.enemies.splice(enemyIndex, 1);
+            } else {
+                if (isFan) {
+                    prompt.fans.splice(fanIndex, 1);
+                    user.likes.pull(prompt._id);
+                }
+                prompt.enemies.addToSet(user._id);
+            }
+            user.save(function() {
+                prompt.save(function() {
+                    res.send({
+                        fans: prompt.fans,
+                        enemies: prompt.enemies
+                    });
+                });
             });
         });
     });
@@ -427,28 +444,36 @@ app.post('/api/prompts/:id/downvote', ensureAuthenticated, function(req, res) {
 app.post('/api/stories/:id/upvote', ensureAuthenticated, function(req, res) {
     Story.findById(req.params.id, function(err, story) {
         if (err) {
-            res.status(409).send(res, body);
+            res.status(409).send(err);
         }
-        var fanIndex = story.fans.indexOf(req.body._id);
-        var isFan = fanIndex == -1 ? false : true;
-        var enemyIndex = story.enemies.indexOf(req.body._id);
-        var isEnemy = enemyIndex == -1 ? false : true;
-        story.lastUpdated = Date.now();
-        if (isFan) {
-            story.fans.splice(fanIndex, 1);
-        } else {
-            if (isEnemy) {
-                story.enemies.splice(enemyIndex, 1);
+        User.findById(req.body._id, function(err, user) {
+            if (err) {
+                res.status(409).send(err)
             }
-            story.fans.addToSet(req.body._id);
-        }
-        story.score = wilsonScore(story.fans.length, story.enemies.length, story.created);
-        console.log('Upvoting story' + story._id + ' with score: ' + story.score)
-        story.save(function() {
-            res.send({
-                fans: story.fans,
-                enemies: story.enemies,
-                score: story.score
+            var fanIndex = story.fans.indexOf(user._id);
+            var isFan = fanIndex == -1 ? false : true;
+            var enemyIndex = story.enemies.indexOf(user._id);
+            var isEnemy = enemyIndex == -1 ? false : true;
+            story.lastUpdated = Date.now();
+            if (isFan) {
+                story.fans.splice(fanIndex, 1);
+                user.likes.pull(story._id);
+            } else {
+                if (isEnemy) {
+                    story.enemies.splice(enemyIndex, 1);
+                }
+                story.fans.addToSet(user._id);
+                user.likes.addToSet(story._id);
+            }
+            story.score = wilsonScore(story.fans.length, story.enemies.length, story.created);
+            user.save(function() {
+                story.save(function() {
+                    res.send({
+                        fans: story.fans,
+                        enemies: story.enemies,
+                        score: story.score
+                    });
+                });
             });
         });
     });
@@ -463,29 +488,35 @@ app.post('/api/stories/:id/upvote', ensureAuthenticated, function(req, res) {
 app.post('/api/stories/:id/downvote', ensureAuthenticated, function(req, res) {
     Story.findById(req.params.id, function(err, story) {
         if (err) {
-            res.status(409).send(res, body);
+            res.status(409).send(err);
         }
-        var fanIndex = story.fans.indexOf(req.body._id);
-        var isFan = fanIndex == -1 ? false : true;
-        var enemyIndex = story.enemies.indexOf(req.body._id);
-        var isEnemy = enemyIndex == -1 ? false : true;
-        story.lastUpdated = Date.now();
-        if (isEnemy) {
-            story.enemies.splice(enemyIndex, 1);
-        } else {
-            if (isFan) {
-                story.fans.splice(fanIndex, 1);
+        User.findById(req.body._id, function(err, user) {
+            if (err) {
+                res.status(409).send(err);
             }
-            story.enemies.addToSet(req.body._id);
-
-        }
-        story.score = wilsonScore(story.fans.length, story.enemies.length, story.created);
-        console.log('Upvoting story' + story._id + ' with score: ' + story.score)
-        story.save(function() {
-            res.send({
-                fans: story.fans,
-                enemies: story.enemies,
-                score: story.score
+            var fanIndex = story.fans.indexOf(user._id);
+            var isFan = fanIndex == -1 ? false : true;
+            var enemyIndex = story.enemies.indexOf(user._id);
+            var isEnemy = enemyIndex == -1 ? false : true;
+            story.lastUpdated = Date.now();
+            if (isEnemy) {
+                story.enemies.splice(enemyIndex, 1);
+            } else {
+                if (isFan) {
+                    story.fans.splice(fanIndex, 1);
+                    user.likes.pull(story._id);
+                }
+                story.enemies.addToSet(user._id);
+            }
+            story.score = wilsonScore(story.fans.length, story.enemies.length, story.created);
+            user.save(function() {
+                story.save(function() {
+                    res.send({
+                        fans: story.fans,
+                        enemies: story.enemies,
+                        score: story.score
+                    });
+                });
             });
         });
     });
