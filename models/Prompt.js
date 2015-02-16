@@ -30,13 +30,11 @@ var promptSchema = new mongoose.Schema({
     }],
     fans: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Fans',
-        unique: true
+        ref: 'User'
     }],
     enemies: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Enemies',
-        unique: true
+        ref: 'User'
     }],
     score: {
         type: Number,

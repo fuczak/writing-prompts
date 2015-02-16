@@ -35,12 +35,12 @@
 <h3><i class="ion-android-favorite"></i> Liked by you:</h3>
     <div class="col-md-6"> <h3>Prompts: </h3>
       <ul>
-        <li ng-repeat="prompt in user.prompts"><a ng-href="/prompts/{{prompt.slug}}">{{prompt.prompt | limitTo: 25}}</a><small><em> ({{prompt.created | date: 'longDate'}})</em></small></li>
+        <li ng-repeat="prompt in user.likedPrompts"><a ng-href="/prompts/{{prompt.slug}}">{{prompt.prompt | limitTo: 25}}</a><small><em> ({{prompt.created | date: 'longDate'}})</em></small></li>
       </ul>
     </div>
     <div class="col-md-6"> <h3>Stories: </h3>
       <ul>
-        <li ng-repeat="story in user.stories"><a ng-href="/prompts/{{story.prompt.slug + '#' + story._id}}">{{story.story | limitTo: 25}}</a><small><em> ({{story.created | date: 'longDate'}})</em></small></li>
+        <li ng-repeat="story in user.likedStories"><a ng-href="/prompts/{{story.prompt.slug + '?scrollTo=' + story._id}}">{{story.story | limitTo: 25}}</a><small><em> ({{story.created | date: 'longDate'}})</em></small></li>
       </ul>
     </div>
   </div>

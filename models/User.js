@@ -23,9 +23,13 @@ var userSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Story'
     }],
-    likes: [{
+    likedPrompts: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Likes'
+        ref: 'Prompt'
+    }],
+    likedStories: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Story'
     }]
 });
 

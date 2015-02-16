@@ -37,16 +37,20 @@ var storySchema = new mongoose.Schema({
 	},
 	fans: [{
 		type: mongoose.Schema.Types.ObjectId,
-		ref: 'Fans'
+		ref: 'User'
 	}],
 	enemies: [{
 		type: mongoose.Schema.Types.ObjectId,
-		red: 'Enemies'
+		red: 'User'
 	}],
 	score: {
 		type: Number,
 		default: 0
 	}
+})
+
+storySchema.pre('remove', function(next) {
+	
 })
 
 module.exports = mongoose.model('Story', storySchema);

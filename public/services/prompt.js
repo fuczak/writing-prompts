@@ -20,6 +20,9 @@ angular.module('Prompts')
                 submitStory: function(storyData) {                  
                     return $http.post('/api/prompts/' + storyData.slug + '/stories', storyData)
                 },
+                removeStory: function(story) {
+                    return $http.delete('/api/stories/' + story._id +'/remove');
+                },
                 upvotePrompt: function(id, user) {
                     return $http.post('/api/prompts/' + id + '/upvote', user);
                 },

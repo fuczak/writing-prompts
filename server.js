@@ -111,7 +111,7 @@ function createToken(user) {
 
 /*
  |--------------------------------------------------------------------------
- | GET /api/me (basic)
+ | GET /api/me
  |--------------------------------------------------------------------------
  */
 
@@ -122,7 +122,7 @@ app.get('/api/me', ensureAuthenticated, function(req, res) {
                 message: 'Server took too long to respond, please refresh'
             })
         }
-    }).populate('prompts stories', '-score -enemies -__v -fans -user -stories').exec(function(err, user) {
+    }).populate('prompts stories likedPrompts likedStories', '-__v -score -enemies -fans -user -lastUpdated -stories').exec(function(err, user) {
         res.send(user);
     });
 });
@@ -261,7 +261,7 @@ app.delete('/api/prompts/:slug/remove', ensureAuthenticated, function(req, res) 
         User.findById(req.user, function(err, user) {
             if (err) {
                 res.status(409).send(err)
-            }
+            }            
             if (prompt.user._id == req.user) {
                 user.prompts.pull(prompt);
                 prompt.user.displayName = 'deleted';
@@ -396,6 +396,21 @@ app.post('/api/prompts/:slug/stories', ensureAuthenticated, function(req, res) {
 
 /*
  |--------------------------------------------------------------------------
+ | Delete a story
+ |--------------------------------------------------------------------------
+ */
+
+app.delete('/api/stories/:id/remove', ensureAuthenticated, function(req, res) {
+    console.log(req.params)
+    Story.remove({ _id: req.params }, function() {
+        res.send('ok')
+    })
+    /* I need to find story -> populate fans -> remove story id from their likes ->
+    find prompt -> remove story id from it's stories array -> remove story */
+});
+
+/*
+ |--------------------------------------------------------------------------
  | Upvoting prompt
  |--------------------------------------------------------------------------
  */
@@ -416,13 +431,13 @@ app.post('/api/prompts/:id/upvote', ensureAuthenticated, function(req, res) {
             prompt.lastUpdated = Date.now();
             if (isFan) {
                 prompt.fans.splice(fanIndex, 1);
-                user.likes.pull(prompt._id)
+                user.likedPrompts.pull(prompt._id)
             } else {
                 if (isEnemy) {
                     prompt.enemies.splice(enemyIndex, 1);
                 }
                 prompt.fans.addToSet(user._id);
-                user.likes.addToSet(prompt._id)
+                user.likedPrompts.addToSet(prompt._id)
             }
             user.save(function() {
                 prompt.save(function() {
@@ -461,7 +476,7 @@ app.post('/api/prompts/:id/downvote', ensureAuthenticated, function(req, res) {
             } else {
                 if (isFan) {
                     prompt.fans.splice(fanIndex, 1);
-                    user.likes.pull(prompt._id);
+                    user.likedPrompts.pull(prompt._id);
                 }
                 prompt.enemies.addToSet(user._id);
             }
@@ -499,13 +514,13 @@ app.post('/api/stories/:id/upvote', ensureAuthenticated, function(req, res) {
             story.lastUpdated = Date.now();
             if (isFan) {
                 story.fans.splice(fanIndex, 1);
-                user.likes.pull(story._id);
+                user.likedStories.pull(story._id);
             } else {
                 if (isEnemy) {
                     story.enemies.splice(enemyIndex, 1);
                 }
                 story.fans.addToSet(user._id);
-                user.likes.addToSet(story._id);
+                user.likedStories.addToSet(story._id);
             }
             story.score = wilsonScore(story.fans.length, story.enemies.length, story.created);
             user.save(function() {
@@ -546,7 +561,7 @@ app.post('/api/stories/:id/downvote', ensureAuthenticated, function(req, res) {
             } else {
                 if (isFan) {
                     story.fans.splice(fanIndex, 1);
-                    user.likes.pull(story._id);
+                    user.likedStories.pull(story._id);
                 }
                 story.enemies.addToSet(user._id);
             }

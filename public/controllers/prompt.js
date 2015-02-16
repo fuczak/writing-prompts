@@ -131,5 +131,17 @@ angular.module('Prompts')
                     }
                 });
             };
+            $scope.removeStory = function(story, index) {
+                Prompt.removeStory(story).then(function(res) {
+                    console.log('then')
+                }).catch(function(err) {
+                    $alert({
+                        content: err.data.message,
+                        animation: 'fadeZoomFadeDown',
+                        type: 'danger',
+                        duration: 3
+                    });
+                });
+            };
         }
     ]);

@@ -53,7 +53,7 @@
 	<div class="panel-body" id="{{story._id}}">
 		<h4><span class="badge">{{story.fans.length - story.enemies.length}} points</span> Author: <span ng-class="{ 'iAmAuthor' : user._id == story.user._id }">{{story.user.displayName}}</span> on {{story.created | date: 'longDate'}}</h4>
 		<span>
-		<button class="btn btn-info" bs-collapse-toggle style="cursor: pointer"><i class="ion-eye-disabled"></i></button>
+		<button class="btn btn-info" bs-collapse-toggle style="cursor: pointer"><i class="ion-eye-disabled"></i>Show/Hide story</button>
 		</span>
 		<span>
 		<button ng-if="!(user._id == story.user._id)" ng-class="{ 'btn-success' : isStoryFan(story) }" class="btn btn-default" style="cursor: pointer" ng-click="upvoteStory(story)"><i class="ion-arrow-up-a"></i></button>
@@ -61,8 +61,8 @@
 		<span>
 		<button ng-if="!(user._id == story.user._id)" ng-class="{ 'btn-danger' : isStoryEnemy(story) }" class="btn btn-default" style="cursor: pointer" ng-click="downvoteStory(story)"><i class="ion-arrow-down-a"></i></button>
 		</span>
-		<button ng-if="user._id == story.user._id" class="btn btn-warning"><i class="ion-trash-b"></i></button>
-		<button ng-if="user._id == story.user._id" class="btn btn-primary"><i class="ion-edit"></i></button>
+		<button ng-if="user._id == story.user._id" ng-click="removeStory(story, $index)" class="btn btn-warning"><i class="ion-trash-b"></i>Delete</button>
+		<button ng-if="user._id == story.user._id" class="btn btn-primary"><i class="ion-edit"></i>Edit</button>
 	</div>
 	<div class="panel-collapse" bs-collapse-target>
 		<div class="panel-body">
