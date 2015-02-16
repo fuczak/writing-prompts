@@ -12,7 +12,6 @@ var request = require('request');
 var decay = require('decay');
 var hotScore = decay.redditHot(135000);
 var wilsonScore = decay.wilsonScore();
-var async = require('async');
 var User = require('./models/User');
 var Prompt = require('./models/Prompt');
 var Story = require('./models/Story');
@@ -261,7 +260,7 @@ app.delete('/api/prompts/:slug/remove', ensureAuthenticated, function(req, res) 
         User.findById(req.user, function(err, user) {
             if (err) {
                 res.status(409).send(err)
-            }            
+            }
             if (prompt.user._id == req.user) {
                 user.prompts.pull(prompt);
                 prompt.user.displayName = 'deleted';
@@ -402,11 +401,13 @@ app.post('/api/prompts/:slug/stories', ensureAuthenticated, function(req, res) {
 
 app.delete('/api/stories/:id/remove', ensureAuthenticated, function(req, res) {
     console.log(req.params)
-    Story.remove({ _id: req.params }, function() {
-        res.send('ok')
+    Story.findById(req.params.id, function(err, story) {
+        story.remove(function() {
+            res.send({
+                message: 'Story has been successfully removed'
+            })
+        })
     })
-    /* I need to find story -> populate fans -> remove story id from their likes ->
-    find prompt -> remove story id from it's stories array -> remove story */
 });
 
 /*

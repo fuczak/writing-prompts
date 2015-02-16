@@ -133,7 +133,12 @@ angular.module('Prompts')
             };
             $scope.removeStory = function(story, index) {
                 Prompt.removeStory(story).then(function(res) {
-                    console.log('then')
+                    $alert({
+                        content: res.data.message,
+                        animation: 'fadeZoomFadeDown',
+                        type: 'info',
+                        duration: 3
+                    })
                 }).catch(function(err) {
                     $alert({
                         content: err.data.message,
@@ -142,6 +147,7 @@ angular.module('Prompts')
                         duration: 3
                     });
                 });
+                $scope.prompt.stories.splice(index, 1);
             };
         }
     ]);

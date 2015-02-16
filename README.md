@@ -8,7 +8,7 @@ Simple CRUD Web App made using MEAN stack.
 * ~~When voting on prompt/story update the ```lastUpdated``` field~~
 * ~~Limit ```hotScore``` evaluation to only ```x``` number of ```lastUpdated``` prompts~~
 * ~~Deleting prompts as in removing any linke between the prompt and it's author~~
-* Editing and deleting stories
+* Editing and ~~deleting~~ stories
 * Update profile view to show user's upvoted and created stories/prompts
 * ~~Voting on prompt/story should add it's id to user's likes array~~
 * Make markdown optional/display cheatsheet/incorporate GFM
