@@ -14,18 +14,19 @@
     </form>
   </div>
 </div>
-<pre>{{user | json}}</pre>
 <div class="panel panel-default">
   <div class="panel-body">
 <h3><i class="ion-paintbrush"></i> Created by you:</h3>
     <div class="col-md-6"> <h3>Prompts: </h3>
       <ul>
         <li ng-repeat="prompt in user.prompts"><a ng-href="/prompts/{{prompt.slug}}">{{prompt.prompt | limitTo: 25}}</a><small><em> ({{prompt.created | date: 'longDate'}})</em></small></li>
+<p ng-if="!user.prompts.length"><em><small>Seems like you haven't written a single prompt.</small></em></p>
       </ul>
     </div>
     <div class="col-md-6"> <h3>Stories: </h3>
       <ul>
         <li ng-repeat="story in user.stories"><a ng-href="/prompts/{{story.prompt.slug + '?scrollTo=' + story._id}}">{{story.story | limitTo: 25}}</a><small><em> ({{story.created | date: 'longDate'}})</em></small></li>
+        <p ng-if="!user.stories.length"><em><small>Seems like you haven't written a single story.</small></em></p>
       </ul>
     </div>
   </div>
@@ -36,11 +37,13 @@
     <div class="col-md-6"> <h3>Prompts: </h3>
       <ul>
         <li ng-repeat="prompt in user.likedPrompts"><a ng-href="/prompts/{{prompt.slug}}">{{prompt.prompt | limitTo: 25}}</a><small><em> ({{prompt.created | date: 'longDate'}})</em></small></li>
+        <p ng-if="!user.likedPrompts.length"><em><small>Seems like haven't upvoted any prompts yet.</small></em></p>
       </ul>
     </div>
     <div class="col-md-6"> <h3>Stories: </h3>
       <ul>
         <li ng-repeat="story in user.likedStories"><a ng-href="/prompts/{{story.prompt.slug + '?scrollTo=' + story._id}}">{{story.story | limitTo: 25}}</a><small><em> ({{story.created | date: 'longDate'}})</em></small></li>
+        <p ng-if="!user.likedStories.length"><em><small>Seems like haven't upvoted any stories yet.</small></em></p>
       </ul>
     </div>
   </div>
