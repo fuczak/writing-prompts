@@ -6,6 +6,9 @@ angular.module('Prompts')
       },
       updateProfile: function(profileData) {
         return $http.put('/api/me', profileData);
+      },
+      getUser: function(displayName) {
+        return $http.get('/api/profile/' + displayName);
       }
     };
   }]);

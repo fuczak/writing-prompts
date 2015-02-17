@@ -36,6 +36,17 @@ angular.module('Prompts', ['ngRoute', 'satellizer', 'ngResource', 'ngMessages', 
                         ]
                     }
                 })
+                .when('/profile/:displayName', {
+                    templateUrl: 'views/user.html',
+                    controller: 'UserCtrl',
+                    resolve: {
+                        userObject: ['Account', '$route',
+                            function(Account, $route) {
+                                return Account.getUser($route.current.params.displayName);
+                            }
+                        ]
+                    }
+                })
                 .when('/test', {
                     templateUrl: 'views/test.html',
                     controller: 'TestCtrl'
@@ -54,8 +65,8 @@ angular.module('Prompts', ['ngRoute', 'satellizer', 'ngResource', 'ngMessages', 
     });
 
 // Bootstrap Navbar fix
-$(document).on('click','.navbar-collapse.in',function(e) {
-    if( $(e.target).is('a') ) {
+$(document).on('click', '.navbar-collapse.in', function(e) {
+    if ($(e.target).is('a')) {
         $(this).collapse('hide');
     }
 });

@@ -110,6 +110,23 @@ function createToken(user) {
 
 /*
  |--------------------------------------------------------------------------
+ | GET user submission history
+ |--------------------------------------------------------------------------
+ */
+
+app.get('/api/profile/:displayName', ensureAuthenticated, function(req, res) {
+    User.findOne({ displayName: req.params.displayName}).select('prompts stories displayName').populate('prompts stories', ' -__v -score -enemies -fans -user -lastUpdated -stories').exec(function(err, user) {
+        if (err) {
+            res.status(404).send({
+                message: 'User not found.'
+            });
+        }
+        res.send(user);
+    });
+});
+
+/*
+ |--------------------------------------------------------------------------
  | GET /api/me
  |--------------------------------------------------------------------------
  */

@@ -17,5 +17,5 @@ Site online: http://writing-prompts.herokuapp.com/
 * Add sorting and pagination methods for prompts
 * Rework profile update page - add password reset, remove username reset
 * Add forgot password page when login in
-* Add 'author' view displaying other user's profile containing displayName, prompts and stories
+* ~~Add 'author' view displaying other user's profile containing displayName, prompts and stories~~
 * Add user leaderboards
