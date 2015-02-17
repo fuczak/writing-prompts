@@ -2,6 +2,8 @@
 
 Simple CRUD Web App made using MEAN stack.
 
+Site online: http://writing-prompts.herokuapp.com/
+
 ##To-do
 
 * ~~Add ```lastUpdated``` prop to prompt and story mongoDB models~~
