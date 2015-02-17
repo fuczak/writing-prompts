@@ -57,12 +57,14 @@ angular.module('Prompts', ['ngRoute', 'satellizer', 'ngResource', 'ngMessages', 
             $locationProvider.html5Mode(true);
         }
     ])
-    .run(function($rootScope, $location, $anchorScroll, $routeParams) {
-        $rootScope.$on('$routeChangeSuccess', function(newRoute, oldRoute) {
-            $location.hash($routeParams.scrollTo);
-            $anchorScroll();
-        });
-    });
+    .run(['$rootScope', '$location', '$anchorScroll', '$routeParams',
+        function($rootScope, $location, $anchorScroll, $routeParams) {
+            $rootScope.$on('$routeChangeSuccess', function(newRoute, oldRoute) {
+                $location.hash($routeParams.scrollTo);
+                $anchorScroll();
+            });
+        }
+    ]);
 
 // Bootstrap Navbar fix
 $(document).on('click', '.navbar-collapse.in', function(e) {
