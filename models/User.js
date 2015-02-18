@@ -30,7 +30,9 @@ var userSchema = new mongoose.Schema({
     likedStories: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Story'
-    }]
+    }],
+    resetPasswordToken: String,
+    resetPasswordExpires: Date
 });
 
 userSchema.pre('save', function(next) {

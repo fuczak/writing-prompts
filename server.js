@@ -2,6 +2,7 @@ var path = require('path');
 var qs = require('querystring');
 var async = require('async');
 var bcrypt = require('bcryptjs');
+var crypto = require('crypto');
 var bodyParser = require('body-parser');
 var express = require('express');
 var logger = require('morgan');
@@ -15,7 +16,6 @@ var wilsonScore = decay.wilsonScore();
 var User = require('./models/User');
 var Prompt = require('./models/Prompt');
 var Story = require('./models/Story');
-// config file
 var config = require('./config');
 
 mongoose.connect(config.MONGO_URI);
@@ -115,7 +115,9 @@ function createToken(user) {
  */
 
 app.get('/api/profile/:displayName', ensureAuthenticated, function(req, res) {
-    User.findOne({ displayName: req.params.displayName}).select('prompts stories displayName').populate('prompts stories', ' -__v -score -enemies -fans -user -lastUpdated -stories').exec(function(err, user) {
+    User.findOne({
+        displayName: req.params.displayName
+    }).select('prompts stories displayName').populate('prompts stories', ' -__v -score -enemies -fans -user -lastUpdated -stories').exec(function(err, user) {
         if (err) {
             res.status(404).send({
                 message: 'User not found.'
@@ -226,6 +228,68 @@ app.post('/auth/signup', function(req, res) {
                     token: createToken(user)
                 });
             });
+        });
+    });
+});
+
+/*
+ |--------------------------------------------------------------------------
+ | Forgot password
+ |--------------------------------------------------------------------------
+ */
+
+app.get('/api/forgot', function(req, res) {
+    async.waterfall([
+
+        function(done) {
+            crypto.randomBytes(20, function(err, buf) {
+                var token = buf.toString('hex');
+                done(err, token);
+            });
+        },
+        function(token, done) {
+            User.findOne({
+                email: req.body.email
+            }, function(err, user) {
+                if (!user) {
+                    res.status(404).send({
+                        message: 'No account with that email address exists'
+                    });
+                }
+                user.resetPasswordToken = token;
+                user.resetTokenExpires = Date.now() + 3600000;
+                user.save(function(err) {
+                    done(err, token, user)
+                });
+            });
+        },
+        function(token, user, done) {
+            var smtpTransport = nodemailer.createTransport('SMTP', {
+                service: 'SendGrid',
+                auth: {
+                    user: config.SENDGRID_USERNAME,
+                    pass: config.SENDGRID_PASSWORD
+                }
+            });
+            var mailOptions = {
+                to: user.email,
+                from: 'writing-prompts@.herokuapp.com',
+                subject: 'Writing-prompts password reset',
+                text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
+                    'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
+                    'http://' + req.headers.host + '/reset/' + token + '\n\n' +
+                    'If you did not request this, please ignore this email and your password will remain unchanged.\n'
+            };
+            smtpTransport.sendMail(mailOptions, function(err) {
+                done(err, done);
+            });
+        }
+    ], function(err) {
+        if (err) {
+            res.status(403).send(err)
+        }
+        res.status(200).send({
+            message: 'An email has been sent to ' + req.body.email + '. Please follow further instructions.'
         });
     });
 });

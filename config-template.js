@@ -10,5 +10,7 @@ module.exports = {
   TWITTER_KEY: process.env.TWITTER_KEY || 'Twitter Consumer Key',
   TWITTER_SECRET: process.env.TWITTER_SECRET || 'Twitter Consumer Secret',
   TWITTER_CALLBACK: process.env.TWITTER_CALLBACK || 'Twitter Callback Url',
-  YAHOO_SECRET: process.env.YAHOO_SECRET || 'Yahoo Client Secret'
+  YAHOO_SECRET: process.env.YAHOO_SECRET || 'Yahoo Client Secret',
+  SENDGRID_USERNAME: '',
+  SENDGRID_PASSWORD: ''
 };
