@@ -32,7 +32,7 @@ var userSchema = new mongoose.Schema({
         ref: 'Story'
     }],
     resetPasswordToken: String,
-    resetPasswordExpires: Date
+    resetTokenExpires: Date
 });
 
 userSchema.pre('save', function(next) {
