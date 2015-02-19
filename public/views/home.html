@@ -49,7 +49,7 @@
 				<h3 id="prompt-content">{{prompt.prompt}} - <small><span class="badge">{{ prompt.fans.length - prompt.enemies.length }}</span> points</small></h3>
 				<p class="text-muted">written by <a href="/profile/{{prompt.user.displayName}}">{{prompt.user.displayName}}</a> on {{prompt.created | date : 'longDate' }}</p>
 				<a href="/prompts/{{prompt.slug}}">Read stories inspired by this prompt ({{prompt.stories.length}})</a>
-				<button ng-if="user._id == prompt.user._id" class="btn btn-danger btn-small pull-right" type="button" ng-click="removePrompt(prompt, $index)">Delete this prompt</button>
+				<button ng-if="user && user._id == prompt.user._id" class="btn btn-danger btn-small pull-right" type="button" ng-click="removePrompt(prompt, $index)">Delete this prompt</button>
 			</div>
 		</div>
 	</div>

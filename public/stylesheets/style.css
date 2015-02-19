@@ -19,10 +19,10 @@ textarea {
 #prompt-content {
   margin: 0px;
 }
-.markdown {
+/*.markdown {
   padding: 0 50px;
   text-align: justify;
-}
+}*/
 .animated {
 	-webkit-animation-duration: 0.3s;
   animation-duration: 0.3s;

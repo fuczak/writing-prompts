@@ -60,7 +60,7 @@
 		<span>
 		<button ng-if="!(user._id == story.user._id)" ng-class="{ 'btn-danger' : isStoryEnemy(story) }" class="btn btn-default" style="cursor: pointer" ng-click="downvoteStory(story)"><i class="ion-arrow-down-a"></i></button>
 		</span>
-		<button ng-if="user._id == story.user._id" ng-click="removeStory(story, $index)" class="btn btn-warning"><i class="ion-trash-b"></i>Delete</button>
+		<button ng-if="user._id == story.user._id" ng-click="removeStory(story)" class="btn btn-warning"><i class="ion-trash-b"></i>Delete</button>
 		<button ng-if="user._id == story.user._id" class="btn btn-primary"><i class="ion-edit"></i>Edit</button>
 	</div>
 	<div class="panel-collapse" bs-collapse-target>

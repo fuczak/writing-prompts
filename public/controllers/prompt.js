@@ -131,7 +131,7 @@ angular.module('Prompts')
                     }
                 });
             };
-            $scope.removeStory = function(story, index) {
+            $scope.removeStory = function(story) {
                 Prompt.removeStory(story).then(function(res) {
                     $alert({
                         content: res.data.message,
@@ -147,7 +147,7 @@ angular.module('Prompts')
                         duration: 3
                     });
                 });
-                $scope.prompt.stories.splice(index, 1);
+                $scope.prompt.stories.splice($scope.prompt.stories.indexOf(story), 1)
             };
         }
     ]);
