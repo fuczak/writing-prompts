@@ -5,32 +5,28 @@ angular.module('Prompts')
                 $auth.login({
                     email: $scope.email,
                     password: $scope.password
-                })
-                    .then(function() {
-                        $alert({
-                            content: 'You have successfully logged in',
-                            animation: 'fadeZoomFadeDown',
-                            type: 'success',
-                            duration: 3
+                }).then(function() {
+                    Account.getProfile()
+                        .success(function(data) {
+                            $rootScope.user = data;
+                        })
+                        .error(function(error) {
+                            console.log(error.message);
                         });
-                    })
-                    .catch(function(response) {
-                        $alert({
-                            content: response.data.message,
-                            animation: 'fadeZoomFadeDown',
-                            type: 'danger',
-                            duration: 3
-                        });
-                    })
-                    .then(function() {
-                        Account.getProfile()
-                            .success(function(data) {
-                                $rootScope.user = data;
-                            })
-                            .error(function(error) {
-                                console.log(error.message);
-                            });
+                    $alert({
+                        content: 'You have successfully logged in',
+                        animation: 'fadeZoomFadeDown',
+                        type: 'success',
+                        duration: 3
                     });
+                }).catch(function(response) {
+                    $alert({
+                        content: response.data.message,
+                        animation: 'fadeZoomFadeDown',
+                        type: 'danger',
+                        duration: 3
+                    });
+                });
             };
         }
     ]);

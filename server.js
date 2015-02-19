@@ -306,7 +306,6 @@ app.post('/api/forgot', function(req, res) {
  */
 
 app.post('/reset/:token', function(req, res) {
-    console.log(req.params, req.body)
     async.waterfall([
 
         function(done) {
@@ -327,11 +326,8 @@ app.post('/reset/:token', function(req, res) {
                 user.resetTokenExpires = undefined;
 
                 user.save(function(err) {
-                    res.status(200).send({
-                        message: 'Your password has been successfully changed. Please log in.'
-                    })
+                    done(err, user)
                 })
-
             })
         },
         function(user, done) {
@@ -358,8 +354,8 @@ app.post('/reset/:token', function(req, res) {
                 } else {
                     console.log(info)
                     res.status(200).send({
-                        message: 'An email has been sent to ' + req.body.email + '. Please follow further instructions.'
-                    });
+                        message: 'Your password has been successfully changed. Please log in.'
+                    })
                 }
             });
         }
