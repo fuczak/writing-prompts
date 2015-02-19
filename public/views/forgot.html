@@ -3,10 +3,15 @@
 		<div class="panel-body">
 			<h2 class="text-center">Password reset</h2>
 			<p class="text-center text-muted">Please enter the email you used to signup on this site.</p>
-			<form method="post" ng-submit="reset()" name="resetForm">
-				<div class="form-group has-feedback">
-					<input class="form-control input-lg" type="text" name="email" ng-model="email" placeholder="Email" required autofocus>
+			<form method="post" ng-submit="resetPassword()" name="resetForm" >
+				<div class="form-group has-feedback" ng-class="{ 'has-error' : resetForm.email.$invalid && resetForm.email.$dirty }">
+					<input class="form-control input-lg" type="email" id="email" name="email" ng-model="email" placeholder="Email" required
+					ng-pattern="/^[A-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/">
 					<span class="ion-at form-control-feedback"></span>
+					<div class="help-block text-danger" ng-if="resetForm.email.$dirty" ng-messages="resetForm.email.$error">
+						<div ng-message="required">Your email address is required.</div>
+						<div ng-message="pattern">Your email address is invalid.</div>
+					</div>
 				</div>
 				<button type="submit" ng-disabled="resetForm.$invalid" class="btn btn-lg btn-block btn-success">Reset password</button>
 				<br/>

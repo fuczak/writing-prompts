@@ -9,6 +9,7 @@ var logger = require('morgan');
 var jwt = require('jwt-simple');
 var moment = require('moment');
 var mongoose = require('mongoose');
+var nodemailer = require('nodemailer');
 var request = require('request');
 var decay = require('decay');
 var hotScore = decay.redditHot(135000);
@@ -238,7 +239,7 @@ app.post('/auth/signup', function(req, res) {
  |--------------------------------------------------------------------------
  */
 
-app.get('/api/forgot', function(req, res) {
+app.post('/api/forgot', function(req, res) {
     async.waterfall([
 
         function(done) {
@@ -255,6 +256,7 @@ app.get('/api/forgot', function(req, res) {
                     res.status(404).send({
                         message: 'No account with that email address exists'
                     });
+                    return
                 }
                 user.resetPasswordToken = token;
                 user.resetTokenExpires = Date.now() + 3600000;
@@ -264,7 +266,7 @@ app.get('/api/forgot', function(req, res) {
             });
         },
         function(token, user, done) {
-            var smtpTransport = nodemailer.createTransport('SMTP', {
+            var smtpTransport = nodemailer.createTransport({
                 service: 'SendGrid',
                 auth: {
                     user: config.SENDGRID_USERNAME,
@@ -280,18 +282,21 @@ app.get('/api/forgot', function(req, res) {
                     'http://' + req.headers.host + '/reset/' + token + '\n\n' +
                     'If you did not request this, please ignore this email and your password will remain unchanged.\n'
             };
-            smtpTransport.sendMail(mailOptions, function(err) {
-                done(err, done);
+            smtpTransport.sendMail(mailOptions, function(err, info) {
+                if (err) {
+                    console.log(err)
+                    res.status(403).send({
+                        message: 'An error has occurred, please try again in few minutes.'
+                    })
+                } else {
+                    console.log(info)
+                    res.status(200).send({
+                        message: 'An email has been sent to ' + req.body.email + '. Please follow further instructions.'
+                    });
+                }
             });
         }
-    ], function(err) {
-        if (err) {
-            res.status(403).send(err)
-        }
-        res.status(200).send({
-            message: 'An email has been sent to ' + req.body.email + '. Please follow further instructions.'
-        });
-    });
+    ])
 });
 
 /*

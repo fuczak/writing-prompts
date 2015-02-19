@@ -9,6 +9,9 @@ angular.module('Prompts')
       },
       getUser: function(displayName) {
         return $http.get('/api/profile/' + displayName);
+      },
+      resetPassword: function(email) {  
+        return $http.post('/api/forgot', email);
       }
     };
   }]);
