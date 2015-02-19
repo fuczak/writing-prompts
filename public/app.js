@@ -55,6 +55,10 @@ angular.module('Prompts', ['ngRoute', 'satellizer', 'ngResource', 'ngMessages', 
                     templateUrl: 'views/reset.html',
                     controller: 'ResetCtrl'
                 })
+                .when('/leaderboards', {
+                    templateUrl: 'views/leaderboards.html',
+                    controller: 'LeaderboardCtrl'
+                })
                 .when('/test', {
                     templateUrl: 'views/test.html',
                     controller: 'TestCtrl'
