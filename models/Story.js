@@ -65,6 +65,12 @@ storySchema.pre('remove', function(next) {
             callback(null, story)
         },
         function(story, callback) {
+            User.findById(story.user, function(err, user) {
+                user.stories.pull(story)
+                user.save()
+            })
+        },
+        function(story, callback) {
             story.fans.forEach(function(fan) {
                 User.findById(fan, function(err, user) {
                     user.likedStories.pull(story)
