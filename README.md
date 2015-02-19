@@ -13,9 +13,9 @@ Site online: http://writing-prompts.herokuapp.com/
 * Editing and ~~deleting~~ stories
 * ~~Update profile view to show user's upvoted and created stories/prompts~~
 * ~~Voting on prompt/story should add it's id to user's likes array~~
-* Make markdown optional/display cheatsheet/incorporate GFM
+* Display markdown cheatsheet/incorporate GFM
 * Add sorting and pagination methods for prompts
-* Rework profile update page - add password reset, remove username reset
-* Add forgot password page when login in
+* ~~Rework profile update page - add password reset, remove username reset~~
+* ~~Add forgot password page when login in~~
 * ~~Add 'author' view displaying other user's profile containing displayName, prompts and stories~~
 * Add user leaderboards

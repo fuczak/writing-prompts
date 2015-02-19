@@ -4,7 +4,7 @@ angular.module('Prompts')
       getProfile: function() {
         return $http.get('/api/me');
       },
-      updateProfile: function(profileData) {
+      updateProfile: function(profileData) {        
         return $http.put('/api/me', profileData);
       },
       getUser: function(displayName) {

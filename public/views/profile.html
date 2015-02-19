@@ -1,50 +1,78 @@
-<div class="panel panel-default">
-  <div class="panel-body">
-    <h2><i class="ion-gear-b"></i> Edit My Profile</h2>
-    <form method="post" ng-submit="updateProfile()">
-      <div class="form-group">
-        <label class="control-label"><i class="ion-person"></i> Display Name</label>
-        <input type="text" class="form-control" ng-model="profile.displayName" placeholder="{{user.displayName}}"/>
+<div class="row">
+  <div class="col-md-4">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <h2><i class="ion-gear-b"></i> Edit My Profile</h2>
+        <form method="post" ng-submit="updateProfile()" name="emailUpdateForm">
+          <div class="form-group">
+            <label class="control-label"><i class="ion-at"></i> Email Address</label>
+            <input type="email" class="form-control" ng-model="email" placeholder="{{user.email}}" required/>
+          </div>
+          <button ng-disabled="emailUpdateForm.$invalid" class="btn btn-lg btn-info">Change email address</button>
+        </form>
+        <hr/>
+        <form method="post" ng-submit="updateProfile()" name="passwordUpgradeForm">          
+          <label class="control-label"><i class="ion-locked"></i> Password change</label>
+          <div class="form-group has-feedback" ng-class="{ 'has-error' : passwordUpgradeForm.password.$invalid && passwordUpgradeForm.password.$dirty }">
+            <input class="form-control input-lg" type="password" name="password" ng-model="oldPassword" placeholder="Old password" required>
+            <span class="ion-key form-control-feedback"></span>
+            <div class="help-block text-danger" ng-if="passwordUpgradeForm.password.$dirty" ng-messages="passwordUpgradeForm.password.$error">
+              <div ng-message="required">Password is required.</div>
+            </div>
+          </div>
+          <div class="form-group has-feedback" ng-class="{ 'has-error' : passwordUpgradeForm.password.$invalid && passwordUpgradeForm.password.$dirty }">
+            <input password-strength class="form-control input-lg" type="password" name="password" ng-model="password" placeholder="New password" required>
+            <span class="ion-key form-control-feedback"></span>
+            <div class="help-block text-danger" ng-if="passwordUpgradeForm.password.$dirty" ng-messages="passwordUpgradeForm.password.$error">
+              <div ng-message="required">Password is required.</div>
+            </div>
+          </div>
+          <div class="form-group has-feedback" ng-class="{ 'has-error' : passwordUpgradeForm.confirmPassword.$invalid && passwordUpgradeForm.confirmPassword.$dirty }">
+            <input password-match="password" class="form-control input-lg" type="password" name="confirmPassword" ng-model="confirmPassword" placeholder="Confirm new password" required>
+            <span class="ion-key form-control-feedback"></span>
+            <div class="help-block text-danger" ng-if="passwordUpgradeForm.confirmPassword.$dirty" ng-messages="passwordUpgradeForm.confirmPassword.$error">
+              <div ng-message="compareTo">Password must match.</div>
+            </div>
+          </div>
+          <button ng-disabled="passwordUpgradeForm.$invalid" class="btn btn-lg btn-info">Change password</button>
+        </form>
       </div>
-      <div class="form-group">
-        <label class="control-label"><i class="ion-at"></i> Email Address</label>
-        <input type="email" class="form-control" ng-model="profile.email" placeholder="{{user.email}}"/>
+    </div>
+  </div>
+  <div class="col-md-8">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <h3><i class="ion-paintbrush"></i> Created by you:</h3>
+        <div class="col-md-6"> <h3>Prompts: </h3>
+          <ul>
+            <li ng-repeat="prompt in user.prompts"><a ng-href="/prompts/{{prompt.slug}}">{{prompt.prompt | limitTo: 25}}</a><small><em> ({{prompt.created | date: 'longDate'}})</em></small></li>
+            <p ng-if="!user.prompts.length"><em><small>Seems like you haven't written a single prompt.</small></em></p>
+          </ul>
+        </div>
+        <div class="col-md-6"> <h3>Stories: </h3>
+          <ul>
+            <li ng-repeat="story in user.stories"><a ng-href="/prompts/{{story.prompt.slug + '?scrollTo=' + story._id}}">{{story.story | limitTo: 25}}</a><small><em> ({{story.created | date: 'longDate'}})</em></small></li>
+            <p ng-if="!user.stories.length"><em><small>Seems like you haven't written a single story.</small></em></p>
+          </ul>
+        </div>
       </div>
-      <button class="btn btn-lg btn-success">Update Information</button>
-    </form>
-  </div>
-</div>
-<div class="panel panel-default">
-  <div class="panel-body">
-<h3><i class="ion-paintbrush"></i> Created by you:</h3>
-    <div class="col-md-6"> <h3>Prompts: </h3>
-      <ul>
-        <li ng-repeat="prompt in user.prompts"><a ng-href="/prompts/{{prompt.slug}}">{{prompt.prompt | limitTo: 25}}</a><small><em> ({{prompt.created | date: 'longDate'}})</em></small></li>
-<p ng-if="!user.prompts.length"><em><small>Seems like you haven't written a single prompt.</small></em></p>
-      </ul>
     </div>
-    <div class="col-md-6"> <h3>Stories: </h3>
-      <ul>
-        <li ng-repeat="story in user.stories"><a ng-href="/prompts/{{story.prompt.slug + '?scrollTo=' + story._id}}">{{story.story | limitTo: 25}}</a><small><em> ({{story.created | date: 'longDate'}})</em></small></li>
-        <p ng-if="!user.stories.length"><em><small>Seems like you haven't written a single story.</small></em></p>
-      </ul>
-    </div>
-  </div>
-</div>
-<div class="panel panel-default">
-  <div class="panel-body">
-<h3><i class="ion-android-favorite"></i> Liked by you:</h3>
-    <div class="col-md-6"> <h3>Prompts: </h3>
-      <ul>
-        <li ng-repeat="prompt in user.likedPrompts"><a ng-href="/prompts/{{prompt.slug}}">{{prompt.prompt | limitTo: 25}}</a><small><em> ({{prompt.created | date: 'longDate'}})</em></small></li>
-        <p ng-if="!user.likedPrompts.length"><em><small>Seems like haven't upvoted any prompts yet.</small></em></p>
-      </ul>
-    </div>
-    <div class="col-md-6"> <h3>Stories: </h3>
-      <ul>
-        <li ng-repeat="story in user.likedStories"><a ng-href="/prompts/{{story.prompt.slug + '?scrollTo=' + story._id}}">{{story.story | limitTo: 25}}</a><small><em> ({{story.created | date: 'longDate'}})</em></small></li>
-        <p ng-if="!user.likedStories.length"><em><small>Seems like haven't upvoted any stories yet.</small></em></p>
-      </ul>
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <h3><i class="ion-android-favorite"></i> Liked by you:</h3>
+        <div class="col-md-6"> <h3>Prompts: </h3>
+          <ul>
+            <li ng-repeat="prompt in user.likedPrompts"><a ng-href="/prompts/{{prompt.slug}}">{{prompt.prompt | limitTo: 25}}</a><small><em> ({{prompt.created | date: 'longDate'}})</em></small></li>
+            <p ng-if="!user.likedPrompts.length"><em><small>Seems like haven't upvoted any prompts yet.</small></em></p>
+          </ul>
+        </div>
+        <div class="col-md-6"> <h3>Stories: </h3>
+          <ul>
+            <li ng-repeat="story in user.likedStories"><a ng-href="/prompts/{{story.prompt.slug + '?scrollTo=' + story._id}}">{{story.story | limitTo: 25}}</a><small><em> ({{story.created | date: 'longDate'}})</em></small></li>
+            <p ng-if="!user.likedStories.length"><em><small>Seems like haven't upvoted any stories yet.</small></em></p>
+          </ul>
+        </div>
+      </div>
     </div>
   </div>
 </div>

@@ -152,20 +152,35 @@ app.get('/api/me', ensureAuthenticated, function(req, res) {
  |--------------------------------------------------------------------------
  */
 app.put('/api/me', ensureAuthenticated, function(req, res) {
-    User.findById(req.user, function(err, user) {
+    User.findById(req.user, '+password', function(err, user) {
         if (!user) {
             return res.status(400).send({
                 message: 'User not found'
             });
         }
-        user.displayName = req.body.displayName || user.displayName;
         user.email = req.body.email || user.email;
-        user.save(function(err) {
-            if (err) return res.status(409).send({
-                message: 'Username and/or Email are already taken'
+        if (!!req.body.password) {
+            user.comparePassword(req.body.oldPassword, function(err, isMatch) {
+                console.log(!isMatch)
+                if (!isMatch) {
+                    return res.status(401).send({
+                        message: 'Wrong password'
+                    });
+                } else {
+                    user.password = req.body.password || user.password;
+                    user.save(function(err) {
+                        res.status(200).end();
+                    })
+                }
             });
-            res.status(200).end();
-        });
+        } else {
+            user.save(function(err) {
+                if (err) return res.status(409).send({
+                    message: 'Username and/or Email are already taken'
+                });
+                res.status(200).end();
+            });
+        }
     });
 });
 
@@ -240,6 +255,7 @@ app.post('/auth/signup', function(req, res) {
  */
 
 app.post('/api/forgot', function(req, res) {
+    console.log('init')
     async.waterfall([
 
         function(done) {
