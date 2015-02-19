@@ -12,6 +12,9 @@ angular.module('Prompts')
       },
       resetPassword: function(email) {  
         return $http.post('/api/forgot', email);
+      },
+      updatePassword: function(password, token) {
+        return $http.post('/reset/' + token, password)
       }
     };
   }]);

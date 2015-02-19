@@ -51,6 +51,10 @@ angular.module('Prompts', ['ngRoute', 'satellizer', 'ngResource', 'ngMessages', 
                     templateUrl: 'views/forgot.html',
                     controller: 'ForgotCtrl'
                 })
+                .when('/reset/:token', {
+                    templateUrl: 'views/reset.html',
+                    controller: 'ResetCtrl'
+                })
                 .when('/test', {
                     templateUrl: 'views/test.html',
                     controller: 'TestCtrl'

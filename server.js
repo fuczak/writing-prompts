@@ -301,6 +301,73 @@ app.post('/api/forgot', function(req, res) {
 
 /*
  |--------------------------------------------------------------------------
+ | Reset password
+ |--------------------------------------------------------------------------
+ */
+
+app.post('/reset/:token', function(req, res) {
+    console.log(req.params, req.body)
+    async.waterfall([
+
+        function(done) {
+            User.findOne({
+                resetPasswordToken: req.params.token,
+                resetTokenExpires: {
+                    $gt: Date.now()
+                }
+            }, function(err, user) {
+                if (!user) {
+                    res.status(403).send({
+                        message: 'Password reset token is invalid or has expired.'
+                    })
+                    return
+                }
+                user.password = req.body.password;
+                user.resetPasswordToken = undefined;
+                user.resetTokenExpires = undefined;
+
+                user.save(function(err) {
+                    res.status(200).send({
+                        message: 'Your password has been successfully changed. Please log in.'
+                    })
+                })
+
+            })
+        },
+        function(user, done) {
+            var smtpTransport = nodemailer.createTransport({
+                service: 'SendGrid',
+                auth: {
+                    user: config.SENDGRID_USERNAME,
+                    pass: config.SENDGRID_PASSWORD
+                }
+            });
+            var mailOptions = {
+                to: user.email,
+                from: 'writing-prompts@herokuapp.com',
+                subject: 'Your writing-prompts password has been reset',
+                text: 'Hello,\n\n' +
+                    'This is a confirmation that the password for your account ' + user.email + ' has just been changed.\n'
+            };
+            smtpTransport.sendMail(mailOptions, function(err, info) {
+                if (err) {
+                    console.log(err)
+                    res.status(403).send({
+                        message: 'An error has occurred, please try again in few minutes.'
+                    })
+                } else {
+                    console.log(info)
+                    res.status(200).send({
+                        message: 'An email has been sent to ' + req.body.email + '. Please follow further instructions.'
+                    });
+                }
+            });
+        }
+    ])
+})
+
+/*
+ |--------------------------------------------------------------------------
  | Create a new Prompt
  |--------------------------------------------------------------------------
  */
