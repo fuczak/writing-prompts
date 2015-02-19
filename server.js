@@ -275,7 +275,7 @@ app.post('/api/forgot', function(req, res) {
             });
             var mailOptions = {
                 to: user.email,
-                from: 'writing-prompts@.herokuapp.com',
+                from: 'writing-prompts@herokuapp.com',
                 subject: 'Writing-prompts password reset',
                 text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
                     'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
