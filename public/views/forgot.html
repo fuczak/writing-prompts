@@ -1,0 +1,19 @@
+<div class="row">
+	<div class="center-form panel">
+		<div class="panel-body">
+			<h2 class="text-center">Password reset</h2>
+			<p class="text-center text-muted">Please enter the email you used to signup on this site.</p>
+			<form method="post" ng-submit="reset()" name="resetForm">
+				<div class="form-group has-feedback">
+					<input class="form-control input-lg" type="text" name="email" ng-model="email" placeholder="Email" required autofocus>
+					<span class="ion-at form-control-feedback"></span>
+				</div>
+				<button type="submit" ng-disabled="resetForm.$invalid" class="btn btn-lg btn-block btn-success">Reset password</button>
+				<br/>
+				<p class="text-center text-muted">
+				<small>Don't have an account yet? <a href="/#/signup">Sign up</a></small>
+				</p>
+			</form>
+		</div>
+	</div>
+</div>

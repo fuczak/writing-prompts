@@ -47,6 +47,10 @@ angular.module('Prompts', ['ngRoute', 'satellizer', 'ngResource', 'ngMessages', 
                         ]
                     }
                 })
+                .when('/forgot', {
+                    templateUrl: 'views/forgot.html',
+                    controller: 'ForgotCtrl'
+                })
                 .when('/test', {
                     templateUrl: 'views/test.html',
                     controller: 'TestCtrl'
