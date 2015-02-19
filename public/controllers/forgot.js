@@ -10,7 +10,8 @@ angular.module('Prompts')
                         animation: 'fadeZoomFadeDown',
                         type: 'info',
                         duration: 3
-                    })
+                    });
+                    $scope.email = '';
                 }).catch(function(res) {
                     $alert({
                         content: res.data.message,
