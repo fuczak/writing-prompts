@@ -560,6 +560,34 @@ app.post('/api/prompts/:slug/stories', ensureAuthenticated, function(req, res) {
 
 /*
  |--------------------------------------------------------------------------
+ | Update a story
+ |--------------------------------------------------------------------------
+ */
+
+ app.put('/api/stories/:id/update', ensureAuthenticated, function(req, res) {
+    Story.findById(req.params.id, function(err, story) {
+        if (err) {
+            res.status(404).send({
+                message: 'Story not found'
+            })
+        }
+        if (story.user._id == req.user) {
+            story.story = req.body.story;
+            story.save(function() {
+                res.send({
+                    message: 'Story has been successfully updated'
+                })
+            })
+        } else {
+            res.status(403).send({
+                message: "You can't edit stories submitted by other users!"
+            })
+        }
+    })
+ })
+
+/*
+ |--------------------------------------------------------------------------
  | Delete a story
  |--------------------------------------------------------------------------
  */
@@ -567,6 +595,9 @@ app.post('/api/prompts/:slug/stories', ensureAuthenticated, function(req, res) {
 app.delete('/api/stories/:id/remove', ensureAuthenticated, function(req, res) {
     console.log(req.params)
     Story.findById(req.params.id, function(err, story) {
+        if (err) {
+            res.status(404).send(err)
+        }
         story.remove(function() {
             res.send({
                 message: 'Story has been successfully removed'

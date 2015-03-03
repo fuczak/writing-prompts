@@ -1,11 +1,6 @@
 angular.module('Prompts')
     .controller('PromptCtrl', ['$scope', 'Prompt', 'resObject', '$rootScope', '$alert', '$auth', '$location', '$anchorScroll',
         function($scope, Prompt, resObject, $rootScope, $alert, $auth, $location, $anchorScroll) {
-            $scope.popover = {
-                "title": "Title",
-                "content": "Hello Popover<br />This is a multiline message!",
-                "saved": true
-            };
             $scope.orderby = "-score";
             $scope.isAuthenticated = function() {
                 return $auth.isAuthenticated();
@@ -131,6 +126,24 @@ angular.module('Prompts')
                     }
                 });
             };
+            $scope.editStory = function(story) {
+                Prompt.editStory(story).then(function(res) {
+                    $alert({
+                        content: res.data.message,
+                        animation: 'fadeZoomFadeDown',
+                        type: 'info',
+                        duration: 3
+                    });
+                    $scope.model.editing = false;
+                }).catch(function(err) {
+                    $alert({
+                        content: err.data.message,
+                        animation: 'fadeZoomFadeDown',
+                        type: 'danger',
+                        duration: 3
+                    });
+                });
+            };
             $scope.removeStory = function(story) {
                 Prompt.removeStory(story).then(function(res) {
                     $alert({
@@ -138,7 +151,7 @@ angular.module('Prompts')
                         animation: 'fadeZoomFadeDown',
                         type: 'info',
                         duration: 3
-                    })
+                    });                    
                 }).catch(function(err) {
                     $alert({
                         content: err.data.message,

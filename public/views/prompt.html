@@ -52,20 +52,38 @@
 	<div class="panel-body" id="{{story._id}}">
 		<h4><span class="badge">{{story.fans.length - story.enemies.length}} points</span> Author: <span ng-class="{ 'iAmAuthor' : user._id == story.user._id }"><a href="/profile/{{story.user.displayName}}">{{story.user.displayName}}</a></span> on {{story.created | date: 'longDate'}}</h4>
 		<span>
-		<button class="btn btn-info" bs-collapse-toggle style="cursor: pointer"><i class="ion-eye-disabled"></i>Show/Hide story</button>
+			<button class="btn btn-info" bs-collapse-toggle style="cursor: pointer"><i class="ion-eye-disabled"></i>Show/Hide story</button>
 		</span>
 		<span>
-		<button ng-if="!(user._id == story.user._id)" ng-class="{ 'btn-success' : isStoryFan(story) }" class="btn btn-default" style="cursor: pointer" ng-click="upvoteStory(story)"><i class="ion-arrow-up-a"></i></button>
+			<button ng-if="!(user._id == story.user._id)" ng-class="{ 'btn-success' : isStoryFan(story) }" class="btn btn-default" style="cursor: pointer" ng-click="upvoteStory(story)"><i class="ion-arrow-up-a"></i></button>
 		</span>
 		<span>
-		<button ng-if="!(user._id == story.user._id)" ng-class="{ 'btn-danger' : isStoryEnemy(story) }" class="btn btn-default" style="cursor: pointer" ng-click="downvoteStory(story)"><i class="ion-arrow-down-a"></i></button>
+			<button ng-if="!(user._id == story.user._id)" ng-class="{ 'btn-danger' : isStoryEnemy(story) }" class="btn btn-default" style="cursor: pointer" ng-click="downvoteStory(story)"><i class="ion-arrow-down-a"></i></button>
 		</span>
 		<button ng-if="user._id == story.user._id" ng-click="removeStory(story)" class="btn btn-warning"><i class="ion-trash-b"></i>Delete</button>
-		<button ng-if="user._id == story.user._id" class="btn btn-primary"><i class="ion-edit"></i>Edit</button>
+		<button ng-if="user._id == story.user._id" class="btn btn-primary" ng-click="model.editing ? model.editing = false : model.editing = true"><i class="ion-edit"></i>Edit</button>
+	<!-- Post editing -->
+	<div ng-if="model.editing">
+		<form method="post" name="storyUpdateForm" class="padding-20">
+			<div class="row">
+				<div class="col-md-6">
+					<div class="form-group">
+						<p><i class="ion-information-circled"></i><small> Protip: You can use <a target="_blank" href="http://daringfireball.net/projects/markdown/syntax">markdown syntax.</a></small></p>
+						<textarea name="story" class="form-control" cols="30" rows="10" ng-model="story.story" required></textarea>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<p><i class="ion-search"></i><small> Live preview: </small></p>
+					<div btf-markdown="story.story"></div>
+				</div>
+			</div>
+			<button ng-click="editStory(story)" ng-disabled="storyUpdateForm.$invalid" class="btn btn-lg btn-info">Update story</button>
+		</form>
 	</div>
-	<div class="panel-collapse" bs-collapse-target>
-		<div class="panel-body">
-			<div class="markdown well" btf-markdown="story.story"></div>
-		</div>
+</div>
+<div ng-hide="model.editing" class="panel-collapse" bs-collapse-target>
+	<div class="panel-body">
+		<div class="markdown well" btf-markdown="story.story"></div>
 	</div>
+</div>
 </div>

@@ -17,8 +17,11 @@ angular.module('Prompts')
                 getPrompt: function(slug) {
                 	return $http.get('/api/prompts/' + slug);
                 },
-                submitStory: function(storyData) {                  
-                    return $http.post('/api/prompts/' + storyData.slug + '/stories', storyData)
+                submitStory: function(storyData) {                
+                    return $http.post('/api/prompts/' + storyData.slug + '/stories', storyData);
+                },
+                editStory: function(story) {
+                    return $http.put('/api/stories/' + story._id + '/update', story);
                 },
                 removeStory: function(story) {
                     return $http.delete('/api/stories/' + story._id +'/remove');
