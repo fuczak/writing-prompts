@@ -48,7 +48,7 @@
 		</div>
 	</div>
 </div>
-<div ng-class="{ ownStory: user._id == story.user._id }" class="panel animated fadeInUp" ng-repeat="story in prompt.stories | orderBy:orderby" bs-collapse>
+<div ng-class="{ ownStory: user._id == story.user._id }" class="panel animated fadeInUp" ng-repeat="story in prompt.stories track by $index| orderBy:orderby" bs-collapse>
 	<div class="panel-body" id="{{story._id}}">
 		<h4><span class="badge">{{story.fans.length - story.enemies.length}} points</span> Author: <span ng-class="{ 'iAmAuthor' : user._id == story.user._id }"><a href="/profile/{{story.user.displayName}}">{{story.user.displayName}}</a></span> on {{story.created | date: 'longDate'}}</h4>
 		<span>
@@ -61,9 +61,9 @@
 			<button ng-if="!(user._id == story.user._id)" ng-class="{ 'btn-danger' : isStoryEnemy(story) }" class="btn btn-default" style="cursor: pointer" ng-click="downvoteStory(story)"><i class="ion-arrow-down-a"></i></button>
 		</span>
 		<button ng-if="user._id == story.user._id" ng-click="removeStory(story)" class="btn btn-warning"><i class="ion-trash-b"></i>Delete</button>
-		<button ng-if="user._id == story.user._id" class="btn btn-primary" ng-click="model.editing ? model.editing = false : model.editing = true"><i class="ion-edit"></i>Edit</button>
+		<button ng-if="user._id == story.user._id" class="btn btn-primary" ng-click="model.editing[$index] ? model.editing[$index] = false : model.editing[$index] = true"><i class="ion-edit"></i>Edit</button>
 	<!-- Post editing -->
-	<div ng-if="model.editing">
+	<div ng-if="model.editing[$index]">
 		<form method="post" name="storyUpdateForm" class="padding-20">
 			<div class="row">
 				<div class="col-md-6">
@@ -81,7 +81,7 @@
 		</form>
 	</div>
 </div>
-<div ng-hide="model.editing" class="panel-collapse" bs-collapse-target>
+<div ng-hide="model.editing[$index]" class="panel-collapse" bs-collapse-target>
 	<div class="panel-body">
 		<div class="markdown well" btf-markdown="story.story"></div>
 	</div>
