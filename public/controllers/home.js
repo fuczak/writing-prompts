@@ -4,12 +4,12 @@ angular.module('Prompts')
             $scope.model = {
                 activePanel: -1,
                 button: {
-                    radio: 0
+                    radio: $location.path() == '/newest' ? 1 : 0
                 },
                 selectedRange: 'last day',
                 range: ['last day', 'last week', 'last month', 'last year', 'all time'],
                 prompts: resPrompts.data
-            };
+            };           
             $scope.isAuthenticated = function() {
                 return $auth.isAuthenticated();
             };

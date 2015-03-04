@@ -13,6 +13,17 @@ angular.module('Prompts', ['ngRoute', 'satellizer', 'ngResource', 'ngMessages', 
                         ]
                     }
                 })
+                .when('/newest', {
+                    templateUrl: 'views/home.html',
+                    controller: 'HomeCtrl',
+                    resolve: {
+                        resPrompts: ['Prompt',
+                            function(Prompt) {
+                                return Prompt.getNewestPrompts();
+                            }
+                        ]
+                    }
+                })
                 .when('/login', {
                     templateUrl: 'views/login.html',
                     controller: 'LoginCtrl'

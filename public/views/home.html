@@ -25,17 +25,17 @@
 	<div class="panel-body">
 		<label>Show me</label>
 		<div class="btn-group" ng-model="model.button.radio" bs-radio-group>
-			<label class="btn btn-default"><input class="btn btn-default" value="0" type="radio"> Hottest</label>
-			<label class="btn btn-default"><input class="btn btn-default" value="1" type="radio"> Newest</label>
-			<label class="btn btn-default"><input class="btn btn-default" value="2" type="radio"> Best</label>
+			<label class="best-picker btn btn-default"><input class="btn btn-default" value="0" type="radio"> <a href="/">Hottest</a></label>
+			<label class="best-picker btn btn-default"><input class="btn btn-default" value="1" type="radio"> <a href="/newest">Newest</a></label>
+			<!-- <label class="best-picker btn btn-default"><input class="btn btn-default" value="2" type="radio"> Best</label> -->
 		</div>
-		<label> prompts </label>
-		<span ng-if="model.button.radio == 2">
+		<label> prompts. </label>
+		<!-- <span ng-if="model.button.radio == 2">
 		<label>from</label>
-		<button type="button" class="btn btn-default" ng-model="model.selectedRange" data-html="1" ng-options="range for range in model.range" bs-select>
+		<button type="button" class="btn btn-default best-picker" ng-model="model.selectedRange" data-html="1" ng-options="range for range in model.range" bs-select>
 		Action <span class="caret"></span>
 		</button>
-		</span>
+		</span> -->
 	</div>
 </div>
 <div class="panel animated fadeInUp" ng-repeat="prompt in model.prompts track by $index | orderBy: 'prompt.created'">
