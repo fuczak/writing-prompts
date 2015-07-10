@@ -3,6 +3,9 @@
 Simple CRUD Web App made using MEAN stack.
 
 Site online: http://writing-prompts.herokuapp.com/
+If you want to test the site functionality without signing up use this credentials:
+Username: ```GithubUser```
+Password: ```github```
 
 ##To-do
 
